@@ -36,17 +36,34 @@ vanillaBarrelEligibility:
     J 0x8068077C
     NOP
 
-; The barrel has five faces. Start its selection cursor on DK for an incoming
-; Krusha; only this local search key changes, never the player's actor ID.
-krushaBarrelSelection:
-    LH v0, 0x5A(t4)
-    ADDIU t7, r0, 7
-    BNE v0, t7, @@resume
+vanillaBarrelSpawn:
+    ADDIU sp, sp, -0x40
+    SW s7, 0x34(sp)
+    J 0x80682E40
     NOP
-    ADDIU v0, r0, 2
-@@resume:
-    AND t6, t5, at
-    J 0x80683574
+
+vanillaBarrelLayout:
+    ADDIU sp, sp, -0x78
+    LUI v0, 0x8080
+    J 0x80682ABC
+    NOP
+
+vanillaBarrelControl:
+    ADDIU sp, sp, -0x50
+    SW ra, 0x24(sp)
+    J 0x806836D8
+    NOP
+
+vanillaBarrelName:
+    ADDIU sp, sp, -0x18
+    SLL v1, a1, 2
+    J 0x80683A88
+    NOP
+
+vanillaBarrelAnimation:
+    ADDIU sp, sp, -0x18
+    SW ra, 0x14(sp)
+    J 0x80682DFC
     NOP
 
 vanillaOptionsInput:

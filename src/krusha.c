@@ -8,7 +8,8 @@ extern s32 vanillaModelPickupAllowed(s16 object_id, u8 player, u16 type);
 extern void vanillaFindPurchase(void* menu, void* progress, s32 arg2);
 extern void vanillaFairyActor(void);
 extern void vanillaBarrelEligibility(void);
-extern void krushaBarrelSelection(void);
+extern void krushaBarrelInstall(void);
+extern void krushaBarrelOption(void);
 extern void krushaHolsterModel(void* actor);
 extern void krushaDrawGunModel(void* actor);
 
@@ -127,13 +128,14 @@ void krushaAdventure(void) {
         hook(0x8063EA14, krushaScriptCondition);
         hook(0x806C5C20, krushaFairyActor);
         hook(0x80680774, krushaBarrelEligibility);
-        hook(0x8068356C, krushaBarrelSelection);
+        krushaBarrelInstall();
         installed = 1;
     }
     if (CurrentMap == 80 && !option_loaded) {
         enabled = !checkFlag(0x24, 1);
         option_loaded = 1;
     }
+    krushaBarrelOption();
     *(const u32**)0x8074C7EC = enabled ? boulder_collisions : (const u32*)0x8074B00C;
     /* A sixth progress record exists in the native save layout. Instruments
      * must stay disabled even if multiplayer has initialized that record. */
