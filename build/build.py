@@ -396,6 +396,10 @@ subprocess.run([ARMIPS, "asm/main.asm", "-strequ", "OUTPUT_ROM", newROMName,
 if os.path.getsize(newROMName) > 64 * 1024 * 1024:
 	raise SystemExit("Unexpected ROM size; check assembler ROM/RDRAM address mappings")
 
+# Embed the supplied recording after all game pointer tables and resident code.
+from scream_asset import appendScream
+appendScream(newROMName)
+
 # Fix CRC
 from n64crc import fixCRC
 fixCRC(newROMName)

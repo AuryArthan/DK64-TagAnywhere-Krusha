@@ -263,6 +263,8 @@
 .definelabel krushaInstrumentActorBlocked, 0x806E527C
 .definelabel krushaChangeCollectable, 0x806F91B4
 .definelabel krushaShowHUD, 0x806F8BC4
+.definelabel krushaNativeStartSound, 0x80737638
+.definelabel krushaNativeStopSound, 0x80737924
 .definelabel PlayerOneColor, 0x807552F4
 .definelabel Mode, 0x80755318
 .definelabel TBVoidByte, 0x807FBB63

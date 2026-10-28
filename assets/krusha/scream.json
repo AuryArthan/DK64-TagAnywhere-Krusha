@@ -1,0 +1,24 @@
+{
+  "source_sha256": "b266fb6775583953c4f82daa7e0a1fcba3d918197ec2f9949d7c4f3bf8815103",
+  "adpcm_sha256": "18d5a42dc8d0a70fe10f5e73a1fd55b28ccdd2d4b026b57953bd099993e929db",
+  "header_sha256": "4720e3f6e8df0d3b1b7b0fe05144abe61688be5e968a4cd9bc2d353cc8a5602c",
+  "source_duration": 3.148125,
+  "sample_rate": 22050,
+  "channels": 1,
+  "samples": 69417,
+  "adpcm_bytes": 39051,
+  "rom_address": "0x02100000",
+  "encoder": "https://github.com/depp/vadpcm",
+  "encoder_commit": "413d52043a928c5fac066ccda1e69b73c7f7132b",
+  "encoder_options": [
+    "--dither",
+    "none",
+    "-p",
+    "4"
+  ],
+  "processing": "22050 Hz mono; 20 Hz DC removal; 3 ms fade-in / 15 ms fade-out; original pitch and duration",
+  "mix_weights": {
+    "provided_scream": 0.65,
+    "previous_roar_effect": 0.35
+  }
+}

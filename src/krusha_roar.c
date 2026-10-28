@@ -10,16 +10,17 @@ extern void krushaAnimationSpeed(void*, f32, f32);
 extern void krushaHolsterModel(void*);
 extern void krushaChangeCollectable(s32, u8, s16);
 extern void krushaShowHUD(s32, u8, s32);
+extern void krushaPlayScream(void);
 
-/* Native vocal, lowered in pitch. No individual voice exceeds the signed
- * mixer limit: the two coherent fundamental voices sum to 1.7x dry gain. */
+/* Previous native vocal effect, retained at 35% alongside the supplied 65%
+ * recording. Its original two fundamentals sum to 1.7x before weighting. */
 u32 krushaRoarSound = 0x276;
 f32 krushaRoarPitch = 0.48f;
 u32 krushaRoarCost = 150;
 
-#define ROAR_START_FRAME 55.0f
-#define ROAR_SPEED 0.8f
-#define ROAR_MAX_DURATION 150 // Failsafe; normal completion follows the clip.
+#define ROAR_START_FRAME (110.0f / 3.0f)
+#define ROAR_SPEED 0.9f
+#define ROAR_MAX_DURATION 240 // Failsafe; normal completion follows the clip.
 
 typedef struct {
     u8 frame;
@@ -43,7 +44,8 @@ static u8 next_echo;
 static void roarVoice(s32 volume, f32 pitch, f32 pan, u8 reverb) {
     /* No random pitch variation: it would detune the gain layer. Native
      * per-voice reverb is supplemented by explicit, decaying stereo echoes. */
-    playSound(krushaRoarSound, volume, pan, pitch, 0, reverb);
+    // Scale the ENTIRE previous effect, including its echoes, to 35%.
+    playSound(krushaRoarSound, (volume * 35 + 50) / 100, pan, pitch, 0, reverb);
 }
 
 static u32 frame(void) { return *(u32*)0x8076A064; }
@@ -79,6 +81,7 @@ u8 krushaRoarStart(void) {
     Player->control_state = 0x67;
     Player->control_state_progress = 0;
     next_echo = 0;
+    krushaPlayScream(); // Supplied recording, 65%, original pitch and duration.
     // Keep the fundamentals dry: a high wet mix would undo the gain boost.
     roarVoice(32767, krushaRoarPitch, 63.0f, 0);
     roarVoice(22937, krushaRoarPitch, 63.0f, 0);

@@ -109,3 +109,55 @@ out of 299008 (about 0.022%), versus 154/303104 in the louder prototype.
 This is occasional peak limiting, not a guarantee of zero clipping in all game
 mixes. The final preview retains real native mixer behavior and has no offline
 gain, compression or echo added.
+
+## Third revision: supplied recording, last two-thirds at 90%
+
+The user-verified second revision is commit `9582a39`. Its ROM, patch, source
+bundle, tools, reports and preview are in `runtime/krusha/roar-second-version/`.
+
+The input is `input_files/TheScream.wav` (the message said `.waw`), SHA-256
+`b266fb6775583953c4f82daa7e0a1fcba3d918197ec2f9949d7c4f3bf8815103`.
+It is a 3.148125-second, 48 kHz stereo recording. The original is copied unchanged
+into `assets/krusha/`. The converter produces 22050 Hz mono at the original
+pitch/duration, removes DC at 20 Hz, adds 3 ms / 15 ms click-prevention fades,
+and encodes native VADPCM using the pinned open-source encoder documented in
+`assets/krusha/README.md`. Reported encoding SNR is about 46 dB.
+
+The user requested amplitude weights of **65% supplied scream / 35% preceding
+roar effect**. The supplied sample plays at native voice volume 21299/32767.
+Every earlier fundamental, overtone and echo volume is multiplied by 0.35,
+with integer rounding; its pitch, stereo placement and reverb are retained.
+No per-source loudness normalization is applied, so these weights preserve the
+relative levels in the recordings rather than promising a perceived-loudness
+ratio. The recording has no extra octave/pitch change or additional echoes.
+
+`src/krusha_scream.c` defines an independent one-sound ALBank/ALInstrument,
+ALSound, envelope, key map and VADPCM wavetable/book in the reserved resident
+region. Its non-looping sample streams through the game's normal audio DMA
+from ROM `0x02100000`, with a zero-padded DMA tail. The native allocator at
+80737638 creates the voice; the persistent handle is cleared by native cleanup.
+Thread-priority protection matches playSound. Original sound-bank descriptors,
+voice samples and music are not replaced. SFX master volume still applies
+through the native group-0 mixer. A persistent handle requires explicit zero
+initialization: an uninitialized GCC COMMON global caused armips to emit an
+incorrect relocation in the first prototype; the final .bss relocation was
+checked in the built machine code.
+
+The converted assets and checksums are committed. Normal ROM builds neither
+need the source file in `input_files` nor an installed encoder. The build
+validates source, encoded data and header hashes and refuses to overlap the
+sample region. Optional regeneration is `build/prepare_scream.py`.
+
+The animation now begins at **110/3 = 36.6667** and uses channel speed **0.9**.
+Frame-advance checks observe **0.45 skeletal frames per game tick** with the
+native crouch time scale 0.5. It reaches frame 109 after **161 ticks / 5.37 s**.
+Recovery follows the actual last frame, with a 240-tick safety timeout.
+The normal charged attack's shared animation asset remains untouched.
+
+The native sound-state records verified 65% gain, pitch/base pitch 1.0, the
+correct custom ROM sample address/size, all earlier 35% layers and echoes,
+and release of the custom voice. A captured gameplay mix correlates with the
+decoded user recording at 0.816, confirming it survives the real codec, ROM
+DMA and mixer path. That scene's peak is 23584 with no plugin-ceiling samples.
+These are scene-specific measurements, not a guarantee for every game mix.
+The captured preview has no sound effects added offline.
