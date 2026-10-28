@@ -27,3 +27,8 @@ ROM offset `0x02100000`. The original game sound banks remain intact. The N64
 sound allocator owns and releases each voice, using a persistent handle. Mixer
 volumes are 65% for this sample and 35% for every layer and echo of the old roar;
 these are amplitude weights without per-source loudness normalization.
+
+The current playback multiplies the whole 65/35 blend by **1.5**: sample
+volume 31,949, and the preceding roar layers/echoes at 52.5% of their
+original volumes. This gain is applied by the resident sound code; the source
+recording and encoded VADPCM payload remain unchanged.

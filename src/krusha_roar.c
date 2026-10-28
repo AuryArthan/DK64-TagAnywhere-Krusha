@@ -72,8 +72,8 @@ static void restoreBackdrop(void) {
 static void roarVoice(s32 volume, f32 pitch, f32 pan, u8 reverb) {
     /* No random pitch variation: it would detune the gain layer. Native
      * per-voice reverb is supplemented by explicit, decaying stereo echoes. */
-    // Scale the ENTIRE previous effect, including its echoes, to 35%.
-    playSound(krushaRoarSound, (volume * 35 + 50) / 100, pan, pitch, 0, reverb);
+    // Preserve the 35% blend, with the same 1.5 gain as the sample.
+    playSound(krushaRoarSound, (volume * 105 + 100) / 200, pan, pitch, 0, reverb);
 }
 
 static u32 frame(void) { return *(u32*)0x8076A064; }

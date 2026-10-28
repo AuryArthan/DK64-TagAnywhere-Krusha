@@ -293,3 +293,21 @@ Integration checks decode the actual native fixed-point view matrix to measure
 the rendered yaw independently of the unchanged camera coordinates. They also
 check the progressive zoom, embedded new sample, normal end, pause/resume,
 loading-zone transitions, camera/bazooka use afterward and native DK instruments.
+
+## Ninth revision: 150% sound, 110-degree orbit and closer framing
+
+The accepted `9a9f068` build is preserved in
+`runtime/krusha/roar-eighth-version/`, with its ROM, patch, source bundle,
+validation reports and preview.
+
+The new requested overall gain is **1.5x** for the entire 65/35 scream blend.
+The supplied recording's native voice volume rises from 21,299 to 31,949.
+All original roar layers and explicit echoes use 35% × 1.5 = 52.5% of their
+original volumes. Every voice remains below the native 32,767 volume ceiling;
+the original sample, pitch, duration and relative blend remain intact.
+
+The rendered orbit now reaches **110 degrees** over the recording. The
+close-view FOV changes from 15.75 to **13.125 degrees** at the normal 45-degree
+view, giving approximately another **20%** in apparent size. Zoom and rotation
+retain the same smooth progression and eased return during recovery. Spotlight,
+animation, enemy-death behavior and move cost remain unchanged.

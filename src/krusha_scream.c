@@ -31,6 +31,7 @@ void krushaPlayScream(void) {
     // Match playSound's native thread-priority protection around allocation.
     osSetThreadPri(0, 0x1A);
     if (krushaScreamHandle) krushaNativeStopSound(krushaScreamHandle);
-    krushaNativeStartSound(&scream_bank, 1, 21299, 63, 1.0f, 0, &krushaScreamHandle);
+    // 65% sample blend, multiplied by the requested 1.5 overall gain.
+    krushaNativeStartSound(&scream_bank, 1, 31949, 63, 1.0f, 0, &krushaScreamHandle);
     osSetThreadPri(0, 0xA);
 }
