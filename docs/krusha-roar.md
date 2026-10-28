@@ -161,3 +161,14 @@ decoded user recording at 0.816, confirming it survives the real codec, ROM
 DMA and mixer path. That scene's peak is 23584 with no plugin-ceiling samples.
 These are scene-specific measurements, not a guarantee for every game mix.
 The captured preview has no sound effects added offline.
+
+## Fourth revision: last three-quarters at normal speed
+
+The user requested a slightly earlier start with no added slowdown. The roar
+now starts at **110/4 = 27.5** of clip 2AA and sets its native channel speed to
+**1.0**. Recovery still follows the actual final skeletal frame. The 65% supplied
+recording / 35% preceding effect mix and encoded sound asset are unchanged.
+The preceding accepted build (`1774b68`, 52 checks) is preserved in
+`runtime/krusha/roar-third-version/`. This revision is checked by cold boot,
+native frame advance and actual enemy/cost/recovery interactions, with a new
+real-time audio/video capture and matching native checkpoints.
