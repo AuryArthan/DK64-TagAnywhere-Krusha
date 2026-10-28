@@ -71,3 +71,9 @@ vanillaOptionsInput:
     SW ra, 0x24(sp)
     J 0x8002D8B4
     NOP
+
+vanillaInstrumentInput:
+    LUI v0, 0x8080
+    LBU v0, 0xC929(v0)
+    J 0x806E52D8
+    NOP

@@ -10,6 +10,9 @@ extern void vanillaFairyActor(void);
 extern void vanillaBarrelEligibility(void);
 extern void krushaBarrelInstall(void);
 extern void krushaBarrelOption(void);
+extern void krushaRoarInstall(void);
+extern void krushaRoarTick(void);
+extern u8 krushaRoarStart(void);
 extern void krushaHolsterModel(void* actor);
 extern void krushaDrawGunModel(void* actor);
 
@@ -78,9 +81,9 @@ static void hook(u32 address, void* target) {
 }
 
 u8 krushaSetAction(s16 action, void* actor, u8 player) {
-    /* The instrument action has no Krusha cutscene and uses an uninitialized
-     * cutscene index. Block script-triggered performances as well as input. */
-    if (enabled && player == 0 && Character == 5 && action == 0x53 && DetectAdventure()) return 0;
+    /* Route the sixth character around the undefined native instrument
+     * cutscene. Input and script requests use the same safe roar initializer. */
+    if (enabled && player == 0 && Character == 5 && action == 0x53 && DetectAdventure()) return krushaRoarStart();
     return vanillaSetAction(action, actor, player);
 }
 
@@ -129,6 +132,7 @@ void krushaAdventure(void) {
         hook(0x806C5C20, krushaFairyActor);
         hook(0x80680774, krushaBarrelEligibility);
         krushaBarrelInstall();
+        krushaRoarInstall();
         installed = 1;
     }
     if (CurrentMap == 80 && !option_loaded) {
@@ -136,9 +140,10 @@ void krushaAdventure(void) {
         option_loaded = 1;
     }
     krushaBarrelOption();
+    krushaRoarTick();
     *(const u32**)0x8074C7EC = enabled ? boulder_collisions : (const u32*)0x8074B00C;
-    /* A sixth progress record exists in the native save layout. Instruments
-     * must stay disabled even if multiplayer has initialized that record. */
+    /* The roar uses shared crystals, not a borrowed Kong's instrument stock.
+     * Keep the nonexistent instrument prop/stock paths disabled. */
     if (enabled && DetectAdventure()) {
         // The native bazooka uses shared standard ammo and actor-7 projectiles.
         MovesBase[5].weapon_bitfield |= 1;

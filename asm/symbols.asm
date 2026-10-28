@@ -256,6 +256,12 @@
 .definelabel krushaSin, 0x80612794
 .definelabel krushaCos, 0x80612790
 .definelabel krushaPlayActorAnimation, 0x80614EBC
+.definelabel krushaPlayRawAnimation, 0x80613CA8
+.definelabel krushaNativeInstrumentControl, 0x806D9940
+.definelabel krushaInstrumentBlocked, 0x806E5488
+.definelabel krushaInstrumentActorBlocked, 0x806E527C
+.definelabel krushaChangeCollectable, 0x806F91B4
+.definelabel krushaShowHUD, 0x806F8BC4
 .definelabel PlayerOneColor, 0x807552F4
 .definelabel Mode, 0x80755318
 .definelabel TBVoidByte, 0x807FBB63
