@@ -16,10 +16,6 @@ extern void krushaRoarStageTick(u32);
 extern void krushaRoarStageEnd(void);
 extern void krushaRoarBuildCameraMatrices(void*);
 
-/* Previous native vocal effect, retained at 35% alongside the supplied 65%
- * recording. Its original two fundamentals sum to 1.7x before weighting. */
-u32 krushaRoarSound = 0x276;
-f32 krushaRoarPitch = 0.48f;
 u32 krushaRoarCost = 150;
 
 #define ROAR_START_FRAME (110.0f / 5.0f)
@@ -28,24 +24,11 @@ u32 krushaRoarCost = 150;
 #define INSTRUMENT_SCENE_MASK 0x10030
 #define INSTRUMENT_PERFORMER 0x40000000
 
-typedef struct {
-    u8 frame;
-    u8 pan;
-    s16 volume;
-} RoarEcho;
-
-static const RoarEcho echoes[] = {
-    {7,  40, 24575}, // 233 ms, 75% of the original voice.
-    {14, 88, 14745}, // 467 ms, 45%.
-    {23, 58, 8192},  // 767 ms, 25%.
-};
-
 static u8* active_player;
 static s32 active_map;
 static u32 started;
 static u32 ready_at;
 static s32 cooldown_map = -1;
-static u8 next_echo;
 static u32 saved_scene_bits;
 static u32 saved_performer_bit;
 
@@ -67,13 +50,6 @@ static void restoreBackdrop(void) {
             *props = (*props & ~INSTRUMENT_PERFORMER) | saved_performer_bit;
         }
     }
-}
-
-static void roarVoice(s32 volume, f32 pitch, f32 pan, u8 reverb) {
-    /* No random pitch variation: it would detune the gain layer. Native
-     * per-voice reverb is supplemented by explicit, decaying stereo echoes. */
-    // Preserve the 35% blend, with the same 2.1 gain as the sample.
-    playSound(krushaRoarSound, (volume * 147 + 100) / 200, pan, pitch, 0, reverb);
 }
 
 static u32 frame(void) { return *(u32*)0x8076A064; }
@@ -112,13 +88,7 @@ u8 krushaRoarStart(void) {
     Player->control_state = 0x67;
     Player->control_state_progress = 0;
     krushaRoarStageBegin(Player);
-    next_echo = 0;
-    krushaPlayScream(); // Supplied recording, 65%, original pitch and duration.
-    // Keep the fundamentals dry: a high wet mix would undo the gain boost.
-    roarVoice(32767, krushaRoarPitch, 63.0f, 0);
-    roarVoice(22937, krushaRoarPitch, 63.0f, 0);
-    roarVoice(7209, krushaRoarPitch * 2.0f, 54.0f, 0x40); // Octave, 22%.
-    roarVoice(3277, krushaRoarPitch * 3.0f, 74.0f, 0x40);  // Third harmonic, 10%.
+    krushaPlayScream(); // Only the supplied recording, at original pitch.
     return 1;
 }
 
@@ -153,14 +123,6 @@ void krushaRoarControl(void) {
     krushaNativeInstrumentControl();
     u32 elapsed = frame() - started;
     krushaRoarStageTick(elapsed);
-    while (next_echo < sizeof(echoes) / sizeof(echoes[0]) &&
-           elapsed >= echoes[next_echo].frame) {
-        const RoarEcho* echo = &echoes[next_echo++];
-        // Skip overdue echoes after a suspended actor update instead of bursting.
-        if (elapsed - echo->frame <= 2) {
-            roarVoice(echo->volume, krushaRoarPitch, echo->pan, 0x28);
-        }
-    }
     u8* animation = *(u8**)(current + 4);
     u8* channel = *(u8**)animation;
     if (*(f32*)(channel + 4) >= *(f32*)(channel + 0x18) ||

@@ -1,13 +1,22 @@
 # Supplied Krusha scream
 
-`TheScream.wav` is the user's original recording, copied unchanged from
-`input_files/TheScream3.wav`. The user requested a 65% contribution from this
-recording and 35% from the preceding native layered roar.
+`TheScream.wav` is an unchanged copy of `input_files/TheScream3.wav`.
+The instrument shout plays **only this recording**, preserving its original
+stereo balance, pitch and duration. There are no native vocal overlays,
+harmonics, added reverb/echoes, EQ, high-pass filters or duplicated gain voices.
+The recording's own sound and effects are retained.
 
-`scream.json` records checksums and conversion settings. The normal ROM build
-uses the checked-in `TheScream.adpcm` and generated `scream.h`; no external audio
-file, encoder, or host sound playback is needed to play the resulting ROM.
-The source WAV is retained so later versions can be regenerated.
+Playback uses one native voice per original channel, panned hard left/right,
+at the maximum valid native volume **32767**. Both channels share one constant
+normalization gain, preserving their balance. Encoding checks the decoded
+VADPCM waveform against a **-0.5 dBFS ceiling** to leave a small peak margin.
+The current encoded peak is about -0.60 dBFS; codec signal/noise is about 42 dB.
+
+DK64's current audio path uses 22050 Hz audio and native VADPCM conversion. Two predictor
+books and two channel streams are packaged in the committed `scream.h` and
+`TheScream.adpcm`, starting at ROM `0x02100000`. `scream.json` records checksums,
+channel offsets, normalization and decoded peaks. Ordinary ROM builds need no
+audio encoder or external source file. Predictor books are aligned for DMA.
 
 To regenerate from the workspace root:
 
@@ -15,26 +24,9 @@ To regenerate from the workspace root:
 python3 dk64-tag-anywhere/build/prepare_scream.py input_files/TheScream3.wav
 ```
 
-The converter uses FFmpeg and the MPL-2.0 VADPCM encoder from
-https://github.com/depp/vadpcm at commit
-`413d52043a928c5fac066ccda1e69b73c7f7132b`, installed at
-`tools/vadpcm/build/vadpcm`. Conversion produces 22050 Hz mono, preserves pitch
-and duration, removes DC, and applies short click-prevention fades. The encoder
-reported approximately 42 dB signal-to-quantization-noise ratio on this file.
-
-A separate resident one-sound bank streams the 44163-byte VADPCM payload from
-ROM offset `0x02100000`. The original game sound banks remain intact. The N64
-sound allocator owns and releases each voice, using a persistent handle. Mixer
-volumes are 65% for this sample and 35% for every layer and echo of the old roar;
-these are amplitude weights without per-source loudness normalization.
-
-The current playback multiplies the whole 65/35 blend by **1.5**: sample
-volume 31,949, and the preceding roar layers/echoes at 52.5% of their
-original volumes. This gain is applied by the resident sound code; the source
-recording and encoded VADPCM payload remain unchanged.
-
-The latest requested increase multiplies that whole blend by another **1.4**
-(**2.1x** overall). The supplied recording uses two synchronized native voices
-at volumes 32,767 and 11,962 to exceed one voice's ceiling safely. Each has
-an independently owned persistent handle. Other layers/echoes play at 73.5%
-of their original levels; source and encoded recording remain unchanged.
+This uses FFmpeg and the MPL-2.0 VADPCM encoder from
+https://github.com/depp/vadpcm, commit
+`413d52043a928c5fac066ccda1e69b73c7f7132b`, at
+`tools/vadpcm/build/vadpcm`. Each native channel owns a persistent handle;
+replay stops any previous channel voice, and the allocator clears both handles
+on completion. No original game sound or music bank is replaced.

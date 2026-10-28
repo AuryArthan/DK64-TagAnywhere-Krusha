@@ -1,13 +1,37 @@
 {
   "source_sha256": "cb7c9891b77ec814648983b656143659c97b23448cccd5095620b29a8e32c118",
-  "adpcm_sha256": "1f343cb2b8007fe636dd50e886bf3fb212cd768e01fcf977f0d31055de02e5ab",
-  "header_sha256": "4db311f9b69aa02d19bf890eb01feb5b1d28881117ca85c460bb23cb7036d1bd",
+  "adpcm_sha256": "06ea226c6d50b8e1e7d0ef4d8c95fb9bbe5e1d18f04812ab7285b33f66900389",
+  "header_sha256": "d06d006d19576489b92d339d0bd210175a7afb04cb9151e19c99ec16a0b7c60b",
   "source_duration": 3.5604791666666666,
+  "source_channels": 2,
   "sample_rate": 22050,
-  "channels": 1,
-  "samples": 78509,
-  "adpcm_bytes": 44163,
+  "channels": 2,
+  "samples_per_channel": 78509,
+  "adpcm_bytes": 88339,
   "rom_address": "0x02100000",
+  "encoded_channels": [
+    {
+      "name": "left",
+      "rom_address": "0x02100000",
+      "offset": 0,
+      "adpcm_bytes": 44163,
+      "adpcm_sha256": "c24a4db711ccc47347adae906f33c3022c8d5a070ade6967b2d100304852e8e0",
+      "decoded_peak": 29291,
+      "decoded_peak_dbfs": -0.9743147226683102
+    },
+    {
+      "name": "right",
+      "rom_address": "0x0210AC90",
+      "offset": 44176,
+      "adpcm_bytes": 44163,
+      "adpcm_sha256": "476a76236c9f33e7f78293b05b8eb190827a379198dd0c4540c332cf25f73667",
+      "decoded_peak": 30591,
+      "decoded_peak_dbfs": -0.5971252187466674
+    }
+  ],
+  "peak_ceiling_dbfs": -0.5,
+  "joint_normalization_gain": 0.9603574695484712,
+  "native_voice_volume": 32767,
   "encoder": "https://github.com/depp/vadpcm",
   "encoder_commit": "413d52043a928c5fac066ccda1e69b73c7f7132b",
   "encoder_options": [
@@ -16,9 +40,9 @@
     "-p",
     "4"
   ],
-  "processing": "22050 Hz mono; 20 Hz DC removal; 3 ms fade-in / 15 ms fade-out; original pitch and duration",
+  "processing": "22050 Hz stereo; shared peak normalization; native VADPCM; original stereo balance, pitch and duration; no EQ, reverb, harmonics, echoes or duplicated gain layer",
   "mix_weights": {
-    "provided_scream": 0.65,
-    "previous_roar_effect": 0.35
+    "provided_scream": 1,
+    "previous_roar_effect": 0
   }
 }

@@ -406,3 +406,41 @@ in normalized screen coordinates, about 16 horizontal pixels at 640x480; every
 frame remained inside the viewport. The entry transition is eight ticks.
 There are **86 focused checks** in total (40 performance, 15 per-frame framing,
 31 cleanup), including pause/resume, map transitions and native DK instruments.
+
+## Thirteenth revision: only TheScream3, maximum clean native level
+
+The accepted `1804f39` build is preserved in
+`runtime/krusha/roar-thirteenth-baseline/`, including its ROM, source bundle,
+reports and centered-camera preview.
+
+The shout now plays **only `input_files/TheScream3.wav`**. All four previous
+pitched vocal/harmonic layers, scheduled echoes and the duplicate gain voice
+are removed. The recording's own stereo channels and original pitch/duration
+are preserved; no extra EQ, high-pass filter, fades, reverb or other effects
+are added. The source WAV remains byte-identical to the supplied file.
+
+Two native voices represent the original left/right channels, each panned to
+its side and set to the maximum valid native volume **32767**, with FX send
+zero. They are separate channel streams, not duplicated gain layers. Each
+channel has its own persistent handle and aligned ADPCM predictor book.
+Normal native sound allocation and release handle playback and replay.
+
+The converter resamples to 22050 Hz stereo, applies one common normalization
+gain to preserve stereo balance, and encodes native VADPCM. It checks decoded
+peaks and retries below a **-0.5 dBFS ceiling**, leaving a small safety margin.
+Current decoded peaks are -0.97/-0.60 dBFS, with about 42 dB codec SNR.
+The encoded channels correlate above **0.99996** with their normalized source
+channels. The input's own effects are part of the recording and remain intact.
+`assets/krusha/README.md` and `scream.json` describe regeneration and checksums.
+
+Controller checks verify two source voices, original pitch/stereo pan, maximum
+valid levels, correct ROM payloads, DMA-aligned predictor books, zero added
+FX send, no legacy 0x276 voices, no scheduled echoes and normal voice release.
+The captured gameplay is also compared with the original stereo recording;
+background game audio is retained, so its waveform correlation is lower than
+an isolated codec comparison. Captures are checked against the native mixer's
+actual ceiling after the emulator's 80% output scaling, rather than only the
+16-bit output ceiling. Repeat captures in Isles cover later playback as well.
+
+Animation, camera centering, zoom/orbit, spotlight, enemy-death effect, move
+cost, settings and credits retain their accepted behavior.

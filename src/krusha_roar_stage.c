@@ -1,4 +1,5 @@
 #include "../include/common.h"
+#define KRUSHA_SCREAM_TIMING_ONLY
 #include "../assets/krusha/scream.h"
 
 extern void krushaMoveAndScaleActor(void*, void*, f32);

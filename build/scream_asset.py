@@ -10,7 +10,11 @@ def appendScream(rom):
     for name,key in [('TheScream.adpcm','adpcm_sha256'),('scream.h','header_sha256'),('TheScream.wav','source_sha256')]:
         if hashlib.sha256((assets/name).read_bytes()).hexdigest()!=meta[key]:
             raise RuntimeError('Scream asset mismatch: '+name+'; regenerate using build/prepare_scream.py')
-    assert len(data)==meta['adpcm_bytes'] and len(data)%9==0
+    assert len(data)==meta['adpcm_bytes']
+    for channel in meta['encoded_channels']:
+        start=channel['offset'];size=channel['adpcm_bytes']
+        assert start%16==0 and size%9==0 and start+size<=len(data)
+        assert hashlib.sha256(data[start:start+size]).hexdigest()==channel['adpcm_sha256']
     with open(rom,'r+b') as stream:
         stream.seek(0,2);end=stream.tell()
         if end>ROM_ADDRESS:raise RuntimeError('Appended game data overlaps the custom scream ROM region')
