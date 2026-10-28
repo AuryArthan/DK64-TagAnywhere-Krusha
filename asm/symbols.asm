@@ -255,6 +255,7 @@
 .definelabel krushaNativeActorDelete, 0x806782C0
 .definelabel krushaSin, 0x80612794
 .definelabel krushaCos, 0x80612790
+.definelabel krushaPlayActorAnimation, 0x80614EBC
 .definelabel PlayerOneColor, 0x807552F4
 .definelabel Mode, 0x80755318
 .definelabel TBVoidByte, 0x807FBB63

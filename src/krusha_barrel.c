@@ -29,6 +29,7 @@ extern void vanillaBarrelLayout(BarrelData*);
 extern void vanillaBarrelControl(BarrelData*);
 extern char* vanillaBarrelName(BarrelData*, s32);
 extern void vanillaBarrelAnimation(void*, void*, s32);
+extern void krushaPlayActorAnimation(void*, s32);
 extern s32 krushaNativeBarrelFlag(s32, s32);
 extern void krushaInitCharacterMesh(void*, u16);
 extern void krushaNativeActorDelete(void*);
@@ -60,6 +61,24 @@ static void* actor(BarrelData* data, s32 index) {
 s32 krushaBarrelFlag(s32 type, s32 index) {
     /* Native entry records a tag flag. There is no sixth flag to write. */
     return index == 5 ? -1 : krushaNativeBarrelFlag(type, index);
+}
+
+void krushaBarrelAnimation(void* model, void* data, s32 action) {
+    if (krushaEnabled() && DetectAdventure() &&
+        *(u32*)((u8*)model + 0x58) == 316 && *(u16*)data == 7) {
+        if (action == 0x8B) {
+            // Native multiplayer victory: Krusha's own clip 693. The original
+            // barrel entry 1DD uses Chunky's clip 2EB and Chunky's voice cues.
+            krushaPlayActorAnimation(model, 0x43A);
+            return;
+        }
+        if (action == 0x8A || action == 0x8C) {
+            // His own waiting pose also replaces Chunky's deselection clip.
+            krushaPlayActorAnimation(model, 0x1DC);
+            return;
+        }
+    }
+    vanillaBarrelAnimation(model, data, action);
 }
 
 void krushaBarrelLayout(BarrelData* data) {
@@ -99,7 +118,7 @@ void krushaBarrelSpawn(BarrelData* data) {
     void* data_model = *(void**)(model + 0x174);
     *(u16*)data_model = 7;
     krushaInitCharacterMesh(model, 7);
-    vanillaBarrelAnimation(model, data_model, data->selected == 5 ? 0x8B : 0x8A);
+    krushaBarrelAnimation(model, data_model, data->selected == 5 ? 0x8B : 0x8A);
     krushaBarrelLayout(data);
 }
 
@@ -136,6 +155,7 @@ void krushaBarrelInstall(void) {
     jump(0x80682AB4, krushaBarrelLayout);
     jump(0x806836D0, krushaBarrelControl);
     jump(0x80683A80, krushaBarrelName);
+    jump(0x80682DF4, krushaBarrelAnimation);
     pointer(0x80683584, 0x8068358C, characters);
     pointer(0x806839C4, 0x806839E4, (u8*)characters + 2);
     pointer(0x806835EC, 0x806835FC, music_masks);
