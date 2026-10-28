@@ -18,8 +18,8 @@ u32 krushaRoarSound = 0x276;
 f32 krushaRoarPitch = 0.48f;
 u32 krushaRoarCost = 150;
 
-#define ROAR_START_FRAME (110.0f / 4.0f)
-#define ROAR_SPEED 1.0f
+#define ROAR_START_FRAME (110.0f / 5.0f)
+#define ROAR_SPEED 1.2f
 #define ROAR_MAX_DURATION 240 // Failsafe; normal completion follows the clip.
 
 typedef struct {

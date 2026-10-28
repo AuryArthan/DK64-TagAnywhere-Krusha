@@ -172,3 +172,14 @@ The preceding accepted build (`1774b68`, 52 checks) is preserved in
 `runtime/krusha/roar-third-version/`. This revision is checked by cold boot,
 native frame advance and actual enemy/cost/recovery interactions, with a new
 real-time audio/video capture and matching native checkpoints.
+
+## Fifth revision: last four-fifths, 20% faster
+
+The roar now starts at **110/5 = 22** of clip 2AA and plays at native channel
+speed **1.2**. Recovery follows the actual final skeletal frame as before.
+The preceding accepted three-quarter build (`bc1238c`) and its 18-check evidence
+are preserved in `runtime/krusha/roar-fourth-version/`. The sound remains the
+65% supplied recording / 35% earlier vocal effect. The revised frame-advance
+checks verify the earlier start, 120% channel speed, the observed skeletal
+progress against native actor time scale, final-frame recovery and native
+sound-state/voice cleanup. A fresh real-time capture demonstrates the result.
