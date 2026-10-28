@@ -8,3 +8,5 @@ extern void* findActorWithType(s32 search_actor_type);
 extern s32 inBadMap(void);
 extern s32 inBadMovementState(void);
 extern void tagAnywhere(void);
+extern void krushaAdventure(void);
+extern s32 krushaEnabled(void);

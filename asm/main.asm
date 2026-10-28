@@ -1,5 +1,5 @@
 .n64
-.open "rom/dk64-tag-anywhere-dev.z64", 0
+.open OUTPUT_ROM, 0
 
 .include "asm/symbols.asm" ; Tell armips' linker where to find the game's function(s)
 
@@ -7,11 +7,11 @@
 .definelabel bootStart, 0x01FED020
 
 .orga 0x3154 ; ROM
-.org 0x80002554 ; RDRAM
+.headersize (0x80002554 - 0x3154) ; RDRAM-to-ROM mapping
 NOP ; CRC Patch ; TODO: Can this be removed if correct gzip footers are written to all compressed files?
 
 .orga 0x1364 ; ROM
-.org 0x80000764 ; RDRAM
+.headersize (0x80000764 - 0x1364) ; RDRAM-to-ROM mapping
 
 modifiedBootCode:
 	LI a0, bootStart ; Start of ROM copy
@@ -24,7 +24,8 @@ modifiedBootCode:
 resumeVanillaBootCode:
 
 .orga bootStart ; ROM
-.org 0x805DAE00 ; RDRAM
+.headersize (0x805DAE00 - bootStart) ; RDRAM-to-ROM mapping
+.area 0x11FE0 ; Must fit the reserved boot DMA region
 
 displacedVanillaBootCode:
 	LUI v0, 0x8001
@@ -65,6 +66,8 @@ mainASMFunctionJump:
 	NOP
 
 .align 0x10
+.include "asm/krusha.asm"
 
 .include "asm/objects.asm"
+.endarea
 .close

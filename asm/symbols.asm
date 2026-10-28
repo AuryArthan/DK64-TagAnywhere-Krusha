@@ -245,6 +245,11 @@
 .definelabel CutsceneWillPlay, 0x8075533B
 .definelabel KRoolRound, 0x80750AD4
 .definelabel MovesBase, 0x807FC950 ; End: 0x807FCB28
+.definelabel krushaHolsterModel, 0x806F0C18
+.definelabel krushaDrawGunModel, 0x806F0D68
+.definelabel krushaMenuTransform, 0x800317E8
+.definelabel krushaMenuDrawList, 0x8002F980
+.definelabel krushaPrintStyledText, 0x806FC530
 .definelabel PlayerOneColor, 0x807552F4
 .definelabel Mode, 0x80755318
 .definelabel TBVoidByte, 0x807FBB63

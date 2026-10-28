@@ -1,3 +1,5 @@
+.importobj "obj/src_krusha.o"
+.importobj "obj/src_krusha_options.o"
 .importobj "obj/src_lib.o"
 .importobj "obj/src_main.o"
 .importobj "obj/src_taganywhere.o"

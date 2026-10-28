@@ -265,7 +265,8 @@ typedef struct ModelTwoData {
 	/* 0x07C */ void* behaviour_pointer;
 	/* 0x080 */ s8 unk_80[0x84-0x80];
 	/* 0x084 */ s16 object_type;
-	/* 0x086 */ s8 unk_86[0x4];
+	/* 0x086 */ s16 unk_86;
+	/* 0x088 */ s16 runtime_id;
 	/* 0x08A */ s16 object_id;
 	/* 0x08C */ s8 unk_8C[0x4];
 } ModelTwoData;

@@ -4,6 +4,16 @@ import gzip
 import zlib
 import subprocess
 import hashlib
+import sys
+
+# Keep Windows support; use native tools on Linux. Build from the repository root.
+GCC = os.environ.get("N64_GCC", "mips64-elf-gcc")
+ARMIPS = os.environ.get("ARMIPS", "build/armips.exe" if os.name == "nt" else "armips")
+GZIP = os.environ.get("N64_GZIP", "./build/gzip.exe" if os.name == "nt" else "gzip")
+ROMName = "./rom/dk64.z64"
+with open(ROMName, "rb") as base:
+	if hashlib.sha1(base.read()).hexdigest() != "cf806ff2603640a748fca5026ded28802f1f4a50":
+		raise SystemExit("Expected the original USA DK64 ROM (SHA-1 CF806FF2603640A748FCA5026DED28802F1F4A50)")
 
 # Measure how long this takes
 import time
@@ -18,12 +28,14 @@ if os.path.exists("obj"):
 os.mkdir("obj")
 with open('./asm/objects.asm', 'w') as obj_asm:
 	for root, dirs, files in os.walk(r'src'):
+		dirs.sort()
+		files.sort()
 		for file in files:
 			if file.endswith('.c'):
 				_o = os.path.join(root, file).replace("/", "_").replace("\\", "_").replace(".c", ".o")
 				print(os.path.join(root, file))
 				obj_asm.write(".importobj \"obj/" + _o + "\"\n")
-				subprocess.run(["mips64-elf-gcc", "-Wall", "-O1", "-mtune=vr4300", "-march=vr4300", "-mabi=32", "-fomit-frame-pointer", "-G0", "-c", os.path.join(root, file)])
+				subprocess.run([GCC, "-Wall", "-O1", "-mtune=vr4300", "-march=vr4300", "-mabi=32", "-fomit-frame-pointer", "-G0", "-c", os.path.join(root, file)], check=True)
 				shutil.move("./" + file.replace(".c", ".o"), "obj/" + _o)
 print()
 
@@ -34,15 +46,28 @@ from recompute_overlays import isROMAddressOverlay, readOverlayOriginalData, rep
 # Patcher functions for the extracted files
 from staticcode import patchStaticCode
 from mainmenu import patchMainMenu, patchDolbyText
+from krusha import patchKrushaShop
 
 ROMName = "./rom/dk64.z64"
-newROMName = "./rom/dk64-tag-anywhere-dev.z64"
+newROMName = os.environ.get("DK64_BUILD_ROM", "./rom/dk64-krusha-dev.z64")
 
 if os.path.exists(newROMName):
 	os.remove(newROMName)
 shutil.copyfile(ROMName, newROMName)
 
+# Resolve resident hook addresses before patching the compressed shop overlay.
+subprocess.run([ARMIPS, "asm/main.asm", "-strequ", "OUTPUT_ROM", newROMName,
+                "-sym", newROMName.replace(".z64", ".sym")], check=True)
+
 file_dict = [
+	{
+		"name": "Shop menu code",
+		"start": 0xCBE70,
+		"compressed_size": 0xD4554 - 0xCBE70,
+		"source_file": "bin/KrushaMenu.bin",
+		"use_external_gzip": True,
+		"patcher": patchKrushaShop,
+	},
 	{
 		"name": "Static ASM Code",
 		"start": 0x113F0,
@@ -274,13 +299,16 @@ with open(newROMName, "r+b") as fh:
 	for x in file_dict:
 		if "texture_format" in x:
 			if x["texture_format"] in ["rgba5551", "i4", "ia4", "i8", "ia8"]:
-				subprocess.run(["./build/n64tex.exe", x["texture_format"], x["source_file"]])
+				converter = ["./build/n64tex.exe"] if os.name == "nt" else [sys.executable, "build/n64tex.py"]
+				subprocess.run(converter + [x["texture_format"], x["source_file"]], check=True)
 			else:
 				print(" - ERROR: Unsupported texture format " + x["texture_format"])
 
 		if "use_external_gzip" in x and x["use_external_gzip"]:
 			if os.path.exists(x["source_file"]):
-				subprocess.run(["./build/gzip.exe", "-f", "-n", "-k", "-q", "-9", x["output_file"].replace(".gz", "")])
+				# Legacy gzip 1.2.4 has no -k; retain the input using -c.
+				with open(x["output_file"], "wb") as compressed:
+					subprocess.run([GZIP, "-n", "-q", "-9", "-c", x["source_file"]], stdout=compressed, check=True)
 				if os.path.exists(x["output_file"]):
 					with open(x["output_file"], "r+b") as outputFile:
 						# Chop off gzip footer
@@ -363,7 +391,10 @@ print("[8 / 8] - Generating BizHawk RAM watch")
 import generate_watch_file
 
 # Write custom ASM code to ROM
-subprocess.run(["build/armips.exe", "asm\main.asm", "-sym", "rom\dk64-tag-anywhere-dev.sym"])
+subprocess.run([ARMIPS, "asm/main.asm", "-strequ", "OUTPUT_ROM", newROMName,
+                "-sym", newROMName.replace(".z64", ".sym")], check=True)
+if os.path.getsize(newROMName) > 64 * 1024 * 1024:
+	raise SystemExit("Unexpected ROM size; check assembler ROM/RDRAM address mappings")
 
 # Fix CRC
 from n64crc import fixCRC

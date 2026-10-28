@@ -248,6 +248,10 @@ s32 inBadMap(void) {
 
 s32 inBadMovementState(void) {
 	if (Player) {
+		// Finish Krusha's heavy-object action before changing character.
+		if (Character == 5 && Player->control_state >= 0x47 && Player->control_state <= 0x4A) {
+			return 1;
+		}
 		for (s32 i = 0; i < sizeof(bad_movement_states) / sizeof(bad_movement_states[0]); i++) {
 			if (Player->control_state == bad_movement_states[i]) {
 				return 1;
@@ -272,6 +276,7 @@ void tagDenied() {
 void tagAnywhere(void) {
 	s32 _dest_character;
 	s32 tagDirection;
+	s32 last_character = DetectAdventure() && krushaEnabled() ? 5 : 4;
 	s8* Snide;
 
 	// Main Menu
@@ -469,7 +474,7 @@ void tagAnywhere(void) {
 		tagDenied();
 		return;
 	}
-	if (Character > 4) {
+	if (Character > last_character) {
 		tagDenied();
 		return;
 	}
@@ -484,12 +489,11 @@ void tagAnywhere(void) {
 
 	_dest_character = Character + tagDirection;
 	while (7) {
-		// Wrap from DK to Chunky
+		// Krusha follows Chunky in adventure mode.
 		if (_dest_character < 0) {
-			_dest_character = 4;
+			_dest_character = last_character;
 		}
-		// Wrap from Chunky to DK
-		if (_dest_character > 4) {
+		if (_dest_character > last_character) {
 			_dest_character = 0;
 		}
 		// Any kong can be tagged in speed mode
@@ -497,7 +501,7 @@ void tagAnywhere(void) {
 			break;
 		}
 		// DK can always be tagged
-		if (_dest_character == 0) {
+		if (_dest_character == 0 || _dest_character == 5) {
 			break;
 		}
 		// Check whether kong has been unlocked before allowing tag to them
@@ -515,7 +519,7 @@ void tagAnywhere(void) {
 
 	if (Player) {
 		// If the destination kong hasn't bought their gun, or if the current kong does not have their gun out
-		if (((MovesBase[_dest_character].weapon_bitfield & 1) == 0) || (Player->was_gun_out == 0)) {
+		if (_dest_character == 5 || ((MovesBase[_dest_character].weapon_bitfield & 1) == 0) || (Player->was_gun_out == 0)) {
 			Player->hand_state = 1;
 			Player->was_gun_out = 0;
 			// Without this, tags to and from Diddy mess up

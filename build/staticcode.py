@@ -1,6 +1,12 @@
 def patchStaticCode(filename):
 	with open(filename, "r+b") as fh:
 		# RDRAM Address - 0x5FB300 = ROM address
+		# Only the fairy-camera entry check: allow character 5, still exclude
+		# Rambi/Enguarde. No change to collectible or character identities.
+		fh.seek(0x806E98A0 - 0x805FB300)
+		assert fh.read(4) == bytes.fromhex("2b210005"), "Camera guard differs from USA 1.0"
+		fh.seek(0x806E98A0 - 0x805FB300)
+		fh.write(bytes.fromhex("2b210006"))
 
 		# Heap Shrink
 		fh.seek(0x15212)
