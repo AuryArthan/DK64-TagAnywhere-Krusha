@@ -362,3 +362,47 @@ The focused camera checks invert the native fixed-point view matrix to measure
 the actual rendered eye height, verify the drop and its recovery, and check
 normal camera height after completion, pause/resume, map transitions and a
 native DK instrument. The capture is produced directly by the emulator.
+
+## Twelfth revision: raised camera and animated-body centering
+
+The accepted `0dca0d2` build is preserved in
+`runtime/krusha/roar-eleventh-version/`, with its ROM, source bundle, reports
+and lower-camera preview.
+
+The previous eye drop is reduced from 25 to **21 world units**, raising the
+view four units (roughly 12% of Krusha's model height). The cause of the drift
+was the native camera's forward-looking aim point being orbited around the
+player root instead of staying on the visible body.
+
+`src/krusha_roar_framing.c` now follows the animated visible mesh. The committed
+`include/krusha_camera_mesh.h` contains **305 unique visible vertices in 22 bone
+groups**, extracted from model 0xDB's actual vertex-load/matrix commands. Hidden
+bazooka bone 12 is excluded. The native world bone matrices use the same bank
+selection as `getBonePosition`. This accounts for scale, facing and the leaning
+scream pose. The normal build needs no additional tooling or ROM modifications.
+To regenerate after a model change, run
+`python3 tools/extract-krusha-camera-mesh.py [ROM]` from the workspace root.
+The extraction uses the Python standard library; its geometry hash and source
+points are recorded in `research/krusha/roar/krusha-camera-mesh.json`.
+
+The orbit follows the animated body center. Three projection passes center the
+visible mesh's screen rectangle, including pose/depth asymmetry. Centering eases
+in over eight ticks and remains active through animation recovery. The eye
+height still eases back during recovery. The native view is restored when the
+move ends or is interrupted; native eye/aim and FOV are restored immediately
+after each temporary rendering call, leaving the gameplay camera untouched.
+
+The requested zoom is retained whenever it fits. If the pose would reach the
+edge, the rendered FOV opens only enough to retain a small 14% framing margin.
+A native camera pressed too close to the body is moved out to a minimum
+75-unit horizontal radius during the entry blend. Spotlight, sound, animation,
+cost, 360-degree turn and startup credit remain as accepted.
+
+The camera tests read the actual view/projection matrices and independently
+extract the visible vertices from the tested ROM. **438 consecutive animation
+frames** passed in Isles, Japes, and an Isles view after native camera rotation
+and a camera-distance change. The largest centered-phase offset was **0.054**
+in normalized screen coordinates, about 16 horizontal pixels at 640x480; every
+frame remained inside the viewport. The entry transition is eight ticks.
+There are **86 focused checks** in total (40 performance, 15 per-frame framing,
+31 cleanup), including pause/resume, map transitions and native DK instruments.

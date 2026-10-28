@@ -6,8 +6,7 @@ extern void krushaNativeActorDelete(void*);
 extern void krushaGetChunkLighting(f32*, f32*, f32*, s16);
 extern void krushaSetChunkLighting(f32, f32, f32, s16);
 extern void vanillaBuildCameraMatrices(void*);
-extern f32 sinf(f32);
-extern f32 cosf(f32);
+extern void krushaRoarFrame(u8*, u8*, f32, f32, f32);
 
 static u8* owner;
 static u8* camera_owner;
@@ -17,6 +16,7 @@ static u32 stage_frame;
 static f32 saved_fov;
 static f32 orbit_angle;
 static f32 camera_drop;
+static f32 frame_blend;
 static f32 saved_light[3];
 static s16 light_chunk = -1;
 
@@ -67,6 +67,7 @@ void krushaRoarStageBegin(void* actor) {
     saved_fov = *(f32*)(camera_owner + 0x27C);
     orbit_angle = 0;
     camera_drop = 0;
+    frame_blend = 0;
     light_chunk = -1;
     spotlight = 0;
     /* Same actor/model and scale as native instrument animation command
@@ -104,9 +105,10 @@ void krushaRoarStageTick(u32 elapsed) {
         // One full turn ends at the original angle. Hold there during the
         // zoom's recovery instead of retracing an entire second revolution.
         orbit_angle = 6.283185307f * zoom;
-        // About half Krusha's standing height. Ease in quickly and out with
-        // the normal recovery. The aim follows partway to retain framing.
-        camera_drop = 25.0f * smooth(elapsed / 8.0f) * (1.0f - release);
+        // Raise the previous view about 12% of the model's standing height.
+        // Ease the height in/out; keep the body centered through recovery.
+        frame_blend = smooth(elapsed / 8.0f);
+        camera_drop = 21.0f * frame_blend * (1.0f - release);
     }
 }
 
@@ -116,26 +118,21 @@ void krushaRoarStageTick(u32 elapsed) {
 void krushaRoarBuildCameraMatrices(void* display) {
     if (!sameScene() || (void*)owner != Player || owner[0x154] != 0x67 ||
         camera_owner != *(u8**)0x807FC924 || CutsceneActive ||
-        (orbit_angle == 0 && camera_drop == 0)) {
+        (orbit_angle == 0 && camera_drop == 0 && frame_blend == 0)) {
         vanillaBuildCameraMatrices(display);
         return;
     }
     f32* eye = (f32*)(camera_owner + 0x210);
     f32* target = (f32*)(camera_owner + 0x228);
     f32 saved_eye[3], saved_target[3];
-    f32 x = *(f32*)(owner + 0x7C), z = *(f32*)(owner + 0x84);
-    f32 c = cosf(orbit_angle), s = sinf(orbit_angle);
+    f32 saved_render_fov = *(f32*)(camera_owner + 0x27C);
     for (s32 i = 0; i < 3; i++) {
         saved_eye[i] = eye[i];
         saved_target[i] = target[i];
     }
-    eye[0] = x + (saved_eye[0] - x) * c - (saved_eye[2] - z) * s;
-    eye[2] = z + (saved_eye[0] - x) * s + (saved_eye[2] - z) * c;
-    eye[1] = saved_eye[1] - camera_drop;
-    target[0] = x + (saved_target[0] - x) * c - (saved_target[2] - z) * s;
-    target[2] = z + (saved_target[0] - x) * s + (saved_target[2] - z) * c;
-    target[1] = saved_target[1] - camera_drop * 0.5f;
+    krushaRoarFrame(owner, camera_owner, orbit_angle, camera_drop / 21.0f, frame_blend);
     vanillaBuildCameraMatrices(display);
+    *(f32*)(camera_owner + 0x27C) = saved_render_fov;
     for (s32 i = 0; i < 3; i++) {
         eye[i] = saved_eye[i];
         target[i] = saved_target[i];
@@ -158,5 +155,6 @@ void krushaRoarStageEnd(void) {
     camera_owner = 0;
     orbit_angle = 0;
     camera_drop = 0;
+    frame_blend = 0;
     light_chunk = -1;
 }
