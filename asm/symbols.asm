@@ -253,6 +253,9 @@
 .definelabel krushaNativeBarrelFlag, 0x805FF018
 .definelabel krushaInitCharacterMesh, 0x806F09F0
 .definelabel krushaNativeActorDelete, 0x806782C0
+.definelabel krushaMoveAndScaleActor, 0x8067B238
+.definelabel krushaGetChunkLighting, 0x80659620
+.definelabel krushaSetChunkLighting, 0x80659670
 .definelabel krushaSin, 0x80612794
 .definelabel krushaCos, 0x80612790
 .definelabel krushaPlayActorAnimation, 0x80614EBC

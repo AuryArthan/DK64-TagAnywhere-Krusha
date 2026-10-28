@@ -11,6 +11,9 @@ extern void krushaHolsterModel(void*);
 extern void krushaChangeCollectable(s32, u8, s16);
 extern void krushaShowHUD(s32, u8, s32);
 extern void krushaPlayScream(void);
+extern void krushaRoarStageBegin(void*);
+extern void krushaRoarStageTick(u32);
+extern void krushaRoarStageEnd(void);
 
 /* Previous native vocal effect, retained at 35% alongside the supplied 65%
  * recording. Its original two fundamentals sum to 1.7x before weighting. */
@@ -107,6 +110,7 @@ u8 krushaRoarStart(void) {
     active_player[0x144] = 1;
     Player->control_state = 0x67;
     Player->control_state_progress = 0;
+    krushaRoarStageBegin(Player);
     next_echo = 0;
     krushaPlayScream(); // Supplied recording, 65%, original pitch and duration.
     // Keep the fundamentals dry: a high wet mix would undo the gain boost.
@@ -147,6 +151,7 @@ void krushaRoarControl(void) {
     holdBackdrop();
     krushaNativeInstrumentControl();
     u32 elapsed = frame() - started;
+    krushaRoarStageTick(elapsed);
     while (next_echo < sizeof(echoes) / sizeof(echoes[0]) &&
            elapsed >= echoes[next_echo].frame) {
         const RoarEcho* echo = &echoes[next_echo++];
@@ -162,6 +167,7 @@ void krushaRoarControl(void) {
         *(s16*)(current + 0xE4) = 0;
         *(s16*)(current + 0xE8) = 0;
         *(u32*)(current + 0x60) &= ~1;
+        krushaRoarStageEnd();
         restoreBackdrop();
         unkSizeFunction(current); // Native return to appropriate ground/water state.
         active_player = 0;
@@ -176,11 +182,13 @@ void krushaRoarTick(void) {
     }
     if (active_player && (Player != (void*)active_player || CurrentMap != active_map ||
                           Character != 5 || active_player[0x154] != 0x67)) {
+        krushaRoarStageEnd();
         restoreBackdrop();
         active_player = 0;
         ready_at = 0;
     } else if (active_player) {
         holdBackdrop();
+        krushaRoarStageTick(frame() - started);
     }
 }
 

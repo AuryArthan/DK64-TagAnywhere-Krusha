@@ -2,6 +2,7 @@
 .importobj "obj/src_krusha_barrel.o"
 .importobj "obj/src_krusha_options.o"
 .importobj "obj/src_krusha_roar.o"
+.importobj "obj/src_krusha_roar_stage.o"
 .importobj "obj/src_krusha_scream.o"
 .importobj "obj/src_lib.o"
 .importobj "obj/src_main.o"

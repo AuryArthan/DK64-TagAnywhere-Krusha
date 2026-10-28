@@ -217,3 +217,45 @@ action, animation, damage or executable state. The earliest cold-boot run expose
 a missing optional image-analysis module in the test harness; image analysis now
 uses the already-installed FFmpeg decoder, and the complete checks passed using
 that ROM's own cold-boot checkpoint.
+
+## Seventh revision: spotlight and simple camera zoom
+
+The previous accepted backdrop build (`ba3008e`, 41 focused checks) is preserved
+in `runtime/krusha/roar-sixth-version/`.
+
+Native instrument animation command **80618F74** spawns actor **310**, model
+**A8**, and places/scales it at the performing Kong. Its controller **806A8070**
+marks the spotlight visible through the instrument backdrop and renders the
+native cone and floor light. The new `src/krusha_roar_stage.c` uses that same
+actor/model and native placement helper **8067B238**. It owns its actor pointer
+separately, without using the player's vehicle pointer or the barrel's light.
+The live actor registry is checked before following/deleting that pointer;
+cleanup uses the native deferred deletion function **806782C0**.
+
+Native instrument command **80619018** temporarily raises the actor's chunk
+lighting. The stage similarly saves the current chunk RGB, applies full white
+lighting through **80659670**, and restores the saved RGB afterward. If the
+performer moves into another chunk, the previous chunk is restored before the
+new one is saved and lit.
+
+The camera uses the native player-view field of view at character-change offset
+**27C**, which directly feeds `guPerspective`. It smoothly narrows the saved
+FOV to 70% over **95 game ticks**, matching the 3.15-second scream. With the
+normal 45-degree view, measured values progress 45 → 44.58 → 42.69 → 31.5.
+The close view holds briefly, then eases back over the final fourteen skeletal
+frames of the recovery. The exact saved FOV is restored on completion. Camera
+position/mode remains under the native controller; no five-Kong cutscene is run.
+
+Stage cleanup also runs when the move is interrupted. A different map or a
+reset map frame counter discards old pointers and state, leaving the map loader
+in charge of the old heap and the new camera/lighting. Failed activation does
+not allocate a light or change the camera.
+
+The focused test checks one correctly positioned native spotlight, native full
+lighting, the progressive FOV values, exact light/FOV restoration and removal
+of the owned actor. The image contains the black backdrop plus visible neutral
+spotlight pixels. Cleanup checks additionally cover pause/resume, weapon and
+camera use afterward, native tag-barrel spotlight creation/removal, insufficient
+energy, map transition during the move, a new-map performance, and the original
+DK instrument. The four-fifths/120% animation and 65/35 sound blend remain the
+same. All preview sound and visual effects are produced by the game itself.
