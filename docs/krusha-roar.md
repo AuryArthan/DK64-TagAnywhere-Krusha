@@ -311,3 +311,31 @@ close-view FOV changes from 15.75 to **13.125 degrees** at the normal 45-degree
 view, giving approximately another **20%** in apparent size. Zoom and rotation
 retain the same smooth progression and eased return during recovery. Spotlight,
 animation, enemy-death behavior and move cost remain unchanged.
+
+## Tenth revision: one full turn, wider framing, louder scream and credits
+
+The accepted `2eaeb92` build is preserved in
+`runtime/krusha/roar-ninth-version/` with its ROM, patch, source bundle,
+validation reports and preview.
+
+The close-up is reduced by 20% in apparent character size: the normal
+45-degree view now reaches **16.40625 degrees**, compared with 13.125 before.
+The rendered camera completes **one forward 360-degree revolution** over the
+supplied recording, then holds the equivalent original angle during recovery.
+Zoom still eases out over the last fourteen skeletal frames. Rotation no
+longer follows zoom's return curve, avoiding an unintended reverse full turn.
+The underlying native camera eye/aim remain unchanged between render calls.
+
+The whole 65/35 audio blend is multiplied by another 1.4, for **2.1x** the
+pre-boost mix. The supplied recording needs total voice volume **44,729**, above
+a single native voice's 32,767 limit. Two same-bank, same-pitch voices (32,767
+and 11,962) start in the same priority-protected allocation block, each with its
+own persistent handle. Both are stopped before replay and are cleared by the
+native allocator on completion. The previous vocal layers and echoes use
+**73.5%** of their original volumes. The source recording, VADPCM payload,
+pitch, duration and relative 65/35 blend are unchanged.
+
+The startup credits' third native text box now says
+**KRUSHA PATCHED IN BY ARTHAN** (the startup font supports uppercase). It is space-centered within its existing
+33-character field. The Isotarge attribution, DK64 Crew line, text offsets,
+string lengths and surrounding startup assets remain intact.

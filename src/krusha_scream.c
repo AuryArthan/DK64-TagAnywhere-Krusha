@@ -26,12 +26,17 @@ static ALBank scream_bank = {
  * it frees the sound. A stack-local handle would be unsafe. */
 // Explicit initialization avoids a COMMON-symbol relocation in armips.
 void* krushaScreamHandle = 0;
+void* krushaScreamBoostHandle = 0;
 
 void krushaPlayScream(void) {
     // Match playSound's native thread-priority protection around allocation.
     osSetThreadPri(0, 0x1A);
     if (krushaScreamHandle) krushaNativeStopSound(krushaScreamHandle);
-    // 65% sample blend, multiplied by the requested 1.5 overall gain.
-    krushaNativeStartSound(&scream_bank, 1, 31949, 63, 1.0f, 0, &krushaScreamHandle);
+    if (krushaScreamBoostHandle) krushaNativeStopSound(krushaScreamBoostHandle);
+    // 65% blend at 2.1 overall gain exceeds one voice's 32767 ceiling.
+    // Two synchronized native voices give 44729 total without changing pitch
+    // or clipping the encoded recording. Each owns a persistent handle.
+    krushaNativeStartSound(&scream_bank, 1, 32767, 63, 1.0f, 0, &krushaScreamHandle);
+    krushaNativeStartSound(&scream_bank, 1, 11962, 63, 1.0f, 0, &krushaScreamBoostHandle);
     osSetThreadPri(0, 0xA);
 }

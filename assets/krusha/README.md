@@ -32,3 +32,9 @@ The current playback multiplies the whole 65/35 blend by **1.5**: sample
 volume 31,949, and the preceding roar layers/echoes at 52.5% of their
 original volumes. This gain is applied by the resident sound code; the source
 recording and encoded VADPCM payload remain unchanged.
+
+The latest requested increase multiplies that whole blend by another **1.4**
+(**2.1x** overall). The supplied recording uses two synchronized native voices
+at volumes 32,767 and 11,962 to exceed one voice's ceiling safely. Each has
+an independently owned persistent handle. Other layers/echoes play at 73.5%
+of their original levels; source and encoded recording remain unchanged.

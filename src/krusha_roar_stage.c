@@ -97,10 +97,11 @@ void krushaRoarStageTick(u32 elapsed) {
         f32 zoom = smooth(elapsed / sound_ticks);
         f32 release = smooth((position - (last - 14.0f)) / 14.0f);
         f32 amount = zoom * (1.0f - release);
-        // Another 20% in apparent size beyond the preceding close-up.
-        // Orbit 110 degrees, easing home with the zoom.
-        *(f32*)(camera_owner + 0x27C) = saved_fov * (1.0f - (1.0f - 0.35f / 1.2f) * amount);
-        orbit_angle = 1.919862177f * amount;
+        // Reduce apparent size by 20% from the preceding close-up.
+        *(f32*)(camera_owner + 0x27C) = saved_fov * (1.0f - (1.0f - 0.35f / 1.2f / 0.8f) * amount);
+        // One full turn ends at the original angle. Hold there during the
+        // zoom's recovery instead of retracing an entire second revolution.
+        orbit_angle = 6.283185307f * zoom;
     }
 }
 
