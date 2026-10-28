@@ -1,9 +1,13 @@
 #include "../include/common.h"
+#include "../assets/krusha/scream.h"
 
 extern void krushaMoveAndScaleActor(void*, void*, f32);
 extern void krushaNativeActorDelete(void*);
 extern void krushaGetChunkLighting(f32*, f32*, f32*, s16);
 extern void krushaSetChunkLighting(f32, f32, f32, s16);
+extern void vanillaBuildCameraMatrices(void*);
+extern f32 sinf(f32);
+extern f32 cosf(f32);
 
 static u8* owner;
 static u8* camera_owner;
@@ -11,6 +15,7 @@ static u8* spotlight;
 static s32 stage_map;
 static u32 stage_frame;
 static f32 saved_fov;
+static f32 orbit_angle;
 static f32 saved_light[3];
 static s16 light_chunk = -1;
 
@@ -59,6 +64,7 @@ void krushaRoarStageBegin(void* actor) {
     stage_frame = frame();
     camera_owner = *(u8**)0x807FC924;
     saved_fov = *(f32*)(camera_owner + 0x27C);
+    orbit_angle = 0;
     light_chunk = -1;
     spotlight = 0;
     /* Same actor/model and scale as native instrument animation command
@@ -85,11 +91,45 @@ void krushaRoarStageTick(u32 elapsed) {
         u8* channel = *(u8**)animation;
         f32 position = *(f32*)(channel + 4);
         f32 last = *(f32*)(channel + 0x18);
-        // Reach the close view over the 3.15-second recording, then gently
+        // Reach the close view over the supplied recording, then gently
         // pull back over the final fourteen skeletal frames of the recovery.
-        f32 zoom = smooth(elapsed / 95.0f);
+        f32 sound_ticks = (KRUSHA_SCREAM_MICROSECONDS - 20000) * (30.0f / 1000000.0f);
+        f32 zoom = smooth(elapsed / sound_ticks);
         f32 release = smooth((position - (last - 14.0f)) / 14.0f);
-        *(f32*)(camera_owner + 0x27C) = saved_fov * (1.0f - 0.30f * zoom * (1.0f - release));
+        f32 amount = zoom * (1.0f - release);
+        // Half the previous close-view FOV: approximately twice its apparent
+        // character size. Orbit 45 degrees, easing home with the zoom.
+        *(f32*)(camera_owner + 0x27C) = saved_fov * (1.0f - 0.65f * amount);
+        orbit_angle = 0.785398163f * amount;
+    }
+}
+
+/* Apply the orbit only while the native renderer builds the view matrices.
+ * Camera collision, following, input yaw and future frames retain their own
+ * coordinates; never feed the rotated eye back into the camera controller. */
+void krushaRoarBuildCameraMatrices(void* display) {
+    if (!sameScene() || (void*)owner != Player || owner[0x154] != 0x67 ||
+        camera_owner != *(u8**)0x807FC924 || CutsceneActive || orbit_angle == 0) {
+        vanillaBuildCameraMatrices(display);
+        return;
+    }
+    f32* eye = (f32*)(camera_owner + 0x210);
+    f32* target = (f32*)(camera_owner + 0x228);
+    f32 saved_eye[3], saved_target[3];
+    f32 x = *(f32*)(owner + 0x7C), z = *(f32*)(owner + 0x84);
+    f32 c = cosf(orbit_angle), s = sinf(orbit_angle);
+    for (s32 i = 0; i < 3; i++) {
+        saved_eye[i] = eye[i];
+        saved_target[i] = target[i];
+    }
+    eye[0] = x + (saved_eye[0] - x) * c - (saved_eye[2] - z) * s;
+    eye[2] = z + (saved_eye[0] - x) * s + (saved_eye[2] - z) * c;
+    target[0] = x + (saved_target[0] - x) * c - (saved_target[2] - z) * s;
+    target[2] = z + (saved_target[0] - x) * s + (saved_target[2] - z) * c;
+    vanillaBuildCameraMatrices(display);
+    for (s32 i = 0; i < 3; i++) {
+        eye[i] = saved_eye[i];
+        target[i] = saved_target[i];
     }
 }
 
@@ -107,5 +147,6 @@ void krushaRoarStageEnd(void) {
     spotlight = 0;
     owner = 0;
     camera_owner = 0;
+    orbit_angle = 0;
     light_chunk = -1;
 }

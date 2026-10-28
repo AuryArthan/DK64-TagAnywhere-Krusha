@@ -259,3 +259,37 @@ camera use afterward, native tag-barrel spotlight creation/removal, insufficient
 energy, map transition during the move, a new-map performance, and the original
 DK instrument. The four-fifths/120% animation and 65/35 sound blend remain the
 same. All preview sound and visual effects are produced by the game itself.
+
+## Eighth revision: closer zoom, camera orbit and TheScream3
+
+The accepted spotlight build (`c866c83`, 55 checks) is backed up in
+`runtime/krusha/roar-seventh-version/`, including its ROM and source bundle.
+
+The supplied recording is now `input_files/TheScream3.wav` (3.560479 seconds),
+copied unchanged to the canonical `assets/krusha/TheScream.wav` source path.
+Its SHA256 is `cb7c9891b77ec814648983b656143659c97b23448cccd5095620b29a8e32c118`.
+It uses the existing native VADPCM conversion and 65/35 mix: 44,163 encoded
+bytes at ROM 0x02100000, with original pitch and duration. The old layered roar
+and stereo echoes retain their previous weights.
+
+The close-view FOV is now 35% of the saved view, rather than 70%: 45 degrees
+narrows to 15.75 degrees. That gives approximately twice the apparent character
+size of the preceding close-up. Zoom timing follows the generated sample
+length (about 107 game ticks), rather than assuming the old 3.15-second file.
+The same eased progress turns the rendered view 45 degrees around the
+performer's vertical axis. Both effects ease home over the final fourteen
+skeletal recovery frames, with normal animation trim/speed unchanged.
+
+The native camera matrix builder **805FCA94** is wrapped with its displaced
+prologue retained. Only during that call, the renderer's eye and aim X/Z
+coordinates (character-change offsets **210/218/228/230**) are rotated around
+Krusha. All six original eye/aim coordinates are restored immediately afterward.
+The camera actor, collision, follow logic and input yaw are never orbited, so
+there is no cumulative rotation or drift. The wrapper is inactive outside the
+owned Krusha performance and during native cutscenes. Normal stage cleanup
+clears the orbit as well as restoring FOV, lighting and spotlight ownership.
+
+Integration checks decode the actual native fixed-point view matrix to measure
+the rendered yaw independently of the unchanged camera coordinates. They also
+check the progressive zoom, embedded new sample, normal end, pause/resume,
+loading-zone transitions, camera/bazooka use afterward and native DK instruments.

@@ -14,6 +14,7 @@ extern void krushaPlayScream(void);
 extern void krushaRoarStageBegin(void*);
 extern void krushaRoarStageTick(u32);
 extern void krushaRoarStageEnd(void);
+extern void krushaRoarBuildCameraMatrices(void*);
 
 /* Previous native vocal effect, retained at 35% alongside the supplied 65%
  * recording. Its original two fundamentals sum to 1.7x before weighting. */
@@ -193,6 +194,10 @@ void krushaRoarTick(void) {
 }
 
 void krushaRoarInstall(void) {
+    *(u32*)0x805FCA94 = 0x08000000 | (((u32)krushaRoarBuildCameraMatrices & 0x0FFFFFFF) >> 2);
+    *(u32*)0x805FCA98 = 0;
+    osWritebackDCache((void*)0x805FCA94, 8);
+    osInvalICache((void*)0x805FCA94, 8);
     *(u32*)0x806E52D0 = 0x08000000 | (((u32)krushaRoarInput & 0x0FFFFFFF) >> 2);
     *(u32*)0x806E52D4 = 0;
     osWritebackDCache((void*)0x806E52D0, 8);

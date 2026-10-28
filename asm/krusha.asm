@@ -77,3 +77,9 @@ vanillaInstrumentInput:
     LBU v0, 0xC929(v0)
     J 0x806E52D8
     NOP
+
+vanillaBuildCameraMatrices:
+    ADDIU sp, sp, -0xC0
+    SW ra, 0x9C(sp)
+    J 0x805FCA9C
+    NOP
