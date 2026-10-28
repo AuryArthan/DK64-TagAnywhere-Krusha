@@ -16,6 +16,7 @@ static s32 stage_map;
 static u32 stage_frame;
 static f32 saved_fov;
 static f32 orbit_angle;
+static f32 camera_drop;
 static f32 saved_light[3];
 static s16 light_chunk = -1;
 
@@ -65,6 +66,7 @@ void krushaRoarStageBegin(void* actor) {
     camera_owner = *(u8**)0x807FC924;
     saved_fov = *(f32*)(camera_owner + 0x27C);
     orbit_angle = 0;
+    camera_drop = 0;
     light_chunk = -1;
     spotlight = 0;
     /* Same actor/model and scale as native instrument animation command
@@ -102,6 +104,9 @@ void krushaRoarStageTick(u32 elapsed) {
         // One full turn ends at the original angle. Hold there during the
         // zoom's recovery instead of retracing an entire second revolution.
         orbit_angle = 6.283185307f * zoom;
+        // About half Krusha's standing height. Ease in quickly and out with
+        // the normal recovery. The aim follows partway to retain framing.
+        camera_drop = 25.0f * smooth(elapsed / 8.0f) * (1.0f - release);
     }
 }
 
@@ -110,7 +115,8 @@ void krushaRoarStageTick(u32 elapsed) {
  * coordinates; never feed the rotated eye back into the camera controller. */
 void krushaRoarBuildCameraMatrices(void* display) {
     if (!sameScene() || (void*)owner != Player || owner[0x154] != 0x67 ||
-        camera_owner != *(u8**)0x807FC924 || CutsceneActive || orbit_angle == 0) {
+        camera_owner != *(u8**)0x807FC924 || CutsceneActive ||
+        (orbit_angle == 0 && camera_drop == 0)) {
         vanillaBuildCameraMatrices(display);
         return;
     }
@@ -125,8 +131,10 @@ void krushaRoarBuildCameraMatrices(void* display) {
     }
     eye[0] = x + (saved_eye[0] - x) * c - (saved_eye[2] - z) * s;
     eye[2] = z + (saved_eye[0] - x) * s + (saved_eye[2] - z) * c;
+    eye[1] = saved_eye[1] - camera_drop;
     target[0] = x + (saved_target[0] - x) * c - (saved_target[2] - z) * s;
     target[2] = z + (saved_target[0] - x) * s + (saved_target[2] - z) * c;
+    target[1] = saved_target[1] - camera_drop * 0.5f;
     vanillaBuildCameraMatrices(display);
     for (s32 i = 0; i < 3; i++) {
         eye[i] = saved_eye[i];
@@ -149,5 +157,6 @@ void krushaRoarStageEnd(void) {
     owner = 0;
     camera_owner = 0;
     orbit_angle = 0;
+    camera_drop = 0;
     light_chunk = -1;
 }

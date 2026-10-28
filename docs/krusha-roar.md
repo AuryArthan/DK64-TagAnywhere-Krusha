@@ -339,3 +339,26 @@ The startup credits' third native text box now says
 **KRUSHA PATCHED IN BY ARTHAN** (the startup font supports uppercase). It is space-centered within its existing
 33-character field. The Isotarge attribution, DK64 Crew line, text offsets,
 string lengths and surrounding startup assets remain intact.
+
+## Eleventh revision: lower shout camera
+
+The accepted `c6c6fba` build is preserved in
+`runtime/krusha/roar-tenth-version/`, including its ROM, source bundle, reports,
+performance preview and startup-credit screenshot.
+
+During the shout, the rendered eye is lowered by **25 world units**, about
+half Krusha's normal standing height. This eases in over eight game ticks,
+holds throughout the shout and eases out with the existing fourteen-frame
+skeletal recovery. The aim point follows down by **12.5 world units**, half the eye displacement,
+to retain face/body framing while giving a lower viewing angle.
+
+Only the temporary eye/aim Y values passed to the native camera matrix builder
+are changed. The saved native eye and target are restored immediately after that
+render call, and the owned offset is cleared when the move ends or the scene
+changes. The existing 360-degree orbit, zoom, audio, animation, spotlight and
+credits remain unchanged.
+
+The focused camera checks invert the native fixed-point view matrix to measure
+the actual rendered eye height, verify the drop and its recovery, and check
+normal camera height after completion, pause/resume, map transitions and a
+native DK instrument. The capture is produced directly by the emulator.
