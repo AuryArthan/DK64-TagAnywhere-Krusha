@@ -21,6 +21,8 @@ u32 krushaRoarCost = 150;
 #define ROAR_START_FRAME (110.0f / 5.0f)
 #define ROAR_SPEED 1.2f
 #define ROAR_MAX_DURATION 240 // Failsafe; normal completion follows the clip.
+#define INSTRUMENT_SCENE_MASK 0x10030
+#define INSTRUMENT_PERFORMER 0x40000000
 
 typedef struct {
     u8 frame;
@@ -40,6 +42,28 @@ static u32 started;
 static u32 ready_at;
 static s32 cooldown_map = -1;
 static u8 next_echo;
+static u32 saved_scene_bits;
+static u32 saved_performer_bit;
+
+static void holdBackdrop(void) {
+    /* Native instrument animation command 80618E4C: hide scenery, props and
+     * ordinary actors while allowing the performing actor to remain visible. */
+    *(u32*)0x807FBB60 &= ~INSTRUMENT_SCENE_MASK;
+    *(u32*)(active_player + 0x60) |= INSTRUMENT_PERFORMER;
+}
+
+static void restoreBackdrop(void) {
+    /* A map load initializes its own render flags and frees the previous actor.
+     * Never restore the old map's state over that new scene or touch its actor. */
+    if (CurrentMap == active_map) {
+        u32* scene = (u32*)0x807FBB60;
+        *scene = (*scene & ~INSTRUMENT_SCENE_MASK) | saved_scene_bits;
+        if ((void*)active_player == Player) {
+            u32* props = (u32*)(active_player + 0x60);
+            *props = (*props & ~INSTRUMENT_PERFORMER) | saved_performer_bit;
+        }
+    }
+}
 
 static void roarVoice(s32 volume, f32 pitch, f32 pan, u8 reverb) {
     /* No random pitch variation: it would detune the gain layer. Native
@@ -69,6 +93,9 @@ u8 krushaRoarStart(void) {
     active_player = (u8*)Player;
     active_map = CurrentMap;
     started = frame();
+    saved_scene_bits = *(u32*)0x807FBB60 & INSTRUMENT_SCENE_MASK;
+    saved_performer_bit = *(u32*)(active_player + 0x60) & INSTRUMENT_PERFORMER;
+    holdBackdrop();
     krushaHolsterModel(Player);
     krushaPlayActorAnimation(Player, 0); // Stop scripts, including gameplay effects.
     krushaPlayRawAnimation(Player, 0x2AA, ROAR_START_FRAME, 0.0f);
@@ -117,6 +144,7 @@ void krushaRoarControl(void) {
      * their normal instrument death, including immunity/range rules. Reuse
      * common rendering/input/chunk handling, without its five-Kong song case. */
     current[0x155] = 0;
+    holdBackdrop();
     krushaNativeInstrumentControl();
     u32 elapsed = frame() - started;
     while (next_echo < sizeof(echoes) / sizeof(echoes[0]) &&
@@ -134,6 +162,7 @@ void krushaRoarControl(void) {
         *(s16*)(current + 0xE4) = 0;
         *(s16*)(current + 0xE8) = 0;
         *(u32*)(current + 0x60) &= ~1;
+        restoreBackdrop();
         unkSizeFunction(current); // Native return to appropriate ground/water state.
         active_player = 0;
         ready_at = frame() + 15;
@@ -147,8 +176,11 @@ void krushaRoarTick(void) {
     }
     if (active_player && (Player != (void*)active_player || CurrentMap != active_map ||
                           Character != 5 || active_player[0x154] != 0x67)) {
+        restoreBackdrop();
         active_player = 0;
         ready_at = 0;
+    } else if (active_player) {
+        holdBackdrop();
     }
 }
 

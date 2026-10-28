@@ -183,3 +183,37 @@ are preserved in `runtime/krusha/roar-fourth-version/`. The sound remains the
 checks verify the earlier start, 120% channel speed, the observed skeletal
 progress against native actor time scale, final-frame recovery and native
 sound-state/voice cleanup. A fresh real-time capture demonstrates the result.
+
+## Sixth revision: native instrument backdrop
+
+The custom roar entered native instrument state 67 but bypassed its animation
+script. That script also controls presentation: command **80618E4C** clears
+scene mask **0x10030** and enables performer object flag **0x40000000**.
+Renderer **8062CA70** uses bit 0x10 for scenery; **80630B70** uses bit 0x20 for
+non-actor props and 0x10000 for normal actors, with a performer-flag exception.
+The omitted masking exposed enemy death movement normally hidden by instruments.
+
+A controller-driven comparison using DK in Japes captured the native black
+backdrop and spotlight, with scene flags changing from 0x31030 to 0x20000.
+Krusha now uses the same presentation mask and performer exception for his
+existing roar. It does not enter the five-character instrument cutscene table.
+The scene bits and original performer bit are saved before masking and restored
+at normal completion or a same-map interruption. Cleanup updates only the owned
+bits. After a map change, it discards the old visual state instead of restoring
+old flags over a newly initialized scene or dereferencing a freed actor.
+
+The previous accepted build (`bcfff58`) is preserved in
+`runtime/krusha/roar-fifth-version/`. The four-fifths/120% animation, 65/35 sound
+blend, crystal cost and native enemy death behavior are retained.
+
+Native checkpoints and image checks show a black fraction of 0.971 during the
+Japes scream (Krusha and HUD visible), returning to 0.026 afterward. The focused
+performance checks also verify exact scene/performer-bit restoration. Separate
+controller checks cover pause/resume, ordinary movement, bazooka, camera,
+insufficient crystals, a loading-zone transition during the move, a new-map
+scream, and the original DK instrument backdrop and restoration. These tests
+write player position, inventory and loading-zone fixtures only, not character,
+action, animation, damage or executable state. The earliest cold-boot run exposed
+a missing optional image-analysis module in the test harness; image analysis now
+uses the already-installed FFmpeg decoder, and the complete checks passed using
+that ROM's own cold-boot checkpoint.
