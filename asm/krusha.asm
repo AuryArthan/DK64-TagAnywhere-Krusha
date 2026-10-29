@@ -12,6 +12,12 @@ widescreenNativeCounter:
     J 0x8068DC5C
     NOP
 
+widescreenNativeText:
+    ADDIU sp, sp, -0x80
+    SW fp, 0x38(sp)
+    J 0x806FD498
+    NOP
+
 widescreenNativeLogo:
     ADDIU sp, sp, -0xE8
     SW s0, 0x20(sp)

@@ -8,6 +8,7 @@ extern Gfx* widescreenNativeShutterMask(Gfx*, void*);
 extern Gfx* widescreenNativeLogo(Gfx*);
 extern void widescreenNativeQueue(void*, void*, u8);
 extern Gfx* widescreenNativeCounter(Gfx*, s16, s16, s16*, s16, u8*);
+extern Gfx* widescreenNativeText(Gfx*, u8, s16, s16, char*);
 extern s32 widescreenProject(f32, f32, f32, f32*, f32*, s32, f32, s32);
 extern Gfx* widescreenImage(Gfx*, u16, s32, s32, s32, s32, s16, s16, f32, f32, s32, f32);
 extern Gfx* widescreenAnimatedText(Gfx*, s16, s32, f32, f32, f32, f32);
@@ -97,6 +98,15 @@ void widescreenSpriteRect(Gfx** list, s16 x, s16 y) {
     Gfx* first = *list;
     widescreenNativeSpriteRect(list, x, y);
     if (active() && !rect_scope) textureRects(first, *list);
+}
+
+Gfx* widescreenText(Gfx* dl, u8 font, s16 x, s16 y, char* text) {
+    Gfx* first = dl;
+    rect_scope++;
+    dl = widescreenNativeText(dl, font, x, y, text);
+    rect_scope--;
+    if (active() && !rect_scope) textureRects(first, dl);
+    return dl;
 }
 
 Gfx* widescreenLogo(Gfx* dl) {
@@ -210,6 +220,7 @@ void widescreenTick(void) {
         install(0x806FFB2C, widescreenShutterMask);
         install(0x8068C350, widescreenQueue);
         install(0x8068DC54, widescreenCounter);
+        install(0x806FD490, widescreenText);
         installed = 1;
     }
 }

@@ -30,6 +30,9 @@ that correction exclusively on native flag `807444C0`.
   separate rectangle path is corrected once, without double-scaling nested calls.
 * Animated number counters have explicit RDP scissor windows. Their wrapper
   corrects those windows with the digits, preserving the final viewport restore.
+* The simple bitmap-text renderer emits its own texture rectangles. Its wrapper
+  corrects those too, including Arcade and Jetpac score text. A 4:3 reference
+  capture exposed this separate path after scenery sprites were already fixed.
 * Fairy-camera, photo-shutter and sniper masks receive black side coverage so
   narrowing the mask artwork cannot expose the world outside the lens.
 * The Factory/Castle car race's minimap frame uses raw RDP fills. Its queued
@@ -72,7 +75,9 @@ Kosh, active Searchlight Seek and the Factory car-race minimap. The native Krush
 option suite covers persistence across cold boots and five/six-slot selection
 with Widescreen enabled. The camera pass measures the actual enlarged animated
 mesh on every shout frame in three setups. Rendered title-pixel bounds provide
-a separate visual check of Standard parity and the horizontal correction.
+a separate visual check of Standard parity and the horizontal correction. The
+classic-game pass compares actual bitmap-glyph dimensions and placement with
+the approved ROM at 4:3; this caught and verifies the separate score-text path.
 
 This is focused integration coverage, not a full campaign or every multiplayer
 layout. Rare bespoke renderers may need individual follow-up adjustments.
