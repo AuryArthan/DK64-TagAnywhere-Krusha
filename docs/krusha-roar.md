@@ -444,3 +444,32 @@ actual ceiling after the emulator's 80% output scaling, rather than only the
 
 Animation, camera centering, zoom/orbit, spotlight, enemy-death effect, move
 cost, settings and credits retain their accepted behavior.
+
+## Fourteenth revision: camera shake during the shout
+
+The accepted pure-recording build (`a74d73a`) is preserved in
+`runtime/krusha/roar-fourteenth-baseline/`, including its ROM, source bundle,
+reports, audio preview and gameplay video.
+
+The shout camera now adds bounded horizontal/vertical vibration **after** the
+animated-body centering and fit calculations. Both the rendered eye and aim
+move together in the view plane. This preserves the orbit and viewing angle,
+while creating a visible shake that the centering correction does not cancel.
+Amplitude scales with distance and FOV, so zoom and different native camera
+starting positions do not magnify it. Each axis is bounded to 0.025 normalized
+screen units, roughly eight horizontal/six vertical pixels at 640x480, within
+the existing framing margin.
+
+Two blended frequencies on each axis make the vibration less mechanical. The
+phase follows the raw animation frame, freezing when the animation is paused.
+The existing entry/recovery weight eases the shake in over eight ticks and out
+over the final fourteen skeletal frames. It uses no random-gameplay state and
+adds no persistent camera offset. The native eye/aim/FOV values are restored
+immediately after matrix construction, with the existing interruption/map
+ownership guards. Sound and other accepted performance settings are unchanged.
+
+Frame-by-frame checks measure the actual projected body, verify vibration on
+both axes and a smaller vibration amplitude during recovery, and keep the
+centering/on-screen checks across Isles, Japes and a rotated/different-distance
+camera. Normal camera restoration is also checked after pause, map transition
+and native DK instruments.

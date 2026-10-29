@@ -76,6 +76,37 @@ static f32 tangent(f32 degrees) {
     return sinf(angle) / cosf(angle);
 }
 
+static f32 cameraAspect(u8* camera) {
+    f32 scale = *(f32*)0x80747CD0;
+    if (scale < 0.5f || scale > 2.0f) scale = 1.0f;
+    f32 aspect = *(f32*)(camera + 0x280) * scale;
+    return aspect < 0.5f ? 1.333333333f : aspect;
+}
+
+static void shoutShake(u8* actor, u8* camera, f32 weight) {
+    if (weight <= 0) return;
+    u8* animation = *(u8**)(actor + 4);
+    u8* channel = *(u8**)animation;
+    // Use animation time so the vibration freezes with the pose when paused.
+    f32 time = (*(f32*)(channel + 4) - 22.0f) / 0.6f;
+    f32 x = (sinf(time * 1.7f) + 0.35f * sinf(time * 2.71f + 0.4f)) / 1.35f;
+    f32 y = (sinf(time * 2.1f + 1.1f) + 0.3f * sinf(time * 1.31f + 0.8f)) / 1.3f;
+    f32* eye = (f32*)(camera + 0x210);
+    f32* target = (f32*)(camera + 0x228);
+    f32 right[3], up[3], back[3];
+    f32 distance = basis(eye, target, right, up, back);
+    f32 half_height = distance * tangent(*(f32*)(camera + 0x27C));
+    // Bound each axis to 2.5% NDC: at most eight horizontal / six vertical
+    // pixels in a 640x480 view, independent of orbit distance and zoom.
+    f32 horizontal = x * half_height * cameraAspect(camera) * 0.025f * weight;
+    f32 vertical = y * half_height * 0.025f * weight;
+    for (s32 i = 0; i < 3; i++) {
+        f32 offset = right[i] * horizontal + up[i] * vertical;
+        eye[i] += offset;
+        target[i] += offset;
+    }
+}
+
 void krushaRoarFrame(u8* actor, u8* camera, f32 angle, f32 height_weight, f32 weight) {
     f32* eye = (f32*)(camera + 0x210);
     f32* target = (f32*)(camera + 0x228);
@@ -116,10 +147,7 @@ void krushaRoarFrame(u8* actor, u8* camera, f32 angle, f32 height_weight, f32 we
     if (count) {
         basis(eye, target, right, up, back);
         project(count, eye, right, up, back, bounds);
-        f32 aspect_scale = *(f32*)0x80747CD0;
-        if (aspect_scale < 0.5f || aspect_scale > 2.0f) aspect_scale = 1.0f;
-        f32 aspect = *(f32*)(camera + 0x280) * aspect_scale;
-        if (aspect < 0.5f) aspect = 1.333333333f;
+        f32 aspect = cameraAspect(camera);
         f32 needed = absf(bounds[0]) > absf(bounds[2]) ? absf(bounds[0]) : absf(bounds[2]);
         needed /= aspect;
         if (absf(bounds[1]) > needed) needed = absf(bounds[1]);
@@ -137,4 +165,7 @@ void krushaRoarFrame(u8* actor, u8* camera, f32 angle, f32 height_weight, f32 we
             *fov = hi;
         }
     }
+    // Apply after centering/fitting so that the correction does not cancel
+    // the shake. The caller restores all native eye/aim values after drawing.
+    shoutShake(actor, camera, height_weight);
 }
