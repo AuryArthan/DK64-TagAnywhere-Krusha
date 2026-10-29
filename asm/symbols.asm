@@ -43,6 +43,9 @@
 .definelabel guLookAt, 0x80006C18
 .definelabel guOrthoF, 0x80006C90
 .definelabel guOrtho, 0x80006DE4
+.definelabel widescreenProject, 0x80626F8C
+.definelabel widescreenImage, 0x8068C5A8
+.definelabel widescreenAnimatedText, 0x806FE078
 .definelabel osAiSetNextBuffer, 0x80006E50
 .definelabel osAiGetLength, 0x80006F00
 .definelabel osPiStartDma, 0x80006F10

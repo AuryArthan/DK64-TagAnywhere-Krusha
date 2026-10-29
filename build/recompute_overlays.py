@@ -96,8 +96,11 @@ def replaceOverlayData(absolute_address : int, newCompressedData : bytearray):
             return
 
 def writeModifiedOverlaysToROM(fr : BinaryIO):
-    # TODO: Make sure they aren't too big
-    for x in overlays:
+    for index, x in enumerate(overlays):
+        end = overlays[index + 1]["codeROMAddress"] if index + 1 < len(overlays) else 0x101C50
+        size = len(x["codeCompressedData"]) + len(x["dataCompressedData"]) + 16
+        if x["codeROMAddress"] + size > end:
+            raise ValueError(f'{x["name"]} overlay ({size:#x} bytes) exceeds its ROM slot')
         fr.seek(x["codeROMAddress"])
         fr.write(x["codeCompressedData"])
         fr.write(bytes([0,0,0,0,0,0,0,0])) # gzip footer

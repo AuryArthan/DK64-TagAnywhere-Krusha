@@ -24,6 +24,7 @@ void cFuncLoop(void) {
 	// Note: Only enable this if you're playing on old versions of BizHawk, mupen64(plus) or PJ64
 	// *(u32 *)(0x8061963C) = 0x00000000;
 
+	widescreenTick();
 	krushaAdventure();
 	tagAnywhere();
 }

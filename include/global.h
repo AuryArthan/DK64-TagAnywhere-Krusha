@@ -9,4 +9,5 @@ extern s32 inBadMap(void);
 extern s32 inBadMovementState(void);
 extern void tagAnywhere(void);
 extern void krushaAdventure(void);
+extern void widescreenTick(void);
 extern s32 krushaEnabled(void);

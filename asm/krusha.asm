@@ -1,5 +1,53 @@
 ; Displaced prologues from the unmodified USA 1.0 executable. These
 ; trampolines preserve the original arguments and original return address.
+widescreenNativeOrtho:
+    ADDIU sp, sp, -0x68
+    MTC1 a1, f12
+    J 0x80006DEC
+    NOP
+
+widescreenNativeCounter:
+    ADDIU sp, sp, -0x78
+    SW s0, 0x1C(sp)
+    J 0x8068DC5C
+    NOP
+
+widescreenNativeLogo:
+    ADDIU sp, sp, -0xE8
+    SW s0, 0x20(sp)
+    J 0x80032934
+    NOP
+
+widescreenNativeQueue:
+    LUI a3, 0x8075
+    ADDIU a3, a3, 0x01E0
+    J 0x8068C358
+    NOP
+
+widescreenNativeSpriteRect:
+    LUI t2, 0x8075
+    LW t2, 0x50D0(t2)
+    J 0x8070F304
+    NOP
+
+widescreenNativeCameraMask:
+    ADDIU sp, sp, -0x40
+    MOVE v0, a0
+    J 0x806FF14C
+    NOP
+
+widescreenNativeSniperMask:
+    ADDIU sp, sp, -0x78
+    LUI t8, 0x8080
+    J 0x806FF764
+    NOP
+
+widescreenNativeShutterMask:
+    ADDIU sp, sp, -0x40
+    SW ra, 0x34(sp)
+    J 0x806FFB34
+    NOP
+
 vanillaBuildActorBones:
     ADDIU sp, sp, -0x18
     SW ra, 0x14(sp)
