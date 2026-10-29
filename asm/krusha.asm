@@ -1,5 +1,11 @@
 ; Displaced prologues from the unmodified USA 1.0 executable. These
 ; trampolines preserve the original arguments and original return address.
+vanillaBuildActorBones:
+    ADDIU sp, sp, -0x18
+    SW ra, 0x14(sp)
+    J 0x80614A6C
+    NOP
+
 vanillaSetAction:
     ANDI t8, a2, 0xFF
     LUI a3, 0x8080

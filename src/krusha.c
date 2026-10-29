@@ -15,6 +15,31 @@ extern void krushaRoarTick(void);
 extern u8 krushaRoarStart(void);
 extern void krushaHolsterModel(void* actor);
 extern void krushaDrawGunModel(void* actor);
+extern s32 vanillaBuildActorBones(void* actor);
+
+/* Enlarge the skeleton while its world matrices are built. Restore the root
+ * transform before native movement uses it, so the visible increase cannot
+ * change locomotion or stall the automatic walk out of a doorway. */
+s32 krushaBuildActorBones(void* actor_ptr) {
+    u8* actor = actor_ptr;
+    u32 type = *(u32*)(actor + 0x58);
+    s32 enlarge = (type == 7 && actor_ptr == Player) ||
+        (type == 316 && *(u16*)*(u8**)(actor + 0x174) == 7);
+    if (!enlarge || !krushaEnabled() || !DetectAdventure()) {
+        return vanillaBuildActorBones(actor_ptr);
+    }
+    f32* matrix = (f32*)(actor + 0xC);
+    f32 saved[3][3];
+    for (s32 i = 0; i < 3; i++) for (s32 j = 0; j < 3; j++) {
+        saved[i][j] = matrix[i * 4 + j];
+        matrix[i * 4 + j] *= 1.1f;
+    }
+    s32 result = vanillaBuildActorBones(actor_ptr);
+    for (s32 i = 0; i < 3; i++) for (s32 j = 0; j < 3; j++) {
+        matrix[i * 4 + j] = saved[i][j];
+    }
+    return result;
+}
 
 /* Global flag 0x24 is unused by the original game. Store the DISABLED state so
  * existing saves default to Krusha on without an extra initialization flag. */
@@ -126,6 +151,7 @@ void krushaAdventure(void) {
     static void* last_player = 0;
     static void* last_model = 0;
     if (!installed) {
+        hook(0x80614A64, krushaBuildActorBones);
         hook(0x806EB0C0, krushaSetAction);
         hook(0x806F6644, krushaModelPickupAllowed);
         hook(0x8063EA14, krushaScriptCondition);
