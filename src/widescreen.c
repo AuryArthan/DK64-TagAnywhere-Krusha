@@ -9,6 +9,11 @@ extern Gfx* widescreenNativeLogo(Gfx*);
 extern void widescreenNativeQueue(void*, void*, u8);
 extern Gfx* widescreenNativeCounter(Gfx*, s16, s16, s16*, s16, u8*);
 extern Gfx* widescreenNativeText(Gfx*, u8, s16, s16, char*);
+extern void widescreenNativePerspective(Mtx*, u16*, f32, f32, f32, f32, f32);
+extern Gfx* widescreenNativeHUDCounter(s32, void*, Gfx*);
+extern Gfx* widescreenNativeHUDGroup(s32, void*, Gfx*);
+extern void widescreenNativeHUDIcon(void*, s32);
+extern Gfx* widescreenNativeHealth(Gfx*, void*, void*, void*);
 extern s32 widescreenProject(f32, f32, f32, f32*, f32*, s32, f32, s32);
 extern Gfx* widescreenImage(Gfx*, u16, s32, s32, s32, s32, s16, s16, f32, f32, s32, f32);
 extern Gfx* widescreenAnimatedText(Gfx*, s16, s32, f32, f32, f32, f32);
@@ -18,6 +23,109 @@ static s32 rect_scope;
  * Keep screen-space groups together around the original screen centre. World
  * sprites use the perspective projection and never pass through this path. */
 static s32 active(void) { return *(volatile u8*)0x807444C0 != 0; }
+
+void widescreenPerspective(Mtx* matrix, u16* norm, f32 fov, f32 aspect,
+                          f32 near, f32 far, f32 scale) {
+    /* Native cutscenes remove widescreen correction. Use the full 16:9
+     * factor for instrument performances, preserving each native camera's
+     * animated aspect/FOV and the normal gameplay/cutscene paths. */
+    if (active() && DetectAdventure() && Player &&
+        *(u8*)0x807FC928 == 1 && ((u8*)Player)[0x154] == 103) {
+        f32 native_scale = *(f32*)0x80747CD0;
+        if (native_scale > 0.5f && native_scale < 2.0f)
+            aspect *= (4.0f / 3.0f) / native_scale;
+    }
+    widescreenNativePerspective(matrix, norm, fov, aspect, near, far, scale);
+}
+
+static s32 hudOffsets(s32 item, f32* x, f32* y) {
+    if (!active() || !DetectAdventure() || *(u8*)0x807FC928 != 1 ||
+        item < 0 || item >= 15 || !HUD) return 0;
+    *x = HUD[item].screen_x <= 80 ? -16.0f :
+        (HUD[item].screen_x >= 240 ? 16.0f : 0.0f);
+    *y = HUD[item].screen_y < 100 ? -4.0f :
+        (HUD[item].screen_y >= 180 ? 4.0f : 0.0f);
+    return 1;
+}
+
+static s32 hud_group_scope;
+
+Gfx* widescreenHUDCounter(s32 item, void* counter, Gfx* dl) {
+    f32 x, y;
+    if (hud_group_scope || !hudOffsets(item, &x, &y))
+        return widescreenNativeHUDCounter(item, counter, dl);
+    s32* position = *(s32**)((u8*)counter + 0x14);
+    s32 saved_x = position[0], saved_y = position[1];
+    position[0] += (s32)x; position[1] += (s32)y;
+    dl = widescreenNativeHUDCounter(item, counter, dl);
+    position[0] = saved_x; position[1] = saved_y;
+    return dl;
+}
+
+Gfx* widescreenHUDGroup(s32 item, void* counter, Gfx* dl) {
+    f32 x, y;
+    if (!hudOffsets(item, &x, &y))
+        return widescreenNativeHUDGroup(item, counter, dl);
+    /* This renderer derives all five GB icons from the same counter origin.
+     * Shift the group once so its numbers and icons stay together. */
+    s32* position = *(s32**)((u8*)counter + 0x14);
+    s32 saved_x = position[0], saved_y = position[1];
+    position[0] += (s32)x; position[1] += (s32)y;
+    hud_group_scope++;
+    dl = widescreenNativeHUDGroup(item, counter, dl);
+    hud_group_scope--;
+    position[0] = saved_x; position[1] = saved_y;
+    return dl;
+}
+
+void widescreenHUDIcon(void* sprite_ptr, s32 argument) {
+    if (!active() || !DetectAdventure() || !HUD || *(u8*)0x807FC928 != 1) {
+        widescreenNativeHUDIcon(sprite_ptr, argument);
+        return;
+    }
+    u8* sprite = sprite_ptr;
+    void* owner = *(void**)(sprite + 0x35C);
+    f32 x = 0, y = 0;
+    if (active() && DetectAdventure() && HUD && *(u8*)0x807FC928 == 1) {
+        for (s32 item = 0; item < 15; item++) {
+            u8* counter = HUD[item].counter_pointer;
+            for (s32 n = 0; counter && n < 128; n++) {
+                if ((void*)counter == owner) { hudOffsets(item, &x, &y); break; }
+                counter = *(u8**)(counter + 0x18);
+            }
+            if (counter && (void*)counter == owner) break;
+        }
+    }
+    f32* position = (f32*)(sprite + 0x340);
+    f32 saved_x = position[0], saved_y = position[1];
+    /* Sprite matrices use quarter-pixel origins; counter origins use pixels. */
+    position[0] += x * 4.0f; position[1] += y * 4.0f;
+    widescreenNativeHUDIcon(sprite, argument);
+    position[0] = saved_x; position[1] = saved_y;
+}
+
+Gfx* widescreenHealth(Gfx* dl, void* progress, void* kong, void* camera) {
+    static Mtx projection[2] __attribute__((aligned(16)));
+    Gfx* first = dl;
+    dl = widescreenNativeHealth(dl, progress, kong, camera);
+    if (!active() || !DetectAdventure() || *(u8*)0x807FC928 != 1) return dl;
+    Mtx* matrix = &projection[*(u8*)0x807444FC & 1];
+    s32 replaced = 0;
+    for (Gfx* cmd = first; cmd < dl; cmd++) {
+        if (cmd->words.w0 == 0xDA380007 && cmd->words.w1 == 0x020000C0) {
+            f32 m[4][4];
+            guMtxL2F(m, (Mtx*)(*(u8**)0x8076A048 + 0xC0));
+            m[3][1] -= 16.0f * m[1][1]; // Four pixels up, in quarter-pixel units.
+            guMtxF2L(m, matrix);
+            cmd->words.w1 = (u32)matrix & 0x1FFFFFFF;
+            replaced = 1;
+        }
+    }
+    if (replaced) {
+        dl->words.w0 = 0xDA380007; dl->words.w1 = 0x020000C0; dl++;
+    }
+    return dl;
+}
 
 void widescreenOrtho(Mtx* matrix, f32 left, f32 right, f32 bottom, f32 top,
                      f32 near, f32 far, f32 scale) {
@@ -221,6 +329,11 @@ void widescreenTick(void) {
         install(0x8068C350, widescreenQueue);
         install(0x8068DC54, widescreenCounter);
         install(0x806FD490, widescreenText);
+        install(0x80006050, widescreenPerspective);
+        install(0x806F9D8C, widescreenHUDCounter);
+        install(0x806FA1A4, widescreenHUDGroup);
+        install(0x8071BE04, widescreenHUDIcon);
+        install(0x807085D0, widescreenHealth);
         installed = 1;
     }
 }

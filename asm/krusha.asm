@@ -6,6 +6,36 @@ widescreenNativeOrtho:
     J 0x80006DEC
     NOP
 
+widescreenNativePerspective:
+    ADDIU sp, sp, -0x68
+    MTC1 a2, f12
+    J 0x80006058
+    NOP
+
+widescreenNativeHUDCounter:
+    ADDIU sp, sp, -0x78
+    SW ra, 0x24(sp)
+    J 0x806F9D94
+    NOP
+
+widescreenNativeHUDGroup:
+    ADDIU sp, sp, -0x90
+    SW a0, 0x90(sp)
+    J 0x806FA1AC
+    NOP
+
+widescreenNativeHUDIcon:
+    ADDIU sp, sp, -0xB0
+    SW ra, 0x1C(sp)
+    J 0x8071BE0C
+    NOP
+
+widescreenNativeHealth:
+    ADDIU sp, sp, -0x100
+    SW ra, 0x8C(sp)
+    J 0x807085D8
+    NOP
+
 widescreenNativeCounter:
     ADDIU sp, sp, -0x78
     SW s0, 0x1C(sp)

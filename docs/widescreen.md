@@ -81,3 +81,34 @@ the approved ROM at 4:3; this caught and verifies the separate score-text path.
 
 This is focused integration coverage, not a full campaign or every multiplayer
 layout. Rare bespoke renderers may need individual follow-up adjustments.
+
+## Instrument scenes and HUD edge placement
+
+Instrument action 103 now receives the complete 4/3 perspective-aspect multiplier
+when native Widescreen is enabled in single-player adventure. The original camera
+code uses only 1.2 during ordinary gameplay and drops to 1.0 for the five native
+instrument cutscenes. Live before-change measurements confirmed those values for
+all five Kongs; Krusha's custom performance retained 1.2. The `guPerspective`
+wrapper divides out that native multiplier and applies 4/3 for the performance.
+It preserves the native camera's animated aspect, vertical FOV, eye/aim, near/far
+planes and perspective normalization. Other actions, cutscenes and Standard mode
+keep their existing perspective inputs.
+
+The normal adventure HUD moves outward by 16 native horizontal units, with
+upper/lower items moving 4 units toward the corresponding vertical edge. At an
+854×480 stretched display this is approximately 32 horizontal and 8 vertical
+pixels. Icon and number origins shift together. The five-Kong golden-banana
+counter is treated as one group, including its separately generated icons.
+Native counter/sprite positions are restored immediately after their rendering
+matrices are built, so there is no drift or saved-layout mutation. Health melons
+use a separate double-buffered projection shifted four pixels upward, followed
+by an explicit restoration of the ordinary projection. Menu, pause inventory,
+barrel, camera masks, aiming reticles and bonus-game layouts retain their
+existing positions.
+
+`tools/widescreen-layout-test.py` cold-boots each screen mode, operates the
+native option, checks all six instrument performances and camera recovery, and
+captures HUD origins and actual sprite matrices. A copy of the previous ROM is
+used for the independent Standard-mode HUD comparison; states stay with their
+own ROM. Inspection captures and focused reports are in
+`runtime/krusha/layout-review/`.
