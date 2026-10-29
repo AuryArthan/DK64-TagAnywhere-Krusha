@@ -14,6 +14,9 @@ extern Gfx* widescreenNativeHUDCounter(s32, void*, Gfx*);
 extern Gfx* widescreenNativeHUDGroup(s32, void*, Gfx*);
 extern void widescreenNativeHUDIcon(void*, s32);
 extern Gfx* widescreenNativeHealth(Gfx*, void*, void*, void*);
+extern void widescreenNativePauseSprite(void*, void*, s32, s32, f32, u8, s32);
+extern void widescreenNativePauseCounter(void*, s16, s16, s16, s16, s32, s32, s32);
+extern Gfx* widescreenNativePauseFraction(s16, s16, s16, s16, Gfx*, s8, f32);
 extern s32 widescreenProject(f32, f32, f32, f32*, f32*, s32, f32, s32);
 extern Gfx* widescreenImage(Gfx*, u16, s32, s32, s32, s32, s16, s16, f32, f32, s32, f32);
 extern Gfx* widescreenAnimatedText(Gfx*, s16, s32, f32, f32, f32, f32);
@@ -24,7 +27,53 @@ static s32 rect_scope;
  * sprites use the perspective projection and never pass through this path. */
 static s32 active(void) { return *(volatile u8*)0x807444C0 != 0; }
 
-enum { HUD_EDGE_X = 32, HUD_EDGE_Y = 6 };
+enum { HUD_EDGE_X = 32, HUD_EDGE_Y = 6, PAUSE_TOP_Y = 4, PAUSE_BOTTOM_Y = 2 };
+
+/* Pause icons do not use the gameplay HUD list. Move their anchor and the
+ * matching number's anchor together, before native entry/tab animation is
+ * calculated. Keep central portraits, totals and menu controls centered. */
+static void pauseOffsets(s32* x, s32* y) {
+    if (*x <= 80) *x -= HUD_EDGE_X;
+    else if (*x >= 240) *x += HUD_EDGE_X;
+    /* The larger pause banana/health artwork needs two more native pixels
+     * of clearance from the game's top overscan border than the gameplay HUD. */
+    if (*y < 60) *y -= PAUSE_TOP_Y;
+    else if (*y >= 180) *y += PAUSE_BOTTOM_Y;
+}
+
+void widescreenPauseSprite(void* menu, void* sprite, s32 x, s32 y,
+                           f32 scale, u8 layer, s32 mode) {
+    /* Modes 3/14 use x for a medal row; 5/8 use an orbit angle; 10 uses
+     * a Kong/GB index. They are central animated compositions, not anchors.
+     * Modes 11/12 are arrows positioned around the centered level title. */
+    if (active() && (mode == 1 || mode == 2 || mode == 4 || mode == 6 ||
+                     mode == 7 || mode == 9 || mode == 13))
+        pauseOffsets(&x, &y);
+    widescreenNativePauseSprite(menu, sprite, x, y, scale, layer, mode);
+}
+
+void widescreenPauseCounter(void* menu, s16 x, s16 y, s16 dx, s16 dy,
+                            s32 value, s32 style, s32 flags) {
+    s32 px = x, py = y;
+    if (active()) pauseOffsets(&px, &py);
+    widescreenNativePauseCounter(menu, px, py, dx, dy, value, style, flags);
+}
+
+Gfx* widescreenPauseFraction(s16 x, s16 y, s16 value, s16 total,
+                             Gfx* dl, s8 align, f32 scale) {
+    /* The lower GB and overall totals bypass the counter constructor. These
+     * use quarter-pixel coordinates and must follow the lower icon row. */
+    if (active()) y += PAUSE_BOTTOM_Y * 4;
+    return widescreenNativePauseFraction(x, y, value, total, dl, align, scale);
+}
+
+Gfx* widescreenPauseMelon(Gfx* dl, u16 image, s32 a, s32 b, s32 width,
+                          s32 height, s16 x, s16 y, f32 sx, f32 sy,
+                          s32 rotation, f32 extra) {
+    if (active()) y -= PAUSE_TOP_Y * 4;
+    return widescreenImage(dl, image, a, b, width, height, x, y, sx, sy,
+                           rotation, extra);
+}
 
 void widescreenPerspective(Mtx* matrix, u16* norm, f32 fov, f32 aspect,
                           f32 near, f32 far, f32 scale) {
@@ -321,6 +370,12 @@ static void install(u32 address, void* function) {
     osInvalICache((void*)address, 8);
 }
 
+static void installCall(u32 address, void* function) {
+    *(volatile u32*)address = 0x0C000000 | (((u32)function & 0x0FFFFFFF) >> 2);
+    osWritebackDCache((void*)address, 4);
+    osInvalICache((void*)address, 4);
+}
+
 void widescreenTick(void) {
     static s32 installed;
     if (!installed) {
@@ -337,6 +392,12 @@ void widescreenTick(void) {
         install(0x806FA1A4, widescreenHUDGroup);
         install(0x8071BE04, widescreenHUDIcon);
         install(0x807085D0, widescreenHealth);
+        install(0x806AB4EC, widescreenPauseSprite);
+        install(0x806AB808, widescreenPauseCounter);
+        install(0x806AA09C, widescreenPauseFraction);
+        /* Only the two pause-melon image callsites; leave other images alone. */
+        installCall(0x806A96FC, widescreenPauseMelon);
+        installCall(0x806A9790, widescreenPauseMelon);
         installed = 1;
     }
 }

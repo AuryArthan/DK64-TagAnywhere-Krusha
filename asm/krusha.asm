@@ -36,6 +36,24 @@ widescreenNativeHealth:
     J 0x807085D8
     NOP
 
+widescreenNativePauseSprite:
+    ADDIU sp, sp, -0x48
+    SW ra, 0x1C(sp)
+    J 0x806AB4F4
+    NOP
+
+widescreenNativePauseCounter:
+    ADDIU sp, sp, -0x58
+    LW t6, 0x74(sp)
+    J 0x806AB810
+    NOP
+
+widescreenNativePauseFraction:
+    ADDIU sp, sp, -0xF0
+    SW ra, 0x3C(sp)
+    J 0x806AA0A4
+    NOP
+
 widescreenNativeCounter:
     ADDIU sp, sp, -0x78
     SW s0, 0x1C(sp)

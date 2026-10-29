@@ -102,9 +102,36 @@ counter is treated as one group, including its separately generated icons.
 Native counter/sprite positions are restored immediately after their rendering
 matrices are built, so there is no drift or saved-layout mutation. Health melons
 use a separate double-buffered projection shifted six pixels upward, followed
-by an explicit restoration of the ordinary projection. Menu, pause inventory,
+by an explicit restoration of the ordinary projection. Menu,
 camera masks, aiming reticles and bonus-game layouts retain their
 existing positions.
+
+Pause inventory uses separate constructors at `806AB4EC` (sprites) and
+`806AB808` (numbers). In Widescreen, peripheral anchors receive the same 32-unit
+horizontal margin change; upper rows move 4 units upward and lower rows move
+2 units downward. Larger artwork and three-digit totals retain clearance from
+the overscan border. Both
+constructors receive matching anchors before native radial entry and vertical
+page-slide animations are calculated. This includes coins, ammo, oranges,
+crystals, film, instruments, colored bananas, side medals/blueprints and their
+tick overlays, fairies, lower GB icons and Z/R page buttons. Central portraits,
+medal/Kong rings, titles and their arrows retain their composition. Sprite
+modes whose arguments are orbit angles or Kong indices are explicitly excluded
+from coordinate adjustments. Their artwork still uses the corrected projection.
+
+The pause health display bypasses those constructors: its two melon image
+calls at `806A96FC` and `806A9790` move upward by 16 quarter-pixel units. The
+lower fraction renderer at `806AA09C` follows lower icons downward by 8
+quarter-pixel units. Original image sizes, glyph spacing and scales are preserved. All
+pause adjustments are gated by the native Widescreen option; Standard passes
+the native arguments through unchanged.
+
+`tools/widescreen-pause-test.py` navigates every page in both modes, including
+level and Kong changes and Krusha pause/resume. Logged, temporary inventory
+counts and selected collected/visited flags expose conditional artwork; tests
+restore clean states without saving those fixtures. Before/after native sprite
+anchors and paired counters are compared by `widescreen-pause-compare.py`.
+Captures and reports are in `runtime/krusha/pause-review/`.
 
 `tools/widescreen-layout-test.py` cold-boots each screen mode, operates the
 native option, checks all six instrument performances and camera recovery, and
