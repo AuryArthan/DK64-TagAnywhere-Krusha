@@ -68,7 +68,7 @@ ON/OFF/ON toggles test all three UI projections and the full-width framebuffer
 projection. Captures use the emulator's actual output resolution, including
 854×480 with display stretching enabled.
 
-The final pass exercises gunfire/ammunition, oranges, pause/resume, fairy-camera
+The initial widescreen pass exercises gunfire/ammunition, oranges, pause/resume, fairy-camera
 entry/photo/shutter/exit, the Krusha shout, six-slot barrel selection, pickup HUD,
 and all three shop visits/exits. Extended captures cover Arcade, Jetpac, Kremling
 Kosh, active Searchlight Seek and the Factory car-race minimap. The native Krusha
@@ -84,26 +84,26 @@ layout. Rare bespoke renderers may need individual follow-up adjustments.
 
 ## Instrument scenes and HUD edge placement
 
-Instrument action 103 now receives the complete 4/3 perspective-aspect multiplier
+Instrument action 103 and tag-barrel action 66 receive the complete 4/3 perspective-aspect multiplier
 when native Widescreen is enabled in single-player adventure. The original camera
 code uses only 1.2 during ordinary gameplay and drops to 1.0 for the five native
 instrument cutscenes. Live before-change measurements confirmed those values for
 all five Kongs; Krusha's custom performance retained 1.2. The `guPerspective`
-wrapper divides out that native multiplier and applies 4/3 for the performance.
+wrapper divides out that native multiplier and applies 4/3 throughout either presentation.
 It preserves the native camera's animated aspect, vertical FOV, eye/aim, near/far
 planes and perspective normalization. Other actions, cutscenes and Standard mode
 keep their existing perspective inputs.
 
-The normal adventure HUD moves outward by 16 native horizontal units, with
-upper/lower items moving 4 units toward the corresponding vertical edge. At an
-854×480 stretched display this is approximately 32 horizontal and 8 vertical
+The normal adventure HUD moves outward by 32 native horizontal units, with
+upper/lower items moving 6 units toward the corresponding vertical edge. At an
+854×480 stretched display this is approximately 64 horizontal and 12 vertical
 pixels. Icon and number origins shift together. The five-Kong golden-banana
 counter is treated as one group, including its separately generated icons.
 Native counter/sprite positions are restored immediately after their rendering
 matrices are built, so there is no drift or saved-layout mutation. Health melons
-use a separate double-buffered projection shifted four pixels upward, followed
+use a separate double-buffered projection shifted six pixels upward, followed
 by an explicit restoration of the ordinary projection. Menu, pause inventory,
-barrel, camera masks, aiming reticles and bonus-game layouts retain their
+camera masks, aiming reticles and bonus-game layouts retain their
 existing positions.
 
 `tools/widescreen-layout-test.py` cold-boots each screen mode, operates the
@@ -112,3 +112,25 @@ captures HUD origins and actual sprite matrices. A copy of the previous ROM is
 used for the independent Standard-mode HUD comparison; states stay with their
 own ROM. Inspection captures and focused reports are in
 `runtime/krusha/layout-review/`.
+
+## Tag-barrel entry consistency
+
+A frame trace of the preceding build confirmed that native barrel entry first
+sets the widescreen multiplier to 1.0 for its cutscene, then restores 1.2.
+That changes the preview's width while the selector opens. The perspective
+wrapper now also covers action 66, holding the same full 16:9 correction during
+entry, selection and exit; ordinary gameplay resumes its existing projection.
+The native camera, spotlight, wipe and actor animations keep their timing.
+
+`tools/widescreen-barrel-transition-test.py` records entry matrices and captures
+initial preview frames through the end of the entry cutscene, both as DK and
+Krusha, in Standard and Widescreen. A further case re-enters after an actual
+exit without loading a state. Standard remains at its native multiplier and
+Widescreen stays at 4/3 throughout the visible selector transition.
+
+The stronger HUD offsets add roughly 32 horizontal and four vertical display
+pixels to the preceding build's offsets. A live pickup test covers left-side
+icons beyond a negative unprojected X origin. Native enemy damage exercises
+the health bar's separate projection. Pixel comparisons check unchanged
+Standard placement and the additional Widescreen movement. Latest captures,
+frame traces and reports are in `runtime/krusha/barrel-edge-review/`.

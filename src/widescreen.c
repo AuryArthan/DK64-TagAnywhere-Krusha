@@ -24,13 +24,16 @@ static s32 rect_scope;
  * sprites use the perspective projection and never pass through this path. */
 static s32 active(void) { return *(volatile u8*)0x807444C0 != 0; }
 
+enum { HUD_EDGE_X = 32, HUD_EDGE_Y = 6 };
+
 void widescreenPerspective(Mtx* matrix, u16* norm, f32 fov, f32 aspect,
                           f32 near, f32 far, f32 scale) {
-    /* Native cutscenes remove widescreen correction. Use the full 16:9
-     * factor for instrument performances, preserving each native camera's
-     * animated aspect/FOV and the normal gameplay/cutscene paths. */
+    /* Native cutscenes remove widescreen correction. Keep the full 16:9
+     * factor throughout instruments and tag-barrel entry/selection/exit,
+     * including the entry cutscene and its gradual aspect restoration. */
     if (active() && DetectAdventure() && Player &&
-        *(u8*)0x807FC928 == 1 && ((u8*)Player)[0x154] == 103) {
+        *(u8*)0x807FC928 == 1 &&
+        (((u8*)Player)[0x154] == 103 || ((u8*)Player)[0x154] == 66)) {
         f32 native_scale = *(f32*)0x80747CD0;
         if (native_scale > 0.5f && native_scale < 2.0f)
             aspect *= (4.0f / 3.0f) / native_scale;
@@ -41,10 +44,10 @@ void widescreenPerspective(Mtx* matrix, u16* norm, f32 fov, f32 aspect,
 static s32 hudOffsets(s32 item, f32* x, f32* y) {
     if (!active() || !DetectAdventure() || *(u8*)0x807FC928 != 1 ||
         item < 0 || item >= 15 || !HUD) return 0;
-    *x = HUD[item].screen_x <= 80 ? -16.0f :
-        (HUD[item].screen_x >= 240 ? 16.0f : 0.0f);
-    *y = HUD[item].screen_y < 100 ? -4.0f :
-        (HUD[item].screen_y >= 180 ? 4.0f : 0.0f);
+    *x = HUD[item].screen_x <= 80 ? -HUD_EDGE_X :
+        (HUD[item].screen_x >= 240 ? HUD_EDGE_X : 0);
+    *y = HUD[item].screen_y < 100 ? -HUD_EDGE_Y :
+        (HUD[item].screen_y >= 180 ? HUD_EDGE_Y : 0);
     return 1;
 }
 
@@ -115,7 +118,7 @@ Gfx* widescreenHealth(Gfx* dl, void* progress, void* kong, void* camera) {
         if (cmd->words.w0 == 0xDA380007 && cmd->words.w1 == 0x020000C0) {
             f32 m[4][4];
             guMtxL2F(m, (Mtx*)(*(u8**)0x8076A048 + 0xC0));
-            m[3][1] -= 16.0f * m[1][1]; // Four pixels up, in quarter-pixel units.
+            m[3][1] -= (HUD_EDGE_Y * 4.0f) * m[1][1];
             guMtxF2L(m, matrix);
             cmd->words.w1 = (u32)matrix & 0x1FFFFFFF;
             replaced = 1;
