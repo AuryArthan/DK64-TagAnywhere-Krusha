@@ -273,7 +273,27 @@ void tagDenied() {
 	}
 }
 
+/* A tag frees and recreates the skeleton before this tick's player controls.
+ * A tree/vine grab in those controls would read unbuilt bone matrices and can
+ * attach the player at the map origin. Use the native regrab cooldown for this
+ * one control tick; the ordinary actor update then builds the new skeleton.
+ * Preserve longer cooldowns (for example after jumping off a climbable). */
+static void tagFinish(void) {
+    ((void (*)(void))0x806EDFF8)();
+    if (DetectAdventure() && Player && *(void**)0x807FBB48 == Player) {
+        u8* data = *(u8**)((u8*)Player + 0x174);
+        if (data && *(s32*)(data + 0x100) == 0) *(s32*)(data + 0x100) = 1;
+    }
+}
+
 void tagAnywhere(void) {
+    static s32 installed;
+    if (!installed) {
+        /* Action 0x3B is the native character swap, not a frame/input guess. */
+        *(void (**)(void))0x80752D5C = tagFinish;
+        osWritebackDCache((void*)0x80752D5C, 4);
+        installed = 1;
+    }
 	s32 _dest_character;
 	s32 tagDirection;
 	s32 last_character = DetectAdventure() && krushaEnabled() ? 5 : 4;

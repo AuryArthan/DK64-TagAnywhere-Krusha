@@ -58,6 +58,9 @@ We have put significant time and effort into ensuring that you can not tag in si
   - [x] Single golden banana animation when turning in multiple blueprints
 - [x] Faster Troff 'n' Scoff feeding
 
+The Krusha branch fixes the inherited tree-tag origin warp; see
+[the implementation and regression notes](docs/tree-tag-fix.md).
+
 ## Known Issues
 - Save is broken on older EverDrives
   - Nothing I can do about this unfortunately
@@ -73,8 +76,6 @@ We have put significant time and effort into ensuring that you can not tag in si
   - Use these gameshark codes to fix bone displacement:
     - 8161963C 0000
     - 8161963E 0000
-- Tagging immediately before hitting a tree causes you to warp to the map origin
-  - Haven't thought of a good way to fix this yet
 - 101% runners should enter Arcade from the mystery menu and hit "delete highscores"
   - This fills the high score table with 999950 and skips entering initials during the run
   - Probably only needs to be done once
