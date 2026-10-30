@@ -35,6 +35,22 @@ extern void krushaInitCharacterMesh(void*, u16);
 extern void krushaNativeActorDelete(void*);
 extern f32 krushaSin(s16);
 extern f32 krushaCos(s16);
+extern void* vanillaBarrelFile(s32 table, s32 index, u8 synchronous, u8 unique);
+
+/* Table 27 is a dedicated uncompressed asset table. Native file allocation,
+ * DMA, ownership and cleanup still handle every file. The original table-5
+ * barrel and all five original faces remain byte-for-byte available when OFF.
+ * Reserved texture IDs are referenced only by the six-face barrel model. */
+void* krushaBarrelFile(s32 table, s32 index, u8 synchronous, u8 unique) {
+    if (table == 5 && index == 0xC0 && krushaEnabled()) {
+        table = 27;
+        index = 0;
+    } else if (table == 25 && (index == 7001 || index == 7002)) {
+        table = 27;
+        index -= 7000;
+    }
+    return vanillaBarrelFile(table, index, synchronous, unique);
+}
 
 static void patch(u32 address, u32 word) {
     *(volatile u32*)address = word;
@@ -151,6 +167,7 @@ char* krushaBarrelName(BarrelData* data, s32 index) {
 }
 
 void krushaBarrelInstall(void) {
+    jump(0x8066B0F8, krushaBarrelFile);
     jump(0x80682E38, krushaBarrelSpawn);
     jump(0x80682AB4, krushaBarrelLayout);
     jump(0x806836D0, krushaBarrelControl);

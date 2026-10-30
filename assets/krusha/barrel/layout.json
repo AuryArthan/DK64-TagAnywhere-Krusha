@@ -1,0 +1,37 @@
+{
+  "scale": 1.15,
+  "facet_count": 12,
+  "portrait_height": 156,
+  "native_portrait_height": 156,
+  "portrait_middle_chord": 138,
+  "native_middle_chord": 141.06846055019355,
+  "order": [
+    "dk",
+    "diddy",
+    "lanky",
+    "tiny",
+    "chunky",
+    "krusha"
+  ],
+  "centres_degrees": {
+    "dk": 0,
+    "diddy": 60,
+    "lanky": 120,
+    "tiny": 180,
+    "chunky": 240,
+    "krusha": 300
+  },
+  "vertices": 216,
+  "display_list_start": 3496,
+  "display_list_end": 5848,
+  "face_sha256": "8397cebf54dbb291835c2a188177a2723c8839b0b4ea32516760a63d7a2e5daa",
+  "model_sha256": "c977ca11d17df38378457d84ffcfff0236ef16e401e6a27d8f059ef599e70cb9",
+  "custom_table": 27,
+  "custom_rom": "0x2080000",
+  "texture_ids": [
+    7001,
+    7002
+  ],
+  "alpha_threshold": 128,
+  "model_bytes": 6012
+}

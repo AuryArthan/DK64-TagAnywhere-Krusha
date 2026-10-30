@@ -47,6 +47,9 @@ from recompute_overlays import isROMAddressOverlay, readOverlayOriginalData, rep
 from staticcode import patchStaticCode
 from mainmenu import patchMainMenu, patchDolbyText
 from krusha import patchKrushaShop
+from barrel_assets import prepareBarrelAssets, appendBarrelAssets
+
+prepareBarrelAssets(ROMName)
 
 ROMName = "./rom/dk64.z64"
 newROMName = os.environ.get("DK64_BUILD_ROM", "./rom/dk64-krusha-dev.z64")
@@ -80,7 +83,7 @@ file_dict = [
 		"name": "Nintendo Logo",
 		"pointer_table_index": 14,
 		"file_index": 94,
-		"source_file": "bin/Nintendo.png",
+		"source_file": "bin/Nintendo_Krusha.png",
 		#"source_file": "bin/Nintendo_TJ.png",
 		#"source_file": "bin/Nintendo_Adam.png",
 		"texture_format": "rgba5551",
@@ -397,6 +400,7 @@ if os.path.getsize(newROMName) > 64 * 1024 * 1024:
 	raise SystemExit("Unexpected ROM size; check assembler ROM/RDRAM address mappings")
 
 # Embed the supplied recording after all game pointer tables and resident code.
+appendBarrelAssets(newROMName)
 from scream_asset import appendScream
 appendScream(newROMName)
 

@@ -144,6 +144,12 @@ vanillaBarrelEligibility:
     J 0x8068077C
     NOP
 
+vanillaBarrelFile:
+    ADDIU sp, sp, -0x58
+    SW ra, 0x2C(sp)
+    J 0x8066B100
+    NOP
+
 vanillaBarrelSpawn:
     ADDIU sp, sp, -0x40
     SW s7, 0x34(sp)
