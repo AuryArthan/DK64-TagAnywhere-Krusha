@@ -264,6 +264,7 @@
 .definelabel krushaPlayActorAnimation, 0x80614EBC
 .definelabel krushaPlayRawAnimation, 0x80613CA8
 .definelabel krushaAnimationSpeed, 0x80614D48
+.definelabel krushaActorAnimationSpeed, 0x80614D00
 .definelabel krushaNativeInstrumentControl, 0x806D9940
 .definelabel krushaInstrumentBlocked, 0x806E5488
 .definelabel krushaInstrumentActorBlocked, 0x806E527C

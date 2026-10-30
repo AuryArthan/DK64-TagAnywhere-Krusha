@@ -7,6 +7,7 @@ extern s32 krushaInstrumentActorBlocked(void);
 extern void krushaPlayActorAnimation(void*, s32);
 extern void krushaPlayRawAnimation(void*, s16, f32, f32);
 extern void krushaAnimationSpeed(void*, f32, f32);
+extern void krushaActorAnimationSpeed(void*, f32, f32);
 extern void krushaHolsterModel(void*);
 extern void krushaChangeCollectable(s32, u8, s16);
 extern void krushaShowHUD(s32, u8, s32);
@@ -20,6 +21,7 @@ u32 krushaRoarCost = 150;
 
 #define ROAR_START_FRAME (110.0f / 5.0f)
 #define ROAR_SPEED 1.2f
+#define ROAR_ACTOR_SPEED 0.5f
 #define ROAR_MAX_DURATION 240 // Failsafe; normal completion follows the clip.
 #define INSTRUMENT_SCENE_MASK 0x10030
 #define INSTRUMENT_PERFORMER 0x40000000
@@ -80,6 +82,11 @@ u8 krushaRoarStart(void) {
     krushaPlayActorAnimation(Player, 0); // Stop scripts, including gameplay effects.
     krushaPlayRawAnimation(Player, 0x2AA, ROAR_START_FRAME, 0.0f);
     krushaAnimationSpeed(Player, ROAR_SPEED, 0.0f);
+    /* Entering crouch ramps actor speed up to 4 before settling at 0.5. The
+     * instrument input can interrupt its script before it settles. Set the
+     * accepted settled-crouch time scale and cancel its pending interpolation,
+     * independently of the raw channel's 1.2 speed. */
+    krushaActorAnimationSpeed(Player, ROAR_ACTOR_SPEED, 0.0f);
     u8* animation = *(u8**)((u8*)Player + 4);
     u8* channel = *(u8**)animation;
     *(f32*)(channel + 0x14) = ROAR_START_FRAME; // Never wrap into the cut wind-up.

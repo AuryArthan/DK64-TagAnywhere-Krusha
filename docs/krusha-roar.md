@@ -473,3 +473,25 @@ both axes and a smaller vibration amplitude during recovery, and keep the
 centering/on-screen checks across Isles, Japes and a rotated/different-distance
 camera. Normal camera restoration is also checked after pause, map transition
 and native DK instruments.
+
+## Consistent timing after quick crouch input
+
+A v0.3 controller trace reproduced the intermittent accelerated performance:
+pressing C-Up one to three game ticks after Z could finish clip 2AA in 19 ticks
+instead of the normal 146. The crouch entry script ramps the actor-wide playback
+scale toward 4 before settling at 0.5. Starting the shout stops that script, so
+the early multiplier and its pending interpolation could survive for the entire
+performance. The sound is independently clocked and kept its normal duration.
+
+Shout startup now also calls native actor-rate setter `80614D00` with 0.5 and
+zero blend duration. This cancels the inherited interpolation. The existing raw
+channel rate stays at 1.2, giving the accepted 0.6 skeletal frames per game tick
+from frame 22 through 109. Completion, sound playback, crystal cost, camera
+sequence and other actors' animations retain their existing behavior.
+
+`tools/krusha-roar-timing-test.py` compares settled and quick crouch inputs after
+idle/running, traces every skeletal update in both screen modes, and checks
+repeated casts, normal recovery and native enemy effects. It uses controller
+input and position fixtures, without writing animation rates or control states.
+Reference and corrected traces are in `runtime/krusha/roar-timing-review/`. The
+annotated v0.3 checkpoint remains the unchanged before-fix reference.
