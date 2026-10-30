@@ -21,20 +21,11 @@ SCALE = 1.15
 
 
 def prepare_startup_logo():
-    """Native asset composition: retain the existing five silhouettes/colours."""
-    original = Image.open(ROOT/'bin/Nintendo.png').convert('RGBA')
-    assert original.size == (192,48)
-    # Preserve all original pixels, including antialiased edges and spacing.
-    # Width is a multiple of four for the native unrolled framebuffer copy.
-    result = Image.new('RGBA',(236,48),(0,0,0,255))
-    result.paste(original,(0,0))
-    face = Image.open(ASSETS/'krusha-face-source.png').convert('RGBA')
-    mask = face.getchannel('A').point(lambda a:255 if a>=128 else 0)
-    mask = mask.crop(mask.getbbox()).resize((37,37),Image.Resampling.LANCZOS)
-    gray = Image.new('RGBA',(37,37),(173,173,173,255))
-    result.paste(gray,(192,5),mask)
-    assert result.crop((0,0,192,48)).tobytes() == original.tobytes()
-    result.save(ROOT/'bin/Nintendo_Krusha.png')
+    """Keep the user's final adjusted startup PNG unchanged across builds."""
+    with Image.open(ROOT/'bin/Nintendo_Krusha.png') as logo:
+        width, height = logo.size
+        assert (width, height) == (232, 48)
+        assert width % 4 == 0  # Native four-pixel framebuffer copy loop.
 
 
 def read_file(rom, table, index):
