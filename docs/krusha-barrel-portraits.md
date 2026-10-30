@@ -27,12 +27,14 @@ Using its native allocation and reference tracking avoids private heap ownership
 or per-frame model rebuilding. The original model and geometry textures remain
 byte-identical in their original tables.
 
-The startup graphic is a separate new `bin/Nintendo_Krusha.png`: original Kong
-colors and a light-gray Krusha silhouette from the approved full-size portrait.
-The user example's gray is #ADADAD. Repacking the gaps and taking one pixel from
-each old head's width fits all six inside the native 192×48 texture, so no logo
-renderer dimensions or widescreen code changes are needed. The original
-`bin/Nintendo.png` remains available unchanged.
+The startup graphic `bin/Nintendo_Krusha.png` extends the original strip to
+236×48. The entire original 192×48 is copied without changing a single source
+pixel, preserving head shapes, spacing and colors. Krusha's approved silhouette
+is appended at (192,5) in #ADADAD at 37×37, giving almost the same filled area as
+Chunky. The native CPU framebuffer copy has three guarded instruction changes
+for width, integer centered position (42,96), and row stride. One source texel
+still maps to exactly one native 320×240 framebuffer pixel; no sampling or scale
+is introduced. Widescreen code and the approved barrel assets are unchanged.
 
 Validation tools in the workspace:
 
@@ -47,3 +49,9 @@ Validation tools in the workspace:
 
 Inspection screenshots, exact-ROM reports and the approved native-format preview
 are packaged in `runtime/krusha/barrel-portrait-review/` at workspace level.
+
+The startup revision is checked separately with
+`tools/krusha-startup-logo-test.py`: cold boots at 320×240 and 640×480 compare all
+11,328 source texels against the CPU-written framebuffer, followed by normal
+menu/adventure entry and Krusha barrel selection. Its evidence is in
+`runtime/krusha/startup-logo-review/`; earlier barrel reports remain intact.

@@ -8,6 +8,25 @@ def patchStaticCode(filename):
 		fh.seek(0x806E98A0 - 0x805FB300)
 		fh.write(bytes.fromhex("2b210006"))
 
+		# Startup image: CPU copy into the native 320x240 framebuffer.
+		# Keep 1 source texel = 1 framebuffer pixel; extend, do not rescale.
+		# The four-pixel unrolled loop requires a width divisible by four.
+		from PIL import Image
+		with Image.open("bin/Nintendo_Krusha.png") as logo:
+			width, height = logo.size
+		assert height == 48 and width % 4 == 0 and width <= 320
+		left, top = (320-width)//2, (240-height)//2
+		patches = [
+			(0x805FB8A8, 0x3401F080, 0x34010000 | ((top*320+left)*2)),
+			(0x805FB8B8, 0x240500C0, 0x24050000 | width),
+			(0x805FB900, 0x24630100, 0x24630000 | ((320-width)*2)),
+		]
+		for address, expected, replacement in patches:
+			fh.seek(address - 0x805FB300)
+			assert int.from_bytes(fh.read(4), "big") == expected, "Startup copy differs from USA 1.0"
+			fh.seek(address - 0x805FB300)
+			fh.write(replacement.to_bytes(4, "big"))
+
 		# Heap Shrink
 		fh.seek(0x15212)
 		fh.write(bytearray([0x80,0x5D])) # Heap Shrink: lui t5, 0x805d

@@ -24,22 +24,16 @@ def prepare_startup_logo():
     """Native asset composition: retain the existing five silhouettes/colours."""
     original = Image.open(ROOT/'bin/Nintendo.png').convert('RGBA')
     assert original.size == (192,48)
-    # Each original head loses one horizontal pixel. Repacking its empty gaps
-    # gives room for Krusha without changing the native 192x48 draw dimensions.
-    bounds = [(8,34),(38,71),(76,104),(111,145),(151,185)]
-    result = Image.new('RGBA',(192,48),(0,0,0,255))
-    x = 1
-    for left,right in bounds:
-        head = original.crop((left,0,right,48))
-        head = head.resize((right-left-1,48),Image.Resampling.NEAREST)
-        result.paste(head,(x,0));x += head.width+1
+    # Preserve all original pixels, including antialiased edges and spacing.
+    # Width is a multiple of four for the native unrolled framebuffer copy.
+    result = Image.new('RGBA',(236,48),(0,0,0,255))
+    result.paste(original,(0,0))
     face = Image.open(ASSETS/'krusha-face-source.png').convert('RGBA')
-    # Use the approved outline only; none of its facial shading reaches the logo.
     mask = face.getchannel('A').point(lambda a:255 if a>=128 else 0)
-    mask = mask.crop(mask.getbbox()).resize((34,34),Image.Resampling.LANCZOS)
-    gray = Image.new('RGBA',(34,34),(173,173,173,255))
-    result.paste(gray,(x,8),mask)
-    assert x == 156 and x+34 == 190
+    mask = mask.crop(mask.getbbox()).resize((37,37),Image.Resampling.LANCZOS)
+    gray = Image.new('RGBA',(37,37),(173,173,173,255))
+    result.paste(gray,(192,5),mask)
+    assert result.crop((0,0,192,48)).tobytes() == original.tobytes()
     result.save(ROOT/'bin/Nintendo_Krusha.png')
 
 

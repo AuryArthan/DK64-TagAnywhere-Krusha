@@ -38,11 +38,16 @@ existing scream audio at `0x02100000`.
 
 ## Startup lineup
 
-`bin/Nintendo_Krusha.png` is a new 192×48 six-silhouette image; the original
-`bin/Nintendo.png` remains unchanged. Existing heads are repacked, each just one
-pixel narrower using nearest-neighbour sampling, so their RGB colours are retained.
-Krusha's silhouette is derived only from the approved high-resolution alpha
-outline and filled with gray **#ADADAD**, sampled from the user's color example.
-No facial shading or detail appears in the silhouette. Keeping 192×48 avoids a
-change to the native logo renderer or its aspect behavior. The normal build now
-uses this new lineup; it is a startup credit graphic independent of the option.
+`bin/Nintendo_Krusha.png` is a 236×48 six-silhouette image. Its left 192×48
+pixels are an exact copy of the original `bin/Nintendo.png`, including the five
+heads, their antialiasing and spacing. A 37×37 Krusha silhouette starts at (192,5)
+with a seven-pixel gap after Chunky. Its filled area is approximately 765 pixels,
+versus Chunky's 768, accounting for edge coverage. Gray **#ADADAD** comes from the
+user's sample; the outline comes only from the approved high-resolution alpha.
+
+`build/staticcode.py` updates three guarded instructions in the native startup
+framebuffer copy: width 236, start (42,96), and 84 pixels remaining per row.
+Each source texel is still copied directly to one 320×240 framebuffer pixel.
+There is no texture filtering or fractional resize; a 640×480 display shows
+whole-number 2× pixels. The width remains divisible by four for the native
+unrolled copy loop. This graphic is independent of the Krusha gameplay option.
