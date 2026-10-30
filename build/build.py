@@ -404,6 +404,11 @@ appendBarrelAssets(newROMName)
 from scream_asset import appendScream
 appendScream(newROMName)
 
+# Flashcart loader transfer padding (libdragon n64tool uses 16 KiB).
+# Append only: retain every existing code/asset byte and pointer address.
+with open(newROMName, "ab") as fh:
+    fh.write(bytes((-fh.tell()) % 0x4000))
+
 # Fix CRC
 from n64crc import fixCRC
 fixCRC(newROMName)
