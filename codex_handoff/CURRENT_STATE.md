@@ -75,7 +75,7 @@ are committed. There is no outstanding game fix.
 Publication decision (subsequent user request): keep full source PRIVATE, reuse
 public `https://github.com/AuryArthan/DK64-TagAnywhere-Krusha` for only the latest
 BPS file. The private source destination is now configured as origin:
-`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha-code.git`.
+`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha.git`.
 Isotarge's original repository is retained as upstream. The user will push;
 configuring these remotes did not upload anything. Never push private source
 to the public patch repository.
@@ -128,3 +128,9 @@ runs the workflow with GitHub's automatic token. Repository visibility is not
 changed by the workflow and anonymous API access was unavailable at preparation.
 The earlier separate public patch clone remains local, with its old upload still
 unperformed; it is no longer the chosen primary publication destination.
+
+Repository rename: the unified source/release repository is now intended to be
+`AuryArthan/DK64-TagAnywhere-Krusha` (without -code). Origin and release-publisher
+repository guards/links were updated. The old separate `public-patch-release/`
+clone is retired; its URL may now identify the unified repository after the
+user's GitHub rename. Do not push its obsolete patch-only history to that URL.

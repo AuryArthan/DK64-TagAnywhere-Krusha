@@ -3,7 +3,7 @@
 from pathlib import Path
 import argparse, hashlib, json, os, subprocess, urllib.request, urllib.error, urllib.parse
 ROOT = Path(__file__).resolve().parent.parent
-REPO = 'AuryArthan/DK64-TagAnywhere-Krusha-code'
+REPO = 'AuryArthan/DK64-TagAnywhere-Krusha'
 TAG = 'v0.4.2'
 COMMIT = '18380a22d59c97b57957995ddc8f4d329c0bc9ab'
 NAME = 'DK64-TagAnywhere+Krusha.bps'

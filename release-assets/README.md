@@ -35,7 +35,7 @@ python3 tools/test-publish-v042.py
 ```
 
 Expected version-specific download after successful publication:
-`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha-code/releases/download/v0.4.2/DK64-TagAnywhere%2BKrusha.bps`
+`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.4.2/DK64-TagAnywhere%2BKrusha.bps`
 
 For later versions, prepare and verify a new patch/tag and deliberately update
 the publisher/workflow. This workflow only publishes the specifically requested

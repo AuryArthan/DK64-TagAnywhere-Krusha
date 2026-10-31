@@ -44,7 +44,7 @@ off. The current checkpoint is **v0.4.2**.
 
 ## Playing
 
-Patch downloads are published through [GitHub Releases](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha-code/releases).
+Patch downloads are published through [GitHub Releases](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases).
 The [release workflow notes](release-assets/README.md) explain publication on push.
 
 Apply this project’s **BPS patch to a clean, original Donkey Kong 64 USA ROM**
