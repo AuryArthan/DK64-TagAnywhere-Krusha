@@ -1,0 +1,12 @@
+{
+  "version": "v0.5",
+  "name": "DK64-TagAnywhere+Krusha.bps",
+  "patch_sha256": "c52e247636d91e990b29f20835207f2fca6d48509d587c2ee3422c4f5b6c0dd8",
+  "patch_size": 1954034,
+  "source_rom_sha1": "cf806ff2603640a748fca5026ded28802f1f4a50",
+  "target_rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
+  "target_rom_size": 34701312,
+  "tested_gameplay_commit": "61649186cc860a1f931f5da1947332aceb69b6c4",
+  "assertions_passed": 221,
+  "hardware_tested": false
+}

@@ -1,7 +1,7 @@
-# Mupen64Plus-Next compatibility fixes (development)
+# v0.5 emulator compatibility and interaction fixes
 
-These changes follow v0.4.2 and are **not part of its published BPS patch**.
-The tested development ROM is USA-only, 34,701,312 bytes, SHA-256:
+These changes are included in **v0.5**. The older v0.4.2 patch does not contain
+them. The tested v0.5 ROM is USA-only, 34,701,312 bytes, SHA-256:
 
 ```text
 98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a
@@ -9,7 +9,7 @@ The tested development ROM is USA-only, 34,701,312 bytes, SHA-256:
 
 ## Recommended settings
 
-For this development build, use **Mupen64Plus-Next + GLideN64**, with framebuffer
+For v0.5, use **Mupen64Plus-Next + GLideN64**, with framebuffer
 emulation enabled, **CountPerOp = 1** and **8 MB Expansion Pak memory**.
 Use the game's **Screen Size → Widescreen** option for a 16:9 display, with
 external stretching to 16:9. Leave the emulator's separate widescreen hack off.
@@ -28,7 +28,7 @@ See also the [Batocera N64 guide](https://wiki.batocera.org/systems:n64) and
 
 The repository's standalone Mupen64Plus 2.5.9 / Glide64mk2 launcher is another
 tested option and explicitly configures the ROM's save size and CPU timing.
-ParaLLEl-RDP and Angrylion have not been validated for this development build.
+ParaLLEl-RDP and Angrylion have not been validated for v0.5.
 Original N64 hardware remains untested.
 
 ## What changed
@@ -56,7 +56,7 @@ was performed in Japes.
 These are unmodified test captures. Widescreen captures are 4:3 framebuffers
 intended for external 16:9 stretching, as when playing the game.
 
-| v0.4.2 camera in Widescreen | Corrected development build |
+| v0.4.2 camera in Widescreen | Corrected v0.5 build |
 | --- | --- |
 | ![Broken mask with black obstruction and gray blocks](screenshots/compatibility/camera-before.png) | ![Restored camera lens and reticle](screenshots/compatibility/camera-after.png) |
 

@@ -31,6 +31,7 @@ TOOL_ROOT = Path(os.environ.get('DK64_TOOL_ROOT', REPO / 'tools')).resolve()
 result = {
     'read_only': True,
     'snapshot_date': SNAPSHOT['snapshot_date'],
+    'accepted_version': SNAPSHOT['latest_accepted_version'],
     'accepted_checkpoint_rom_sha256': SNAPSHOT['rom_sha256'],
     'unreleased_development': SNAPSHOT.get('unreleased_development'),
     'repository': str(REPO),

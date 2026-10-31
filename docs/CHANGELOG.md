@@ -3,7 +3,7 @@
 These are the saved gameplay milestones. Version labels follow the existing Git
 tags, including the historical `v3.1` spelling. Older checkpoints are preserved.
 
-## Unreleased — Mupen64Plus-Next compatibility and shared pickups
+## v0.5 — Mupen64Plus-Next compatibility and shared pickups
 
 Correct widescreen camera/scope RDP commands and full-width underwater tint.
 Allow Krusha health, standard ammo and separate grenade refills, plus native
@@ -11,7 +11,8 @@ battle-arena entry and crown rewards. Preserve colored collectible exclusions.
 Block Chunky tags during heavy carrying and address Krusha as a Kremling in
 Snide's dialogue. Add standard EEPROM 16-Kbit header metadata for automatic save
 size detection on supporting emulators/loaders. See [validation and settings](emulator-compatibility.md).
-No existing release tag or public v0.4.2 patch was replaced.
+Validated with 221 assertions on the exact v0.5 ROM across both tested emulator
+configurations. Existing version tags and the v0.4.2 patch are preserved.
 
 ## v0.4.2 — Tree-tag fix
 

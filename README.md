@@ -5,8 +5,7 @@
 Play as Krusha alongside the five original Kongs: swap with the D-pad, select
 him in tag barrels, fire his bazooka, and clear nearby enemies with a powerful
 shout. Krusha is available from the start, with a persistent option to turn him
-off. The latest released checkpoint is **v0.4.2**. The source also includes
-[unreleased emulator compatibility and interaction fixes](docs/emulator-compatibility.md).
+off. The current version is **v0.5**.
 
 ![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
@@ -25,7 +24,7 @@ off. The latest released checkpoint is **v0.4.2**. The source also includes
 - **Adventure interactions.** Krusha can run, jump, climb trees, swing on vines,
   swim, throw oranges, use numbered bananaports, and lift/carry/drop/throw boulders.
   He can enter and leave Cranky’s, Funky’s, and Candy’s shops safely.
-  The development build also lets him refill health, standard ammo and grenade
+  He can also refill health, standard ammo and grenade
   oranges, and enter battle arenas to earn their shared crowns.
 - **A vocal instrument move.** His shout uses part of his charged-attack burp
   animation and the supplied scream recording, with native instrument enemy
@@ -39,7 +38,7 @@ off. The latest released checkpoint is **v0.4.2**. The source also includes
 - **Widescreen corrections.** The existing Widescreen option also corrects HUD,
   menu and pause sprites, moves the adventure HUD toward the edges, and fixes
   stretched instrument and tag-barrel presentations, including barrel entry.
-  Standard-mode placement is preserved. Development fixes also correct camera/
+  Standard-mode placement is preserved. v0.5 also corrects camera/
   upgraded-scope masks under GLideN64 and full-width underwater tint.
 
 | Bazooka in adventure | Krusha in the tag barrel |
@@ -68,15 +67,11 @@ Configure the emulator or flashcart for **8 MB Expansion Pak memory** and
 output at 16:9; use Standard for 4:3. Black overscan borders are left intact in
 the ROM and can be handled by the emulator’s display settings if desired.
 
-**Recommended emulator for the development build:** **Mupen64Plus-Next with
-GLideN64**, framebuffer emulation enabled, 8 MB RAM and **CountPerOp = 1**.
-Keep the core's separate widescreen hack **OFF**; use this ROM's Screen Size
-option and stretch its output to 16:9 instead. Batocera's Graphics API **Auto**
-selects OpenGL Core in its current configuration code, separately from the RDP
-plugin setting, whose default is GLideN64. See the [tested settings and limits](docs/emulator-compatibility.md).
-The older v0.4.2 release still has the reported widescreen mask bugs under
-GLideN64; these fixes are in the development build, pending a new release.
-The bundled standalone Mupen64Plus/Glide64mk2 launcher remains an alternative.
+**Tested and recommended:** **Mupen64Plus with Glide64mk2**, or
+**Mupen64Plus-Next with GLideN64** (libretro/RetroArch). Use **CountPerOp = 1**
+and keep framebuffer emulation enabled in GLideN64. Leave the emulator's
+widescreen hack OFF and use the game's Widescreen option instead.
+[Detailed settings and testing](docs/emulator-compatibility.md).
 
 | Action | N64 control |
 | --- | --- |
@@ -116,10 +111,9 @@ Krusha is an extra way to explore and fight, with progression still handled by
 the original Kongs:
 
 - **Colored bananas, coins and other Kong-specific progression remain excluded.**
-  The development build allows melon health, standard weapon ammo, grenade
+  Krusha can collect melon health, standard weapon ammo, grenade
   oranges and battle crowns. Camera film and crystals still require an original
   Kong to refill them. There is no sixth collectible set or dedicated shop stock.
-  The released v0.4.2 has the older blanket pickup restriction.
 - His fairy camera can enter photo mode and take pictures, consuming film, but
   does not award fairy capture flags or rewards.
 - His shout defeats nearby vulnerable enemies, but does not perform the five
@@ -130,7 +124,7 @@ the original Kongs:
   exhaustively validated. This is not a guarantee that every encounter works.
 
 **Original N64 hardware remains untested.** v0.4.1 added 16 KiB ROM padding for
-flashcart loader transfers, and v0.4.2 retains that alignment and valid CIC-6105
+flashcart loader transfers, and v0.5 retains that alignment and valid CIC-6105
 checksums. These are compatibility preparations, not console certification.
 
 Native EEPROM saves can be carried between these builds with the appropriate
@@ -147,7 +141,7 @@ camera paths. They do not require a separate widescreen ROM.
 
 ## Development and validation
 
-The latest fix addresses the inherited **tree-tag origin warp**. A native
+v0.4.2 fixed the inherited **tree-tag origin warp**. A native
 character swap rebuilds the model before a tree/vine grab can read its new
 transforms. v0.4.2 uses the existing regrab cooldown for one update after a swap,
 allowing initialization to finish without disabling ordinary airborne tagging.
@@ -160,7 +154,7 @@ fixtures; they are not a measure of campaign completion. No crashes or new
 regressions were observed in the accepted checks. Earlier v0.4.1 release QA
 identified the tree-tag bug that prompted this fix.
 
-The newer development build separately passed **221 assertions** covering the
+The v0.5 ROM separately passed **221 assertions** covering the
 Mupen64Plus-Next fixes and existing gameplay regressions. See its
 [compatibility report and screenshots](docs/emulator-compatibility.md); the
 723-assertion count above applies to the earlier v0.4.2 ROM.
