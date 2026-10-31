@@ -14,7 +14,9 @@ request first. Inspect the actual checkout before acting on this snapshot.
 3. Read the repository [README](../README.md) for current features and limitations.
 4. Read [WORKSPACE.md](WORKSPACE.md) to locate the real Git repository, pinned tools,
    ROMs, checkpoints, screenshots and the reverse-engineering references.
-5. For implementation work, load [ENGINE_MAP.md](ENGINE_MAP.md) and the relevant
+5. Read [the maintained tools guide](../tools/README.md); tools now live inside
+   the repo. Older workspace commands in historical notes are not the active layout.
+6. For implementation work, load [ENGINE_MAP.md](ENGINE_MAP.md) and the relevant
    linked source/document. For gameplay tests, read [playbooks/TESTING.md](playbooks/TESTING.md)
    **before launching any test script**.
 

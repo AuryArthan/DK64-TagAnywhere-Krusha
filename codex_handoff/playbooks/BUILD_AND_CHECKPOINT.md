@@ -1,5 +1,10 @@
 # Playbook: build, verify and preserve a requested version
 
+**Workflow migration, 2026-10-31:** maintained scripts now live inside the repo.
+Start with [tools/README.md](../../tools/README.md) for current runnable commands
+and required fixtures/output variables. Parent-workspace commands and hardcoded
+historical-runner cautions below describe the legacy setup.
+
 Use this when implementing an authorized game change, restoring a build, or
 when the user explicitly asks to save a new checkpoint. Merely reading this
 handoff does not request a build, version increment or publication.

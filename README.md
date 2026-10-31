@@ -154,8 +154,8 @@ For implementation details, see:
 - [AI/session handoff and project knowledge](codex_handoff/README.md)
 
 The detailed development documents retain the history of experiments and tuning;
-the behavior described above is the current version. Large emulator profiles,
-raw test captures, and workspace helper scripts live outside this repository.
+the behavior described above is the current version. Maintained build, play and regression helpers are in [tools/](tools/README.md).
+Large emulator profiles, raw test captures and downloaded binaries remain local.
 The screenshots used here are copied into the repository so they display on GitHub.
 
 ## Credits

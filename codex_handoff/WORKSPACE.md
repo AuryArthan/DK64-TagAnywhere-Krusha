@@ -8,6 +8,16 @@ The tracked handoff lives at `dk64-tag-anywhere/codex_handoff/`; a workspace-roo
 symlink `codex_handoff` points there. AGENTS.md pointers make it discoverable in
 both a full workspace and a standalone clone.
 
+## Maintained workflow after migration
+
+The repo now has its own `tools/` scripts, keyboard config, dependency setup and
+regression runner. Read [tools/README.md](../tools/README.md). All active paths
+are repository-relative; default generated output is repo `runtime/`, ignored
+by Git. `DK64_TOOL_ROOT` can reuse an external binary cache without making source
+paths depend on a parent workspace. The original parent's tools/runtime remain
+legacy backups and the user's existing play profiles are unchanged. The table
+below describes that original workspace, not requirements for a standalone clone.
+
 ## Full workspace layout
 
 | Location | Purpose |
@@ -71,9 +81,9 @@ its old profile even after a new build updates the symlink. Preserve those files
 
 ## Standalone clone
 
-Only the contents of `dk64-tag-anywhere/` travel with this Git repo. The ROM,
-parent tools, profiles, private saves and big raw QA directories do not. See
-[BUILDING.md](../docs/BUILDING.md) for a direct repo build. A new agent with just
-a clone must first establish tools/ROM/test environment; do not claim missing
-workspace helpers are present. Frozen checkpoint source.bundle plus the original
-workspace-support archive help recovery when the full workspace is available.
+The repository now includes maintained build/play/control/test helpers and a
+portable config template. Use [tools/README.md](../tools/README.md) and
+[BUILDING.md](../docs/BUILDING.md). Supply the original ROM and tool dependencies;
+regressions also need an explicit disposable native save fixture. No ROM, save,
+downloaded binary or raw QA directory is committed. Old parent helper scripts
+and large historical research remain outside the repo and backed up locally.

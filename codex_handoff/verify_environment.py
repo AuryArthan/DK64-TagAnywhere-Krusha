@@ -36,17 +36,19 @@ result = {
             'status': git('status', '--short'),
             'v042_gameplay_commit': git('rev-parse', 'v0.4.2^{}')},
     'development_rom': identity(REPO / 'rom/dk64-krusha-dev.z64', SNAPSHOT['rom_sha256']),
+    'maintained_workflow_present': (REPO / 'tools/build-krusha.sh').is_file(),
+    'repo_runtime': str(REPO / 'runtime'),
     'python_has_pillow': importlib.util.find_spec('PIL') is not None,
     'note': 'This is a dated reference, not a restore command. Investigate differences; preserve newer work.'
 }
 if WORKSPACE:
-    profile = WORKSPACE / 'runtime/krusha/current'
-    result['original_rom'] = identity(WORKSPACE / 'Donkey Kong 64 (USA).z64',
+    profile = REPO / 'runtime/krusha/current'
+    result['original_rom'] = identity(REPO / 'rom/dk64.z64',
                                       SNAPSHOT['original_rom_sha256'])
     result['normal_profile'] = {'path': str(profile), 'target': str(profile.resolve()),
                                 'present': profile.exists()}
     result['checkpoint_present'] = (WORKSPACE / 'runtime/checkpoints/v0.4.2/checkpoint.json').is_file()
     result['latest_qa_present'] = (WORKSPACE / 'runtime/krusha/tree-tag-fix-review/summary.json').is_file()
 else:
-    result['note'] += ' Parent workspace helpers are absent; use docs/BUILDING.md for a standalone clone.'
+    result['note'] += ' Parent historical workspace is absent; maintained tools/ work from this clone. Supply dependencies, ROM and test fixture as documented.'
 print(json.dumps(result, indent=2))

@@ -11,6 +11,8 @@ experiment, reset newer work, run all tests, create a release, or push to GitHub
 Preserve existing version tags/checkpoints and user saves. Match test evidence
 to the ROM hash actually executed; old-ROM save states do not validate a new build.
 
-In the full development workspace, the Git repo is `dk64-tag-anywhere/` and
-parent `tools/`, `runtime/`, and the private source ROM are outside it. In a
-standalone clone, use `docs/BUILDING.md`; do not assume those parent files exist.
+The source repo now contains maintained `tools/` setup/build/play/test scripts.
+Read `tools/README.md` for the current repository-relative workflow. The original
+parent workspace still holds legacy helpers, private ROMs, saves and raw QA.
+Those parent directories are optional. A standalone clone supplies its own ROM,
+dependency cache and explicit test EEPROM fixture; generated data stays ignored.

@@ -1,5 +1,10 @@
 # Playbook: control the game and verify a change
 
+**Workflow migration, 2026-10-31:** maintained scripts now live inside the repo.
+Start with [tools/README.md](../../tools/README.md) for current runnable commands
+and required fixtures/output variables. Parent-workspace commands and hardcoded
+historical-runner cautions below describe the legacy setup.
+
 Commands here run from the **full workspace root**, not inside the source repo.
 First read the actual target script: old suites can contain fixed output paths,
 state dependencies, temporary progress fixtures and interactive loops.

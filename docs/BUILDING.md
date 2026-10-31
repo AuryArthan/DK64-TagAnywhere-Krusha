@@ -52,14 +52,13 @@ Windows defaults use `build/armips.exe`, `build/gzip.exe` and `build/n64tex.exe`
 The Krusha development and regression runs used Linux; the Windows path has
 not been revalidated for this version.
 
-## Workspace helpers versus this repository
+## Repository workflow tools
 
-In the original development workspace, `../tools/build-krusha.sh` configures the
-pinned tools, invokes this builder, writes a build manifest, generates/verifies
-a BPS patch and selects a separate emulator profile for the resulting ROM hash.
-`../tools/play-krusha.sh` launches it. Those helpers and the emulator are outside
-this Git repository; a standalone clone does not contain them. Use the direct
-builder above when working from a clone.
+The maintained [tools workflow](../tools/README.md) now lives inside this repo.
+Use `./tools/setup-build-tools.sh` and `./tools/build-krusha.sh` for the pinned
+build plus manifest/BPS generation. Emulator setup, launchers and isolated
+regression helpers are included as source scripts. Downloads and runtime output
+are ignored. The direct builder above remains usable on its own.
 
-ROMs, generated BPS patches, symbols and object files are ignored by Git.
-Ship a BPS patch for players; retain the original ROM privately.
+Legacy parent-workspace helpers are retained as historical/local conveniences;
+a standalone clone uses this repository's tools and does not need that workspace.

@@ -1,0 +1,4 @@
+# Build/textures
+Pillow
+# Optional native-audio capture analysis
+numpy

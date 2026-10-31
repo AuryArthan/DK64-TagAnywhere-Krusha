@@ -13,3 +13,16 @@
 *.log
 maps/*
 codec_test/*
+# Local workflow output and downloaded dependencies (never source assets)
+/runtime/
+/obj/
+/tools/emulator/
+/tools/packages/
+/tools/downloads/
+/tools/n64chain/
+/tools/build-tools/
+/tools/armips-src/
+/tools/vadpcm/
+__pycache__/
+*.eep
+*.st[0-9]

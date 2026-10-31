@@ -85,3 +85,14 @@ push dry-run failed because terminal GitHub authentication was unavailable.
 Authenticate locally before completing it; do not request credentials in chat.
 No force-push is needed. Recheck remote state if the user updates it via the web.
 A local ZIP prepared earlier is optional and is not the user's chosen public format.
+
+## Workflow migration after the handoff snapshot
+
+Maintained setup/build/BPS/play/control and core/barrel/gun/options/tree/vine/shout
+regression helpers now live in repository `tools/`. They resolve source paths
+from this repo, not its parent. Consult `tools/README.md` for exact commands.
+Runtime/tool downloads are ignored. Test saves are explicit private fixtures via
+DK64_TEST_SAVE, and new output directories protect old reports. The runner is
+`tools/run-regressions.py` with DK64_QA_OUT. Source layout changed; accepted game
+code, v0.4.2 tag and ROM identity remain the same. Parent-workspace tools, saves
+and historical evidence were retained. Future AI should use tracked workflows.
