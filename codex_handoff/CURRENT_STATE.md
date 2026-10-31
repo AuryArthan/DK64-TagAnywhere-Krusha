@@ -5,9 +5,9 @@
 - Project: **Donkey Kong 64 — Krusha + Tag Anywhere**, by Arthan, extending
   Isotarge's Tag Anywhere. USA only; European/Japanese porting was explicitly dropped.
 - Latest accepted checkpoint: **v0.4.2**; gameplay commit
-  `eb1452135a4e6e41b4e5f3c95478ccda2577530f`.
+  `18380a22d59c97b57957995ddc8f4d329c0bc9ab`.
 - Latest documentation commit before this handoff:
-  `6098b12ddb6be7b70d0684d3f72119650f301431`. Handoff commits will follow it;
+  `3dd1a71e9e2777992e931e21bf5b4613fc563cf0`. Handoff commits will follow it;
   this is not an instruction to reset HEAD to that commit.
 - Branch at handoff: `krusha-six-character-barrel`.
 - Local upstream baseline: `e9ca72f5070c7e4bad69d37382c5a0798b06462f`.
@@ -102,3 +102,15 @@ Migration verification: the same v0.4.2 ROM was rebuilt from a separate clone
 (path with spaces), emulator/RDRAM startup succeeded there, and 140 migrated
 gameplay regressions passed. See `docs/workflow-validation.md` for precise limits
 and local output paths. No game release tag or source ROM was changed.
+
+## Commit identity correction
+
+At the user's explicit request, unpublished project commits and our annotated
+taggers were rewritten to AuryArthan <sean.arthan@protonmail.com>. Upstream
+contributors and already-published public-repository commits were preserved.
+Git IDs changed, while all file trees and the v0.4.2 ROM stayed identical.
+`identity-rewrite.json` maps old IDs (including historical report/checkpoint
+references) to current IDs. Frozen raw reports and checkpoint bundles still
+contain their original IDs; use the map rather than resetting to those old refs.
+Recovery bundles are outside Git at runtime/identity-rewrite-backup in the
+original workspace. Do not push those older-identity backup bundles.

@@ -1,7 +1,7 @@
 {
   "snapshot_date": "2026-10-31",
   "latest_accepted_version": "v0.4.2",
-  "gameplay_commit": "eb1452135a4e6e41b4e5f3c95478ccda2577530f",
+  "gameplay_commit": "18380a22d59c97b57957995ddc8f4d329c0bc9ab",
   "documentation_commit_before_handoff": "6098b12ddb6be7b70d0684d3f72119650f301431",
   "branch_at_snapshot": "krusha-six-character-barrel",
   "upstream_baseline": "e9ca72f5070c7e4bad69d37382c5a0798b06462f",
@@ -79,5 +79,6 @@
     "workspace_archive_verified": true
   },
   "evidence_workspace_relative": "runtime/krusha/tree-tag-fix-review/",
-  "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate."
+  "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate. Git IDs in copied historical evidence may predate the identity rewrite; consult the alias map.",
+  "identity_rewrite_map": "identity-rewrite.json"
 }

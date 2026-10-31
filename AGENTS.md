@@ -16,3 +16,8 @@ Read `tools/README.md` for the current repository-relative workflow. The origina
 parent workspace still holds legacy helpers, private ROMs, saves and raw QA.
 Those parent directories are optional. A standalone clone supplies its own ROM,
 dependency cache and explicit test EEPROM fixture; generated data stays ignored.
+
+For commits in this project, use repository-local identity `AuryArthan` with
+`sean.arthan@protonmail.com` (the user's explicit preference). On a new clone,
+configure these locally before committing; do not change unrelated global Git
+settings. Historical commit-ID aliases are in codex_handoff/identity-rewrite.json.
