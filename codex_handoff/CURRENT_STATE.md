@@ -74,12 +74,14 @@ are committed. There is no outstanding game fix.
 
 Publication decision (subsequent user request): keep full source PRIVATE, reuse
 public `https://github.com/AuryArthan/DK64-TagAnywhere-Krusha` for only the latest
-BPS file. The private source destination has not yet been supplied; the source
-repo's origin still points to Isotarge upstream, so do not push source there or
+BPS file. The private source destination is now configured as origin:
+`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha-code.git`.
+Isotarge's original repository is retained as upstream. The user will push;
+configuring these remotes did not upload anything. Never push private source
 to the public patch repository.
 
 Workspace `public-patch-release/` is a separate clone of that public repository.
-Its fetched main was c25c5ca (old patch deleted). Local commit 726253d and annotated
+Its fetched main was c25c5ca (old patch deleted). Local commit 87d9c0a and annotated
 tag v0.4.2 add only `DK64-TagAnywhere-Krusha.bps`, copied/hash-verified from the
 frozen v0.4.2 checkpoint. The requested public upload has NOT happened: HTTPS
 push dry-run failed because terminal GitHub authentication was unavailable.
