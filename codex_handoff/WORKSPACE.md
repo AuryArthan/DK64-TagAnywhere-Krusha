@@ -13,6 +13,7 @@ both a full workspace and a standalone clone.
 | Location | Purpose |
 | --- | --- |
 | `dk64-tag-anywhere/` | Actual source repo, assets, docs, ROM output |
+| `public-patch-release/` | Separate public BPS-only repo; never add private source here |
 | `tools/` | Build/emulator/control/test/package helpers; outside source repo |
 | `tools/n64chain/`, `tools/build-tools/` | Pinned compiler, armips and gzip |
 | `tools/emulator/` | Locally unpacked Mupen64Plus, plugins, Xvfb, xdotool |

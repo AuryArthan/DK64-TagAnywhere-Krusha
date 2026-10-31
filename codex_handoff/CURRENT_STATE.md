@@ -67,8 +67,21 @@ The user is happy with this feature set for a first release. Original-N64 suppor
 is an eventual goal, but hardware was unavailable. v0.4.1 was padding-only and
 v0.4.2 keeps it. Do not claim console compatibility from emulator success.
 
-The README now covers this hack rather than copying the full upstream README;
-five original gameplay PNGs, a standalone build guide and milestone history are
-committed. A GitHub push/release has not been requested for execution yet.
-There is no outstanding promised fix at this point. The current request is
-knowledge preservation; later feature ideas need the user's actual request.
+The README covers this hack rather than copying the full upstream README;
+five gameplay PNGs, a standalone build guide, milestone history and this handoff
+are committed. There is no outstanding game fix.
+
+Publication decision (subsequent user request): keep full source PRIVATE, reuse
+public `https://github.com/AuryArthan/DK64-TagAnywhere-Krusha` for only the latest
+BPS file. The private source destination has not yet been supplied; the source
+repo's origin still points to Isotarge upstream, so do not push source there or
+to the public patch repository.
+
+Workspace `public-patch-release/` is a separate clone of that public repository.
+Its fetched main was c25c5ca (old patch deleted). Local commit 726253d and annotated
+tag v0.4.2 add only `DK64-TagAnywhere-Krusha.bps`, copied/hash-verified from the
+frozen v0.4.2 checkpoint. The requested public upload has NOT happened: HTTPS
+push dry-run failed because terminal GitHub authentication was unavailable.
+Authenticate locally before completing it; do not request credentials in chat.
+No force-push is needed. Recheck remote state if the user updates it via the web.
+A local ZIP prepared earlier is optional and is not the user's chosen public format.
