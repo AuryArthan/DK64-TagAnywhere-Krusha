@@ -1,0 +1,83 @@
+{
+  "snapshot_date": "2026-10-31",
+  "latest_accepted_version": "v0.4.2",
+  "gameplay_commit": "eb1452135a4e6e41b4e5f3c95478ccda2577530f",
+  "documentation_commit_before_handoff": "6098b12ddb6be7b70d0684d3f72119650f301431",
+  "branch_at_snapshot": "krusha-six-character-barrel",
+  "upstream_baseline": "e9ca72f5070c7e4bad69d37382c5a0798b06462f",
+  "rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
+  "original_rom_sha256": "b6347d9f1f75d38a88d829b4f80b1acf0d93344170a5fbe9546c484dae416ce3",
+  "validation_summary_copy": {
+    "rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
+    "source_commit": "eb1452135a4e6e41b4e5f3c95478ccda2577530f",
+    "bug": "TREE-TAG-001",
+    "status": "fixed in development build; v0.4.1 preserved",
+    "reference_warp_timings": 5,
+    "fixed_reproduction_timings": 9,
+    "tree_cases": 112,
+    "ordinary_airborne_tag_cases": 44,
+    "vine_cases": 8,
+    "matrix_assertions": 541,
+    "vine_assertions": 33,
+    "regression_assertions": 140,
+    "regression_stages": [
+      {
+        "stage": "core",
+        "complete": true,
+        "assertions": 34,
+        "error": null
+      },
+      {
+        "stage": "extra",
+        "complete": true,
+        "assertions": 10,
+        "error": null
+      },
+      {
+        "stage": "barrel",
+        "complete": true,
+        "assertions": 11,
+        "error": null
+      },
+      {
+        "stage": "gun",
+        "complete": true,
+        "assertions": 20,
+        "error": null
+      },
+      {
+        "stage": "barrel-extra",
+        "complete": true,
+        "assertions": 36,
+        "error": null
+      },
+      {
+        "stage": "options",
+        "complete": true,
+        "assertions": 29,
+        "error": null
+      }
+    ],
+    "console_hardware_tested": false,
+    "passing_assertions": 723
+  },
+  "artifact_checks_copy": {
+    "rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
+    "size": 34701312,
+    "big_endian": true,
+    "alignment_16k": true,
+    "cic": 6105,
+    "header_crc_valid": true,
+    "bps_recreates_exact_rom": true,
+    "v041_checkpoint_unchanged": true,
+    "original_user_eeprom_unchanged": true,
+    "source_commit": "eb1452135a4e6e41b4e5f3c95478ccda2577530f",
+    "deterministic_rebuild_same_sha256": true,
+    "git_worktree_clean": true,
+    "fresh_native_save_cold_boot": true,
+    "source_bundle_verified": true,
+    "workspace_archive_verified": true
+  },
+  "evidence_workspace_relative": "runtime/krusha/tree-tag-fix-review/",
+  "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate."
+}

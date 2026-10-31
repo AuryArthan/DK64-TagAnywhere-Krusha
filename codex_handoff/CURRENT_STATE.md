@@ -1,0 +1,74 @@
+# Current state — 2026-10-31
+
+## Accepted game
+
+- Project: **Donkey Kong 64 — Krusha + Tag Anywhere**, by Arthan, extending
+  Isotarge's Tag Anywhere. USA only; European/Japanese porting was explicitly dropped.
+- Latest accepted checkpoint: **v0.4.2**; gameplay commit
+  `eb1452135a4e6e41b4e5f3c95478ccda2577530f`.
+- Latest documentation commit before this handoff:
+  `6098b12ddb6be7b70d0684d3f72119650f301431`. Handoff commits will follow it;
+  this is not an instruction to reset HEAD to that commit.
+- Branch at handoff: `krusha-six-character-barrel`.
+- Local upstream baseline: `e9ca72f5070c7e4bad69d37382c5a0798b06462f`.
+- ROM: `rom/dk64-krusha-dev.z64` inside the repository.
+- v0.4.2 ROM SHA-256:
+  `dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d`.
+- Size: 34,701,312 bytes; 16 KiB aligned; CIC-6105 header checksums verified.
+- Native save/state filename prefix for this ROM:
+  `Donkey Kong 64 (local build)-89C13EFB`.
+- Normal launcher at workspace root: `./tools/play-krusha.sh`.
+  Current normal profile has a fresh exact-ROM **slot 5**, Krusha in Isles.
+- Latest detailed validation: `runtime/krusha/tree-tag-fix-review/index.html`
+  and `RESULTS.md`, relative to the full workspace.
+
+The exact game build passed **723 assertions**: nine reproduction timings,
+541 matrix assertions (112 tree approaches and 44 ordinary airborne-tag cases),
+33 assertions across eight vine cases, and 140 focused existing regressions.
+Standard/Widescreen and Krusha ON/OFF were covered. No crashes or new regressions
+were observed in the accepted checks. This is not a full 101% campaign,
+all-minigames/bosses/multiplayer certification, or physical-hardware validation.
+The prior v0.4.1 QA had 555 passing assertions and one tree-tag finding, now fixed.
+Do not add those old-build counts to this build's validation total.
+
+## User-approved behavior to preserve
+
+Krusha is character index **5**, actor **7**, always unlocked, sixth after Chunky.
+D-pad Left/Right (and forward L) tags; barrels also have six animated slots.
+The saved KRUSHA option returns both selectors and the exterior barrel to five
+characters when OFF. Original Kongs still require normal unlocks with Speed Mode OFF.
+
+Krusha starts unarmed; native bazooka equip/fire/holster/aim and camera exits
+must keep the mesh correct. He uses shared ammo, throws oranges, carries boulders,
+uses numbered bananaports, and enters/exits shops safely. Shop stock is empty.
+He **cannot collect anything yet**; other Kongs refill shared supplies. The fairy
+camera consumes film but grants no capture flag/reward. Do not silently expand
+progression or give him Chunky's collectible identity.
+
+The shout uses the last 4/5 of burp clip 2AA, playback speed 1.2, and only the
+supplied **TheScream3.wav** in stereo, normalized/encoded to a safe native ceiling.
+No older harmonies, added echoes, alternate scream, or duplicate gain layers.
+It costs 150 internal crystal units (one displayed crystal) and uses native
+instrument enemy death, not a custom delete-all-enemies loop. Instrument-pad
+songs/flags are not implemented. Keep the accepted darkening, spotlight,
+centered camera, zoom, 360-degree orbit and shake. See live roar source for final
+camera constants; earlier notes describe superseded requests.
+
+Visible size is 110%, consistent across adventure/barrel/shop use. The barrel
+shell is 115% with the approved portrait between Chunky and DK. Preserve the
+approved exact startup lineup image and the Arthan credit. Widescreen HUD,
+sprites, pause layouts, instruments and initial barrel transition are corrected;
+Standard-mode placement should stay unchanged. Overscan is deliberately left
+to emulator display settings instead of a ROM change.
+
+## Scope and release status
+
+The user is happy with this feature set for a first release. Original-N64 support
+is an eventual goal, but hardware was unavailable. v0.4.1 was padding-only and
+v0.4.2 keeps it. Do not claim console compatibility from emulator success.
+
+The README now covers this hack rather than copying the full upstream README;
+five original gameplay PNGs, a standalone build guide and milestone history are
+committed. A GitHub push/release has not been requested for execution yet.
+There is no outstanding promised fix at this point. The current request is
+knowledge preservation; later feature ideas need the user's actual request.

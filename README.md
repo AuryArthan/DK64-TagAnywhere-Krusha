@@ -151,6 +151,7 @@ For implementation details, see:
 - [Widescreen rendering changes](docs/widescreen.md)
 - [Console packaging and its limits](docs/console-packaging.md)
 - [Building from source](docs/BUILDING.md)
+- [AI/session handoff and project knowledge](codex_handoff/README.md)
 
 The detailed development documents retain the history of experiments and tuning;
 the behavior described above is the current version. Large emulator profiles,
