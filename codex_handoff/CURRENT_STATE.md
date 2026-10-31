@@ -116,3 +116,15 @@ references) to current IDs. Frozen raw reports and checkpoint bundles still
 contain their original IDs; use the map rather than resetting to those old refs.
 Recovery bundles are outside Git at runtime/identity-rewrite-backup in the
 original workspace. Do not push those older-identity backup bundles.
+
+## Publication plan changed after the first push
+
+The user now wants source and patch releases together in the code repository,
+with public visibility intended. A v0.4.2 release-on-push workflow and the exact
+`DK64-TagAnywhere+Krusha.bps` are committed under `.github/workflows/` and
+`release-assets/`. Read release-assets/README.md. Local API credentials remain
+unavailable; the assistant did not publish a live release. A subsequent user push
+runs the workflow with GitHub's automatic token. Repository visibility is not
+changed by the workflow and anonymous API access was unavailable at preparation.
+The earlier separate public patch clone remains local, with its old upload still
+unperformed; it is no longer the chosen primary publication destination.
