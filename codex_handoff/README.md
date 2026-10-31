@@ -20,11 +20,11 @@ request first. Inspect the actual checkout before acting on this snapshot.
    linked source/document. For gameplay tests, read [playbooks/TESTING.md](playbooks/TESTING.md)
    **before launching any test script**.
 
-There is no unfinished game fix or failed verification to resume at this snapshot.
-The user approved v0.4.2 and then requested public-facing documentation and this
-handoff. GitHub publication is intended later; no push was performed as part of
-these documentation tasks. Continue the latest authorized request, not an old
-experimental avenue from a log.
+The latest approved checkpoint is **v0.5**, with 221 assertions on its exact ROM.
+Its BPS, annotated tag and release-on-push workflow are prepared locally; hosted
+publication requires the user to push the tag and branch. v0.4.2 and older
+checkpoints remain preserved. Read CURRENT_STATE for current hashes and scope;
+continue the latest authorized request rather than an old experiment.
 
 ## Find the right kind of knowledge
 
