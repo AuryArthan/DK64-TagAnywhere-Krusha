@@ -1,0 +1,10 @@
+{
+  "purpose": "Tested archive/core reference; APT setup resolves host package versions and records downloaded checksums separately. No binaries included.",
+  "build_archives": {
+    "n64chain-linux-9.1.0.tgz": "6d0ab3ab768bf8eaba8196e9d16a92f6329165b61361ae8f44accd333fe8d8cd",
+    "armips-v0.11.0.tar.gz": "c94e29dfda3bdf853590d825562b9c73a3d8e8e995555e021c6b2a6451572681",
+    "gzip-1.2.4.tar.gz": "1ca41818a23c9c59ef1d5e1d00c0d5eaa2285d931c0fb059637d7c0cc02ad967"
+  },
+  "vadpcm_commit": "413d52043a928c5fac066ccda1e69b73c7f7132b",
+  "tested_core_sha256": "5e2139b630890d4c77322fcb2fc6a72fd88dcc62edec3efe9fbcdeda446d56eb"
+}

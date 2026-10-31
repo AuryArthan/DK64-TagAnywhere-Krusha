@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import importlib.util
 import json
+import os
 import subprocess
 
 HERE = Path(__file__).resolve().parent
@@ -26,6 +27,7 @@ def identity(path, expected):
             'sha256': digest, 'matches_dated_snapshot': digest == expected}
 
 
+TOOL_ROOT = Path(os.environ.get('DK64_TOOL_ROOT', REPO / 'tools')).resolve()
 result = {
     'read_only': True,
     'snapshot_date': SNAPSHOT['snapshot_date'],
@@ -36,6 +38,10 @@ result = {
             'status': git('status', '--short'),
             'v042_gameplay_commit': git('rev-parse', 'v0.4.2^{}')},
     'development_rom': identity(REPO / 'rom/dk64-krusha-dev.z64', SNAPSHOT['rom_sha256']),
+    'binary_cache': str(TOOL_ROOT),
+    'cached_tools_present': {n: (TOOL_ROOT / n).is_file() for n in [
+        'n64chain/tools/bin/mips64-elf-gcc', 'build-tools/armips/armips',
+        'build-tools/bin/gzip-1.2.4', 'emulator/usr/games/mupen64plus']},
     'maintained_workflow_present': (REPO / 'tools/build-krusha.sh').is_file(),
     'repo_runtime': str(REPO / 'runtime'),
     'python_has_pillow': importlib.util.find_spec('PIL') is not None,

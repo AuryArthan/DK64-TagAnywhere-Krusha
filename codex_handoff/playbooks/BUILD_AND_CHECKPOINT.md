@@ -11,13 +11,13 @@ handoff does not request a build, version increment or publication.
 
 ## Before editing
 
-From the workspace root:
+From the repository root:
 
 ```sh
-git -C dk64-tag-anywhere status --short
-git -C dk64-tag-anywhere log -3 --oneline
-git -C dk64-tag-anywhere tag --list
-sha256sum dk64-tag-anywhere/rom/dk64-krusha-dev.z64
+git status --short
+git log -3 --oneline
+git tag --list
+sha256sum rom/dk64-krusha-dev.z64
 ```
 
 Inspect existing changes and preserve user work. The accepted game may sit at
@@ -36,9 +36,10 @@ patch against the original USA ROM, and updates `runtime/krusha/current` to the
 new hash profile. It does **not** automatically migrate the user's EEPROM or
 make old save states compatible. Back up the old profile before migration.
 
-For a standalone clone, use [docs/BUILDING.md](../../docs/BUILDING.md) instead.
+For tool setup use [tools/README.md](../../tools/README.md); the direct builder is
+documented in [docs/BUILDING.md](../../docs/BUILDING.md).
 The source SHA-1 check protects the private original. Build output is
-`dk64-tag-anywhere/rom/dk64-krusha-dev.z64`; `DK64_BUILD_ROM` can change it in the
+`rom/dk64-krusha-dev.z64`; `DK64_BUILD_ROM` can change it in the
 underlying Python builder. A broken build can remove/replace the dev output;
 frozen checkpoint ROMs are the recovery route, not an unbacked modified file.
 
@@ -91,9 +92,9 @@ historical `v3.1` label; retain it rather than renaming it. v0.4.2 is already sa
 6. Update workspace KRUSHA.md/current validation index and refresh **current**
    support backups if needed. Frozen checkpoints and past reviews stay intact.
 
-The root tools/docs are outside the Git repo. Keep public knowledge in the
-tracked handoff/docs; workspace-support.tar.gz preserves selected parent files
-for local recovery. Do not include private ROMs, EEPROM or machine-specific
+Maintained tools and documentation are now inside Git. The original parent
+workspace still contains legacy archives and raw evidence. Checkpoint files and
+saves are local ignored artifacts, not public source. Do not include private ROMs, EEPROM or machine-specific
 paths as public release assets. Source .gitignore intentionally excludes ROMs,
 BPS, symbols and object output; release patches are separate artifacts.
 

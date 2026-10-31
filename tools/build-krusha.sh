@@ -6,6 +6,10 @@ export PATH="$TOOL_ROOT/n64chain/tools/bin:$PATH"
 export LD_LIBRARY_PATH="$TOOL_ROOT/n64chain/tools/x86_64-pc-linux-gnu/mips64-elf/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export ARMIPS=${ARMIPS:-"$TOOL_ROOT/build-tools/armips/armips"}
 export N64_GZIP=${N64_GZIP:-"$TOOL_ROOT/build-tools/bin/gzip-1.2.4"}
+if [[ -n ${DK64_BUILD_ROM:-} && "$DK64_BUILD_ROM" != ./rom/dk64-krusha-dev.z64 && "$DK64_BUILD_ROM" != rom/dk64-krusha-dev.z64 ]]; then
+  echo 'For a custom DK64_BUILD_ROM use build/build.py directly; this wrapper manages the default ROM and its manifest.' >&2
+  exit 2
+fi
 mkdir -p "$ROOT/rom"
 if [[ ! -f "$ROOT/rom/dk64.z64" ]]; then
   echo "Place the original USA ROM at $ROOT/rom/dk64.z64" >&2

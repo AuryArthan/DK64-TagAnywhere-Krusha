@@ -5,9 +5,10 @@ Start with [tools/README.md](../../tools/README.md) for current runnable command
 and required fixtures/output variables. Parent-workspace commands and hardcoded
 historical-runner cautions below describe the legacy setup.
 
-Commands here run from the **full workspace root**, not inside the source repo.
-First read the actual target script: old suites can contain fixed output paths,
-state dependencies, temporary progress fixtures and interactive loops.
+Run current commands from the **source repository root**. Maintained helpers
+are tracked in `tools/`; defaults write ignored output inside this repository.
+The parent workspace's original tools and reports are historical backups.
+Consult [tools/README.md](../../tools/README.md) for installation and runnable examples.
 
 ## Ordinary play / setup
 
@@ -40,7 +41,7 @@ on the same X display.
 
 ```sh
 mkdir -p runtime/krusha/scratch-example
-DK64_ROM="$PWD/dk64-tag-anywhere/rom/dk64-krusha-dev.z64" \
+DK64_ROM="$PWD/rom/dk64-krusha-dev.z64" \
 DK64_RUNTIME="$PWD/runtime/krusha/scratch-example/profile" \
 ./tools/control.py
 ```
@@ -93,11 +94,10 @@ RAM read kinds are u8, u16, u32, f32. Mupen's RDRAM byte/halfword layout needs X
 
 ## Existing regression helpers and dependencies
 
-`tools/krusha-test.py` is the importable driver and core cold-boot suite. It uses
-`DK64_TEST_ROM` to choose its ROM, then passes `DK64_ROM` to control.py itself.
-`DK64_RUNTIME` selects a profile. Importing it can seed a missing native EEPROM
-from the baseline Speed Mode save; that is **not** a fresh casual file.
-The initial cold boot creates same-ROM native checkpoints for downstream tests.
+`tools/krusha-test.py` is the importable driver and core suite. It accepts
+DK64_TEST_ROM and passes that target as DK64_ROM to the child controller.
+DK64_RUNTIME selects the profile. If no save exists, DK64_TEST_SAVE must name
+an explicit private fixture. Read the fixture requirements in tools/README.md.
 
 ```sh
 DK64_RUNTIME="$PWD/runtime/krusha/scratch-example/profile" \
@@ -122,12 +122,11 @@ is not sufficient. Most helpers finish in an interactive stdin loop; EOF or
 | `trace-tree-tag.py` | Matching slot 8, or DK64_TREE_BOOT=1; original nine-frame comparison |
 | `krusha-release-newgame-test.py` | Erased EEPROM; long story, no unlock/move assumptions |
 
-Historical orchestration `krusha-tree-fix-regressions.py` overrides its own output
-AND profile paths under the frozen tree review. Do not blindly reuse it with an
-outer DK64_RUNTIME and assume isolation. Copy/adapt its stage list/output handling
-or invoke the individual helpers against a new profile. Other release/widescreen
-packagers also need path review. Some scripts hardcode the development ROM even
-when another helper honors DK64_TEST_ROM. Verify this before an A/B comparison.
+The maintained sequence is `tools/run-regressions.py`, with a new DK64_QA_OUT
+and an explicit DK64_TEST_SAVE. It creates its own isolated profile beneath the
+chosen output. Read tools/README.md before invoking individual dependent stages.
+The old parent `krusha-tree-fix-regressions.py` and packaging suites can overwrite
+historical reports; they were deliberately not imported as active orchestration.
 
 The matrix has explicit safe output overrides:
 

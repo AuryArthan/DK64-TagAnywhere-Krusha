@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
-VADPCM_SOURCE="$ROOT/tools/vadpcm"
+TOOL_ROOT=${DK64_TOOL_ROOT:-"$ROOT/tools"}
+VADPCM_SOURCE="$TOOL_ROOT/vadpcm"
 VADPCM_COMMIT=413d52043a928c5fac066ccda1e69b73c7f7132b
 if [[ ! -d "$VADPCM_SOURCE/.git" ]]; then
   git clone https://github.com/depp/vadpcm.git "$VADPCM_SOURCE"

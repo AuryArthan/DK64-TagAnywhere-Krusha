@@ -30,6 +30,9 @@ manifest and source diff in `runtime/krusha/` and a current-profile symlink.
 `ARMIPS` and `N64_GZIP` can override individual executables. The pinned compiler
 is found under the tool cache; the Python builder also supports `N64_GCC`.
 
+The build wrapper requires a Git checkout with the baseline history. For a source
+archive without .git, invoke `python3 build/build.py` directly instead.
+
 ## Play and control
 
 ```sh
@@ -118,3 +121,5 @@ old scripts can hardcode old review outputs and should not be blindly rerun.
 The optional VADPCM setup is pinned to a source revision; normal ROM builds use
 committed encoded assets and need no codec rebuild. Large raw QA, downloaded
 executables, reference repos, ROMs, saves, videos and shader caches stay outside Git.
+
+[Migration validation and limits](../docs/workflow-validation.md).

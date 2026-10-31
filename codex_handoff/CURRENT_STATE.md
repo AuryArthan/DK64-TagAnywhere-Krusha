@@ -18,7 +18,8 @@
 - Native save/state filename prefix for this ROM:
   `Donkey Kong 64 (local build)-89C13EFB`.
 - Normal launcher at workspace root: `./tools/play-krusha.sh`.
-  Current normal profile has a fresh exact-ROM **slot 5**, Krusha in Isles.
+  The original parent workspace normal profile has a fresh exact-ROM **slot 5**,
+  Krusha in Isles. New repo-local profiles are separate and start without that save/state.
 - Latest detailed validation: `runtime/krusha/tree-tag-fix-review/index.html`
   and `RESULTS.md`, relative to the full workspace.
 
@@ -96,3 +97,8 @@ DK64_TEST_SAVE, and new output directories protect old reports. The runner is
 `tools/run-regressions.py` with DK64_QA_OUT. Source layout changed; accepted game
 code, v0.4.2 tag and ROM identity remain the same. Parent-workspace tools, saves
 and historical evidence were retained. Future AI should use tracked workflows.
+
+Migration verification: the same v0.4.2 ROM was rebuilt from a separate clone
+(path with spaces), emulator/RDRAM startup succeeded there, and 140 migrated
+gameplay regressions passed. See `docs/workflow-validation.md` for precise limits
+and local output paths. No game release tag or source ROM was changed.

@@ -2,6 +2,7 @@
 """Compare each captured stereo channel directly with TheScream3, after rate conversion.
 The source has no EQ/echo/layer processing. Permit tiny N64 DAC clock rounding.
 """
+import os
 from pathlib import Path
 import hashlib,json,math,wave,subprocess,argparse
 import numpy as np
@@ -37,12 +38,12 @@ def analyze(capture,profile):
   error=decoded-reference
   quality.append({'channel':name,'correlation':float(np.corrcoef(reference,decoded)[0,1]),'snr_db':float(10*np.log10(np.dot(reference,reference)/np.dot(error,error))),'decoded_peak':float(np.abs(decoded).max())})
  ceiling_samples=int(np.isin(y,[-26112,26111]).sum())
- report={'rom_sha256':hashlib.sha256((ROOT/'rom/dk64-krusha-dev.z64').read_bytes()).hexdigest(),'capture':str(capture.relative_to(ROOT)),'sample_rate':rate,'stereo':True,'duration_seconds':len(y)/rate,'peak':float(np.abs(y).max()),'peak_normalized':float(np.abs(y).max()/32768),'native_mixer_ceiling_samples_after_sdl_80_percent_volume':ceiling_samples,'source_match':best,'minimum_gameplay_detection_correlation':.80,'recording_detected_in_gameplay_mix':all(r['correlation']>.80 for r in best['channels']),'encoded_source_quality':quality,'encoded_source_match_passed':all(q['correlation']>.999 for q in quality),'decoded_peak_safe':all(q['decoded_peak']<=32767*10**(meta['peak_ceiling_dbfs']/20) for q in quality),'synchronized_channels':abs(best['channels'][0]['start_sample']-best['channels'][1]['start_sample'])<=1,'no_native_mixer_clipping':ceiling_samples==0,'note':'Compare against only resampled original left/right channels. The N64 adds its required VADPCM encoding and the game retains background audio. Gameplay correlation detects the recording in that mixed signal; the separate decoded-source comparison verifies fidelity above 0.999. Native voice level, original pitch, hard stereo pan and absence of added effects are checked in the controller tests.'}
+ report={'rom_sha256':hashlib.sha256((ROOT/'rom/dk64-krusha-dev.z64').read_bytes()).hexdigest(),'capture':str(capture),'sample_rate':rate,'stereo':True,'duration_seconds':len(y)/rate,'peak':float(np.abs(y).max()),'peak_normalized':float(np.abs(y).max()/32768),'native_mixer_ceiling_samples_after_sdl_80_percent_volume':ceiling_samples,'source_match':best,'minimum_gameplay_detection_correlation':.80,'recording_detected_in_gameplay_mix':all(r['correlation']>.80 for r in best['channels']),'encoded_source_quality':quality,'encoded_source_match_passed':all(q['correlation']>.999 for q in quality),'decoded_peak_safe':all(q['decoded_peak']<=32767*10**(meta['peak_ceiling_dbfs']/20) for q in quality),'synchronized_channels':abs(best['channels'][0]['start_sample']-best['channels'][1]['start_sample'])<=1,'no_native_mixer_clipping':ceiling_samples==0,'note':'Compare against only resampled original left/right channels. The N64 adds its required VADPCM encoding and the game retains background audio. Gameplay correlation detects the recording in that mixed signal; the separate decoded-source comparison verifies fidelity above 0.999. Native voice level, original pitch, hard stereo pan and absence of added effects are checked in the controller tests.'}
  return report
 
 def main():
- parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('capture',nargs='?',type=Path);args=parser.parse_args();profile=(ROOT/'runtime/krusha/current').resolve()
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('capture',nargs='?',type=Path);args=parser.parse_args();profile=Path(os.environ.get('DK64_RUNTIME',ROOT/'runtime/krusha/current')).resolve()
  capture=(args.capture or profile/'audio/krusha-roar-scream.wav').resolve();report=analyze(capture,profile)
- dest=profile/'audio'/(capture.stem+'-analysis.json');dest.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
+ dest=profile/'audio'/(capture.stem+'-analysis.json');dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
  assert report['recording_detected_in_gameplay_mix'] and report['encoded_source_match_passed'] and report['decoded_peak_safe'] and report['synchronized_channels'] and report['no_native_mixer_clipping']
 if __name__=='__main__':main()
