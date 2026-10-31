@@ -1,12 +1,19 @@
 # Patch release on push
 
-`v0.4.2/DK64-TagAnywhere+Krusha.bps` is the verified patch copied from the approved
+`v0.5/DK64-TagAnywhere+Krusha.bps` is the verified patch copied from the approved
 checkpoint, not a ROM. It is deliberately tracked despite the general BPS ignore
-rule. Its SHA-256 is pinned in `tools/publish-v042.py`.
+rule. Its SHA-256 is pinned in `tools/publish-v05.py`.
 
-Push the existing v0.4.2 tag, then the current branch. The dedicated workflow
+Push the existing v0.5 tag, then the current branch:
+
+```sh
+git push origin refs/tags/v0.5
+git push origin HEAD
+```
+
+This publishes only after those local commits reach GitHub. The dedicated workflow
 runs when these release files or its publisher change. It can also be started
-from Actions → Publish v0.4.2 BPS → Run workflow on the default branch.
+from Actions → Publish v0.5 BPS → Run workflow on the default branch.
 GitHub's automatic workflow token supplies `contents: write`; no personal token
 is committed. Uploading requires Actions to be enabled and repository policy to
 permit that write permission. The publisher is scoped to this specific repository.
@@ -30,13 +37,15 @@ through GitHub settings if anonymous downloads and public source are desired.
 Local checks (no network writes):
 
 ```sh
-python3 tools/publish-v042.py --check-only
-python3 tools/test-publish-v042.py
+python3 tools/publish-v05.py --check-only
+python3 tools/test-publish-v05.py
 ```
 
 Expected version-specific download after successful publication:
-`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.4.2/DK64-TagAnywhere%2BKrusha.bps`
+`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.5/DK64-TagAnywhere%2BKrusha.bps`
 
 For later versions, prepare and verify a new patch/tag and deliberately update
 the publisher/workflow. This workflow only publishes the specifically requested
-v0.4.2, not every build or tag in the repository.
+v0.5, not every build or tag in the repository.
+
+The historical v0.4.2 asset and its publisher/workflow are preserved unchanged.

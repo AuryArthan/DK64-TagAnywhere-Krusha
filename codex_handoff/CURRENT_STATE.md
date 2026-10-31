@@ -1,16 +1,20 @@
-# Current state — v0.5 checkpoint preparation, 2026-10-31
+# Current state — v0.5 checkpoint, 2026-10-31
 
 The user approved the tested compatibility build as **v0.5** and requested a
 release-on-push BPS asset, like v0.4.2. This supersedes the historical snapshot
 below: current ROM SHA256 is `98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a`,
 221 assertions passed across standalone Mupen64Plus/Glide64mk2 and libretro
-Mupen64Plus-Next/GLideN64. Native EEPROM prefix is3481FB2A. Shared health/ammo/
+Mupen64Plus-Next/GLideN64. Native EEPROM prefix is 3481FB2A. Shared health/ammo/
 grenade pickups and crowns are now allowed; colored progression stays excluded.
 README recommendations are deliberately concise and name the tested plugins.
 
 The v0.5 patch is tracked at release-assets/v0.5/DK64-TagAnywhere+Krusha.bps,
 SHA256 `c52e247636d91e990b29f20835207f2fca6d48509d587c2ee3422c4f5b6c0dd8`.
-A version-specific publisher/workflow follows the checkpoint tag. User push is
+The annotated v0.5 tag points to `fb4a7f5e3d8131f3d0d3bc6f703fdd0e5a300d42`.
+`tools/publish-v05.py` and `.github/workflows/release-v05.yml` publish only that
+verified tag/patch. The frozen local backup is `../runtime/checkpoints/v0.5/`
+(relative to this repository); it includes the Git bundle, exact ROM and saves.
+User push is
 needed for the hosted release; do not claim GitHub publication from local checks.
 No existing tag or v0.4.2 release asset is overwritten. Original hardware remains
 untested. Read release-assets/README.md for the publication instructions.
