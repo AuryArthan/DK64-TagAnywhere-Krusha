@@ -3,6 +3,7 @@
 extern void widescreenNativeOrtho(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 extern void widescreenNativeSpriteRect(Gfx**, s16, s16);
 extern Gfx* widescreenNativeCameraMask(Gfx*);
+extern Gfx* widescreenNativeWater(Gfx*);
 extern Gfx* widescreenNativeSniperMask(Gfx*, void*);
 extern Gfx* widescreenNativeShutterMask(Gfx*, void*);
 extern Gfx* widescreenNativeLogo(Gfx*);
@@ -193,6 +194,28 @@ void widescreenOrtho(Mtx* matrix, f32 left, f32 right, f32 bottom, f32 top,
     widescreenNativeOrtho(matrix, left, right, bottom, top, near, far, scale);
 }
 
+Gfx* widescreenWater(Gfx* dl) {
+    static Mtx projection[2] __attribute__((aligned(16)));
+    Gfx* first = dl;
+    dl = widescreenNativeWater(dl);
+    if (!active()) return dl;
+    /* Water tint is viewport coverage, not artwork. Keep its native colour,
+     * depth-dependent alpha and smoothing; replace only its HUD projection. */
+    Mtx* matrix = &projection[*(u8*)0x807444FC & 1];
+    s32 prepared = 0;
+    for (Gfx* cmd = first; cmd < dl; cmd++) {
+        if (cmd->words.w0 == 0xDA380007 && cmd->words.w1 == 0x02000080) {
+            if (!prepared) {
+                widescreenNativeOrtho(matrix, 0.0f, *(s16*)0x80744490 - 1.0f,
+                    *(s16*)0x80744494 - 1.0f, 0.0f, -20000.0f, 20000.0f, 1.0f);
+                prepared = 1;
+            }
+            cmd->words.w1 = (u32)matrix & 0x1FFFFFFF;
+        }
+    }
+    return dl;
+}
+
 static Gfx* maskSides(Gfx* dl, s32 player) {
     if (!active()) return dl;
     u8* changes = *(u8**)0x807FC924;
@@ -202,9 +225,13 @@ static Gfx* maskSides(Gfx* dl, s32 player) {
     /* The aspect-correct corner artwork ends inside the viewport. Cover its
      * outside edges; native mask code immediately restores its drawing state. */
     gDPPipeSync(dl++);
-    gDPSetCycleType(dl++, G_CYC_1CYCLE);
+    /* This SDK gates OtherMode encoding on F3DEX_GBI_2x, although the
+     * project selects F3DEX_GBI_2. Use the native F3DEX2 command words here;
+     * the old macros changed texture state instead of cycle/render mode. */
+    dl->words.w0 = 0xE3000A01; dl->words.w1 = G_CYC_1CYCLE; dl++;
     gDPSetScissor(dl++, G_SC_NON_INTERLACE, rect[0], rect[1], rect[2], rect[3]);
-    gDPSetRenderMode(dl++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    dl->words.w0 = 0xE200001C;
+    dl->words.w1 = G_RM_OPA_SURF | G_RM_OPA_SURF2; dl++;
     gDPSetCombineMode(dl++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(dl++, 0, 0, 0, 0, 0, 255);
     gDPFillRectangle(dl++, rect[0], rect[1], rect[0] + margin, rect[3]);
@@ -382,6 +409,7 @@ void widescreenTick(void) {
         install(0x80006DE4, widescreenOrtho);
         install(0x8070F2FC, widescreenSpriteRect);
         install(0x806FF144, widescreenCameraMask);
+        install(0x80701CA0, widescreenWater);
         install(0x806FF75C, widescreenSniperMask);
         install(0x806FFB2C, widescreenShutterMask);
         install(0x8068C350, widescreenQueue);

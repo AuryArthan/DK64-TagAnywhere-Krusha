@@ -16,6 +16,7 @@ extern u8 krushaRoarStart(void);
 extern void krushaHolsterModel(void* actor);
 extern void krushaDrawGunModel(void* actor);
 extern s32 vanillaBuildActorBones(void* actor);
+extern void vanillaDialogueLine(void* owner, u8* text, u16 length);
 
 /* Enlarge the skeleton while its world matrices are built. Restore the root
  * transform before native movement uses it, so the visible increase cannot
@@ -113,22 +114,79 @@ u8 krushaSetAction(s16 action, void* actor, u8 player) {
 }
 
 s32 krushaModelPickupAllowed(s16 object_id, u8 player, u16 type) {
-    /* This predicate runs BEFORE the prop is marked collected/despawned. It
-     * covers colored pickups and shared consumables without changing flags. */
-    if (enabled && player == 0 && Character == 5 && DetectAdventure()) return 0;
+    /* This predicate runs before collection/despawn. Let native eligibility
+     * and stock updates handle shared supplies and battle crowns. Everything
+     * tied to an original Kong's progression remains excluded. */
+    if (enabled && player == 0 && Character == 5 && DetectAdventure()) {
+        switch (type) {
+            case 0x56:  /* orange grenades: separate from bazooka ammunition */
+            case 0x57:  /* watermelon health */
+            case 0x8F:  /* ammo crate, which spills five native ammo props */
+            case 0x91:  /* peanut */
+            case 0x15D: /* feather */
+            case 0x15E: /* grape */
+            case 0x15F: /* pineapple: also Krusha's native ammo pickup */
+            case 0x160: /* coconut: all five refill shared weapon ammo */
+            case 0x18D: /* battle crown */
+                break;
+            default:
+                return 0;
+        }
+    }
     return vanillaModelPickupAllowed(object_id, player, type);
 }
 
+void krushaDialogueLine(void* owner, u8* text, u16 length) {
+    u8 line[512];
+    s32 out = 0, changed = 0;
+    if (!enabled || Character != 5 || CurrentMap != 15 || !DetectAdventure()) {
+        vanillaDialogueLine(owner, text, length);
+        return;
+    }
+    /* Snide's dialogue calls the visitor KONG literally (not the ~ name
+     * token). The native formatter consumes this line synchronously, wraps
+     * words, and owns its glyph allocations; the source asset stays intact. */
+    for (s32 i = 0; i < length; i++) {
+        s32 word = i + 4 <= length && text[i] == 'K' && text[i+1] == 'O' &&
+            text[i+2] == 'N' && text[i+3] == 'G' &&
+            (i == 0 || text[i-1] < 'A' || text[i-1] > 'Z') &&
+            (i+4 == length || text[i+4] < 'A' || text[i+4] > 'Z');
+        s32 count = word ? 8 : 1;
+        if (out + count >= sizeof(line)) {
+            vanillaDialogueLine(owner, text, length);
+            return;
+        }
+        if (word) {
+            const char* name = "KREMLING";
+            for (s32 j = 0; j < 8; j++) line[out++] = name[j];
+            i += 3;
+            changed = 1;
+        } else line[out++] = text[i];
+    }
+    line[out] = 0;
+    vanillaDialogueLine(owner, changed ? line : text, changed ? out : length);
+}
+
 u8 krushaScriptCondition(u16* instruction, void* script, s16 object_id) {
-    if (enabled && Character == 5 && (instruction[0] & 0x7FFF) == 0x38 && DetectAdventure()) {
+    s32 operation = instruction[0] & 0x7FFF;
+    if (enabled && Character == 5 && DetectAdventure() &&
+        (operation == 0x38 || (operation == 0x12 && instruction[1] == 6))) {
         ModelTwoData* objects = ObjectModel2Pointer;
         for (s32 i = 0; i < ObjectModel2Count; i++) {
-            /* 0x210..0x214: the five numbered adventure bananaport pads. */
-            // Scripts use the runtime handle at 0x88, not setup ID 0x8A.
-            if (objects[i].runtime_id == object_id &&
-                objects[i].object_type >= 0x210 && objects[i].object_type <= 0x214) {
+            /* Script handles use runtime_id (0x88), not setup ID (0x8A). */
+            if (objects[i].runtime_id != object_id) continue;
+            u16 type = objects[i].object_type;
+            if (operation == 0x38 && type >= 0x210 && type <= 0x214)
                 return (instruction[0] & 0x8000) ? 0 : 1;
+            if (operation == 0x12 && type == 0x1C6) {
+                /* Crown pads enumerate the five actors' standing-on-pad
+                 * tests. Extend only the Chunky branch to actor 7; native
+                 * contact, subposition and button predicates still apply.
+                 * Neither the player ID nor the original script is changed. */
+                u16 extended[4] = {instruction[0], 7, instruction[2], instruction[3]};
+                return vanillaScriptCondition(extended, script, object_id);
             }
+            break;
         }
     }
     return vanillaScriptCondition(instruction, script, object_id);
@@ -154,6 +212,7 @@ void krushaAdventure(void) {
         hook(0x80614A64, krushaBuildActorBones);
         hook(0x806EB0C0, krushaSetAction);
         hook(0x806F6644, krushaModelPickupAllowed);
+        hook(0x8070DED4, krushaDialogueLine);
         hook(0x8063EA14, krushaScriptCondition);
         hook(0x806C5C20, krushaFairyActor);
         hook(0x80680774, krushaBarrelEligibility);

@@ -80,5 +80,17 @@
   },
   "evidence_workspace_relative": "runtime/krusha/tree-tag-fix-review/",
   "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate. Git IDs in copied historical evidence may predate the identity rewrite; consult the alias map.",
-  "identity_rewrite_map": "identity-rewrite.json"
+  "identity_rewrite_map": "identity-rewrite.json",
+  "unreleased_development": {
+    "date": "2026-10-31",
+    "status": "seven libretro rendering/interaction fixes; validation in docs/emulator-compatibility.md",
+    "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
+    "md5": "3481fb2acb5e7fda38bcc30c7f474008",
+    "size": 34701312,
+    "libretro_checks": 81,
+    "released": false,
+    "standalone_regression_assertions": 140,
+    "total_assertions": 221,
+    "validation_complete": true
+  }
 }

@@ -134,3 +134,53 @@ Repository rename: the unified source/release repository is now intended to be
 repository guards/links were updated. The old separate `public-patch-release/`
 clone is retired; its URL may now identify the unified repository after the
 user's GitHub rename. Do not push its obsolete patch-only history to that URL.
+
+## Unreleased development after v0.4.2: Mupen64Plus-Next fixes
+
+The user reported seven Batocera/libretro issues. All seven now have source
+fixes; read [the compatibility report](../docs/emulator-compatibility.md) for
+implementation, screenshots, precise test evidence and emulator settings.
+The development ROM SHA256 is
+`98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a`, MD5
+`3481FB2ACB5E7FDA38BCC30C7F474008`, still34701312 bytes/16KiB aligned/CIC6105.
+Its native standalone EEPROM prefix is `Donkey Kong 64 (local build)-3481FB2A`.
+This is untagged development; accepted v0.4.2 and its public release asset remain
+unchanged. Never use v0.4.2 or intermediate-build states to test this ROM.
+
+The user's new pickup request supersedes the earlier blanket exclusion:
+Krusha can now refill health, standard weapon ammo and separate grenade oranges,
+and earn battle crowns. Colored coins/bananas and other Kong-specific progression
+stay excluded; film/crystal pickups are still excluded. No global identity spoof.
+Crown pads keep their native contact/button tests; Japes arena victory, reward,
+return and resumed movement were tested. Snide says KREMLING for Krusha and KONG
+for original Kongs. Chunky now shares Krusha's heavy-carry tag restriction.
+
+The widescreen camera/scope obstruction was reproduced in GLideN64 and fixed
+by correcting F3DEX2 OtherMode encodings in maskSides. Water tint now uses a
+full-width projection independently of the HUD. Standard mode remains native.
+The build also declares standard16-Kbit EEPROM metadata (`ED`, high version
+nibble2): unrecognized ROMs otherwise defaulted to4-Kbit EEPROM in this core.
+Automatic save-size detection and full-restart native option persistence passed.
+
+Use optional `tools/setup-libretro-test.sh`, `control-libretro.py`,
+`libretro-compat-test.py`, `libretro-save-test.py` for future core-specific QA.
+The test core is SHA-pinned because its RDRAM pointer lookup is ELF-specific.
+An input-only C proxy supplies a virtual controller; the official core does
+all emulation/rendering. Frontend hotkeys use localUDP55357; do not run two such
+controllers on the same port/profile/display. See tools/README.md. The original
+standalone toolchain remains available. User hardware/Batocera version were not
+provided; local tests used Linux/RetroArch/GLideN64, not a Batocera installation.
+
+Final validation for that development ROM:81 libretro assertions (graphics23,
+threaded graphics18, interactions26, complete-restart native EEPROM14) plus140
+standalone regressions, **221 total**. All reports completed with matching98e0...
+ROM hash and all assertions passing. No observed crashes. This does not repeat
+v0.4.2's full tree/vine matrix or certify a complete campaign/original console.
+Raw current evidence is in repo runtime/libretro-investigation/{verified-final-
+profile,verified-threaded-profile,save-persistence-profile} and runtime/qa/
+mupen-next-fixes-20261031. Public summaries and selected captures are committed.
+The old v0.4.2 player's native EEPROM was copied, without overwriting any files,
+into both repo and parent workspace runtime/roms/98e0.../saves/ under its new
+3481FB2A filename. Originals and old states were retained; no old state was copied.
+The user's usual parent tools/play-krusha.sh now launches the new development
+ROM with that native save. No GitHub push, new version tag, or release update.

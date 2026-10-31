@@ -97,3 +97,25 @@ Native climb helpers: 8072F230 finds a grab, 8072FA14 uses player bone 1,
 806C8E58/806C8F8C. Verify signatures/types before calling them from new C/ASM.
 Use cache writeback for modified callback data; runtime instruction hooks also
 need instruction-cache invalidation. Keep original prologues and ABI correct.
+
+## Post-v0.4.2 compatibility additions
+
+- `src/widescreen.c`: `widescreenWater` hooks80701CA0, retaining the native tint
+  renderer and replacing only its02000080 projection reference. `maskSides`
+  emits F3DEX2 OtherMode wordsE3000A01/E200001C explicitly; SDK2 versus2x macro
+  guards otherwise encode wrong bitfields. This caused the GLideN64 camera/
+  scope obstruction. Do not change the whole SDK as a workaround.
+- `src/krusha.c`: shared pickup whitelist56/57/8F/91/15D..160/18D. Crate8F
+  spills five separate ammo props; native actor7 uses15F. All stock updates are
+  native. Crown model2 pad1C6's condition12/actor6 branch is extended with a copied
+  actor7 instruction. Bananaport condition38 handling remains targeted.
+- `krushaDialogueLine` hooks8070DED4, the synchronous glyph formatter, on map15
+  and character5 only. Its bounded local line replaces literal whole-word KONG
+  with KREMLING; native glyph allocation/wrapping still owns the result.
+- `build/build.py`: writes ED atROM3C..3D and high version nibble2 at3F before
+  normal CIC checksumming, declaring EEPROM16K for supporting emulators/loaders.
+  Region45 and all code/asset offsets remain unchanged by that metadata.
+
+See docs/emulator-compatibility.md and playbooks/LIBRETRO.md for evidence and
+controller/profile details. Earlier blanket no-pickup statements in this dated
+handoff are superseded by the user's new shared-supply/crown request.

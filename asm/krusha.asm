@@ -197,3 +197,17 @@ vanillaBuildCameraMatrices:
     SW ra, 0x9C(sp)
     J 0x805FCA9C
     NOP
+
+; Native water-tint renderer; retain all depth, map and smoothing logic.
+widescreenNativeWater:
+    ADDIU sp, sp, -0xD8
+    LUI a1, 0x8077
+    J 0x80701CA8
+    NOP
+
+; Native synchronous dialogue-to-glyph formatter.
+vanillaDialogueLine:
+    ADDIU sp, sp, -0x98
+    SW s0, 0x28(sp)
+    J 0x8070DEDC
+    NOP

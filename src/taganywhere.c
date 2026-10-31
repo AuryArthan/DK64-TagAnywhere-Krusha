@@ -248,8 +248,8 @@ s32 inBadMap(void) {
 
 s32 inBadMovementState(void) {
 	if (Player) {
-		// Finish Krusha's heavy-object action before changing character.
-		if (Character == 5 && Player->control_state >= 0x47 && Player->control_state <= 0x4A) {
+		// Finish either heavy lifter's pickup, carry, throw or drop before tagging.
+		if ((Character == 4 || Character == 5) && Player->control_state >= 0x47 && Player->control_state <= 0x4A) {
 			return 1;
 		}
 		for (s32 i = 0; i < sizeof(bad_movement_states) / sizeof(bad_movement_states[0]); i++) {

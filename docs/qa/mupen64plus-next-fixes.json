@@ -1,0 +1,79 @@
+{
+  "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
+  "libretro": [
+    {
+      "backend_profile": "verified-final-profile",
+      "report": "libretro-compat-tests.json",
+      "assertions": 23,
+      "complete": true,
+      "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a"
+    },
+    {
+      "backend_profile": "verified-final-profile",
+      "report": "libretro-interaction-tests.json",
+      "assertions": 26,
+      "complete": true,
+      "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a"
+    },
+    {
+      "backend_profile": "verified-threaded-profile",
+      "report": "libretro-compat-tests.json",
+      "assertions": 18,
+      "complete": true,
+      "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a"
+    },
+    {
+      "backend_profile": "save-persistence-profile",
+      "report": "libretro-save-tests.json",
+      "assertions": 14,
+      "complete": true,
+      "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a"
+    }
+  ],
+  "standalone": {
+    "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
+    "stages": [
+      {
+        "stage": "core",
+        "complete": true,
+        "assertions": 34,
+        "error": null
+      },
+      {
+        "stage": "extra",
+        "complete": true,
+        "assertions": 10,
+        "error": null
+      },
+      {
+        "stage": "barrel",
+        "complete": true,
+        "assertions": 11,
+        "error": null
+      },
+      {
+        "stage": "gun",
+        "complete": true,
+        "assertions": 20,
+        "error": null
+      },
+      {
+        "stage": "barrel-extra",
+        "complete": true,
+        "assertions": 36,
+        "error": null
+      },
+      {
+        "stage": "options",
+        "complete": true,
+        "assertions": 29,
+        "error": null
+      }
+    ],
+    "complete": true
+  },
+  "total_assertions": 221,
+  "hardware_tested": false,
+  "batocera_installation_tested": false,
+  "complete": true
+}

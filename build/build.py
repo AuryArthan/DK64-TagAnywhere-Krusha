@@ -409,6 +409,19 @@ appendScream(newROMName)
 with open(newROMName, "ab") as fh:
     fh.write(bytes((-fh.tell()) % 0x4000))
 
+# Advertise 16-Kbit EEPROM through the Advanced Homebrew ROM Header.
+# A modified ROM is absent from emulator ROM databases; Mupen64Plus-Next
+# otherwise defaults it to 4-Kbit EEPROM. Keep the USA region, IPL3 and all
+# code/assets intact. ED + the high version nibble is also understood by
+# compatible flashcart loaders. Older emulators still need an explicit type.
+with open(newROMName, "r+b") as fh:
+    fh.seek(0x3C)
+    fh.write(b"ED")
+    fh.seek(0x3F)
+    version = fh.read(1)[0]
+    fh.seek(0x3F)
+    fh.write(bytes([(version & 0x0F) | 0x20]))
+
 # Fix CRC
 from n64crc import fixCRC
 fixCRC(newROMName)

@@ -227,10 +227,14 @@ def run_core():
         check('Krusha collects no colored bananas', all(mem(0x807FC950+5*0x5E+0xA+i*2,'u16')==0 for i in range(14)))
         # Shared orange supply: use a non-full inventory so a false pickup is visible.
         cmd(write=[{'address':'0x807FCC44','type':'u16','value':10}])
+        ammo_before = status()['inventory'][0]
         place([1145,288,1987], wait=2)
-        check('Krusha rejects shared orange pickup', status()['inventory'][2]==10, status())
+        check('Krusha collects shared orange pickup separately from bazooka ammo',
+              status()['inventory'][2]>10 and status()['inventory'][0]==ammo_before, status())
         press('a', wait=2)
-        check('shared orange remains collectible by Chunky', status()['inventory'][2]>10, status())
+        oranges_before = status()['inventory'][2]
+        place([1109,288,2001], wait=2)
+        check('another shared orange remains collectible by Chunky', status()['inventory'][2]>oranges_before, status())
         press('d', wait=1)
         checkpoint(3, 'krusha-build-japes-pickup-tests')
         place([910,280,835], facing=0, wait=2)

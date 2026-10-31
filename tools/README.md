@@ -123,3 +123,40 @@ committed encoded assets and need no codec rebuild. Large raw QA, downloaded
 executables, reference repos, ROMs, saves, videos and shader caches stay outside Git.
 
 [Migration validation and limits](../docs/workflow-validation.md).
+
+## Optional Mupen64Plus-Next compatibility tests
+
+`setup-libretro-test.sh` unpacks RetroArch 1.18.0 and a hash-pinned Linux x86-64
+Mupen64Plus-Next core under ignored `runtime/libretro-tools/`. It requires curl,
+unzip, dpkg-deb and gcc, plus the host SDL2/OpenGL dependencies and the Xvfb/
+xdotool cache from `setup-emulator.sh`. `DK64_LIBRETRO_ROOT` selects another cache.
+The nightly download URL moves; a changed archive is deliberately rejected.
+Do not bypass its checksum: the diagnostic RDRAM lookup must be revalidated for
+a new core. No global RetroArch settings or user saves are used.
+
+The small C proxy supplies a virtual gamepad through libretro's input callback.
+The official core still performs all emulation and graphics. It changes no ROM
+or gameplay memory. `control-libretro.py` accepts the usual JSON commands and
+uses RetroArch's local UDP commands for pause, frame advance and save states.
+It pins GLideN64, native 320×240 rendering and CountPerOp=1. This is an automated
+Linux test harness, not an installer for Batocera or a requirement for players.
+
+```sh
+./tools/setup-libretro-test.sh
+DK64_TEST_SAVE=/absolute/path/to/disposable-speed-mode.eep \
+DK64_RUNTIME="$PWD/runtime/qa/libretro-new-run" \
+/usr/bin/python3 -u tools/libretro-compat-test.py </dev/null
+```
+
+The suite creates the profile's native `.srm` save from the explicit fixture
+when needed; it embeds the 2048-byte EEPROM at its start. It also enables
+Speed Mode through native UI when needed. Graphics checks create exact-build
+states 0–2; `DK64_LIBRETRO_PHASE=interactions DK64_LIBRETRO_RESUME=0` reuses that
+profile's matching-ROM slot 0 for pickups, heavy carrying, dialogue and crowns.
+The resume path requires the previous graphics report's ROM hash to match.
+Reports and screenshots need review; a zero process exit alone is not a pass.
+
+`tools/libretro-save-test.py` uses a **new** explicit `DK64_RUNTIME` profile and
+`DK64_TEST_SAVE` fixture to test native options saving over a complete frontend
+restart. It writes no option RAM and loads no savestates. Its `.srm`-existence
+check prevents accidentally reusing a player profile.

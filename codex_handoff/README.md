@@ -34,6 +34,7 @@ experimental avenue from a log.
 | Workspace versus a standalone Git clone | [WORKSPACE](WORKSPACE.md) |
 | C/ASM/assets and useful USA RAM addresses | [ENGINE_MAP](ENGINE_MAP.md) |
 | Reproduce gameplay, use the controller, interpret results | [Testing playbook](playbooks/TESTING.md) |
+| Mupen64Plus-Next input, native saves and QA pitfalls | [Libretro playbook](playbooks/LIBRETRO.md) |
 | Build, validate and preserve a requested checkpoint | [Build/release playbook](playbooks/BUILD_AND_CHECKPOINT.md) |
 | Things already tried, harness failures and design boundaries | [PITFALLS_AND_DECISIONS](PITFALLS_AND_DECISIONS.md) |
 | Milestone history | [Changelog](../docs/CHANGELOG.md) |

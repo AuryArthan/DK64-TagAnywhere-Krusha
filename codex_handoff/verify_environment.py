@@ -31,13 +31,15 @@ TOOL_ROOT = Path(os.environ.get('DK64_TOOL_ROOT', REPO / 'tools')).resolve()
 result = {
     'read_only': True,
     'snapshot_date': SNAPSHOT['snapshot_date'],
+    'accepted_checkpoint_rom_sha256': SNAPSHOT['rom_sha256'],
+    'unreleased_development': SNAPSHOT.get('unreleased_development'),
     'repository': str(REPO),
     'workspace': str(WORKSPACE) if WORKSPACE else None,
     'git': {'head': git('rev-parse', 'HEAD'),
             'branch': git('branch', '--show-current'),
             'status': git('status', '--short'),
             'v042_gameplay_commit': git('rev-parse', 'v0.4.2^{}')},
-    'development_rom': identity(REPO / 'rom/dk64-krusha-dev.z64', SNAPSHOT['rom_sha256']),
+    'development_rom': identity(REPO / 'rom/dk64-krusha-dev.z64', SNAPSHOT.get('unreleased_development', {}).get('rom_sha256', SNAPSHOT['rom_sha256'])),
     'binary_cache': str(TOOL_ROOT),
     'cached_tools_present': {n: (TOOL_ROOT / n).is_file() for n in [
         'n64chain/tools/bin/mips64-elf-gcc', 'build-tools/armips/armips',
