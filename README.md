@@ -1,108 +1,173 @@
-# Donkey Kong 64 - Tag Anywhere V5
+# Donkey Kong 64 — Krusha + Tag Anywhere
 
-Made with ❤️ by Isotarge
+**Krusha as a sixth adventure character, built on Isotarge’s Tag Anywhere.**
 
-With help from:
-- Tom Ballaam
-- Murdyll
-- 2dos
-- Mittenz
-- retroben
-- Kaze Emanuar
-- SubDrag
-- runehero123
-- Skill
-- TJ Blakely
-- GloriousLiar
-- Adam Whitmore
-- Znernicus
-- Zorulda
-- ChristianVega64
-- Rain
-- Shygoo
-- tj90241
+Play as Krusha alongside the five original Kongs: swap with the D-pad, select
+him in tag barrels, fire his bazooka, and clear nearby enemies with a powerful
+shout. Krusha is available from the start, with a persistent option to turn him
+off. The current checkpoint is **v0.4.2**.
 
-It takes a village to free a kong.
+![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
-## Controls
-- D-Pad Left to tag backwards through the kong rotation
-- D-Pad Right or L Button to tag forwards through the kong rotation
+## What this hack adds
 
-DK -> Diddy -> Lanky -> Tiny -> Chunky
+- **A sixth character.** The rotation is DK → Diddy → Lanky → Tiny → Chunky →
+  Krusha → DK. Krusha needs no unlock event, even with Speed Mode off. The other
+  Kongs retain their normal unlock requirements in that mode.
+- **A working bazooka.** Krusha starts unarmed, equips and holsters his native
+  weapon, fires using shared standard ammunition, and supports first-person
+  aiming. His visible weapon follows the equipped state, including camera exits.
+- **Six-character tag barrels.** Krusha has his own waiting and selected
+  animations. His exterior face sits between Chunky and DK, using the custom
+  portrait selected and adjusted for this project. The barrel is enlarged by
+  15% to accommodate the extra face while keeping it close to the vanilla design.
+- **Adventure interactions.** Krusha can run, jump, climb trees, swing on vines,
+  swim, throw oranges, use numbered bananaports, and lift/carry/drop/throw boulders.
+  He can enter and leave Cranky’s, Funky’s, and Candy’s shops safely.
+- **A vocal instrument move.** His shout uses part of his charged-attack burp
+  animation and the supplied scream recording, with native instrument enemy
+  damage, a darkened background, spotlight, centered zoom, a full camera orbit,
+  and camera shake. It costs one displayed crystal from the shared supply.
+- **A persistent KRUSHA switch.** Turning it off restores the five-character
+  tagging cycle and original five-character barrels, including their exterior.
+- **Consistent presentation.** Krusha is 10% larger, with adjustments for
+  adventure, tag-barrel previews, and shop scenes. The startup lineup includes
+  his gray silhouette, and the credit reads “Krusha patched in by Arthan.”
+- **Widescreen corrections.** The existing Widescreen option also corrects HUD,
+  menu and pause sprites, moves the adventure HUD toward the edges, and fixes
+  stretched instrument and tag-barrel presentations, including barrel entry.
+  Standard-mode placement is preserved.
 
-We have put significant time and effort into ensuring that you can not tag in situations that would cause softlocks or crashes. If you hear a "denied" sound when attempting to tag, it means tagging has been temporarily disabled for that reason.
+| Bazooka in adventure | Krusha in the tag barrel |
+| --- | --- |
+| ![Krusha firing his bazooka in DK Isles](docs/screenshots/bazooka.png) | ![Krusha selected in the six-character tag barrel](docs/screenshots/tag-barrel.png) |
 
-## Features
-- Mystery menu options are unlocked without capturing banana fairies for your convenience.
-- This patch includes two modes, toggled by the Speed Mode option in the options menu.
-  - Speed Mode off is intended for casual players.
-  - Speed Mode on is intended for speedrunners to set new personal bests on [this leaderboard](https://www.speedrun.com/dk64ce#Tag_Anywhere).
-- The Speed Mode setting will be remembered through resets.
+## Playing
 
-### Speed Mode Off
-- [x] Only DK unlocked from start, but you can tag anywhere once other kongs are unlocked
-- [x] No other changes to gameplay
+Apply this project’s **BPS patch to a clean, original Donkey Kong 64 USA ROM**
+in big-endian `.z64` format. The patch already includes Tag Anywhere; start from
+the original game rather than applying it over another hack.
 
-### Speed Mode On
-- [x] Intro story and level intros skipped (called Story Skip in the vanilla game)
-- [x] All kongs are unlocked from beginning and can immediately be tagged anywhere
-- [x] All moves, guns, simian slam, shockwave, and camera unlocked from the start
-- [x] Golden Banana dances skipped
-- [x] All first time text skipped from beginning
-- [x] Training barrels completed
-- [x] File starts in in DK Isles rather than Training Grounds
-- [x] K. Lumsy cutscenes compressed
-  - [x] All keys behave like 3 and 8
-- [x] Snide's cutscenes compressed
-  - [x] Shortest contraption animation at all Snide's HQ locations
-  - [x] Single golden banana animation when turning in multiple blueprints
-- [x] Faster Troff 'n' Scoff feeding
+Expected source SHA-1:
 
-The Krusha branch fixes the inherited tree-tag origin warp; see
-[the implementation and regression notes](docs/tree-tag-fix.md).
+```text
+CF806FF2603640A748FCA5026DED28802F1F4A50
+```
 
-## Known Issues
-- Save is broken on older EverDrives
-  - Nothing I can do about this unfortunately
-- Save is broken on some emulators out of the box
-  - Set the emulator configuration to use the "EEPROM 16K" save type
-    - This might require modifying a gameDB or ini file
-    - Get in touch with your emulator's author for help
-  - Alternatively, use your emulator's savestate feature to save your progress between play sessions
-- Save is broken and bone displacement is present on BizHawk
-  - Set N64 -> Use Expansion Slot to true
-  - EEPROM 16K setting for this ROM needed in BizHawk's gamedb_n64.txt
-    - Copy the settings line for Donkey Kong 64 (USA) but replace the vanilla ROM's SHA1 hash with the SHA1 hash of the Tag Anywhere ROM
-  - Use these gameshark codes to fix bone displacement:
-    - 8161963C 0000
-    - 8161963E 0000
-- 101% runners should enter Arcade from the mystery menu and hit "delete highscores"
-  - This fills the high score table with 999950 and skips entering initials during the run
-  - Probably only needs to be done once
+European and Japanese ROMs are not supported. ROM files are not included here.
 
-## A note on emulation
-This patch will work on both real N64 hardware and modern emulators. For the best experience, it is recommended that you play on real N64 hardware with an EverDrive64 v3 or later.
+Configure the emulator or flashcart for **8 MB Expansion Pak memory** and
+**EEPROM 16K saves**. Set the game’s Widescreen option ON when displaying the
+output at 16:9; use Standard for 4:3. Black overscan borders are left intact in
+the ROM and can be handled by the emulator’s display settings if desired.
 
-If you do not have access to real N64 hardware, modern emulators like [simple64](https://github.com/simple64/simple64/releases) (v2021.12.3 or later), [Project64](https://www.pj64-emu.com/) (v3 or later), or [mupen64plus-next](https://github.com/libretro/mupen64plus-libretro-nx) will provide a reasonable experience.
+| Action | N64 control |
+| --- | --- |
+| Tag backward | D-pad Left |
+| Tag forward | D-pad Right or L |
+| Rotate the tag-barrel selector | Control Stick Left/Right |
+| Select and leave the tag barrel | A, B, or Z |
+| Equip / holster bazooka | Z + C-Left |
+| Fire the equipped bazooka | B |
+| First-person aim with bazooka equipped | C-Up |
+| Fairy camera while unarmed, after the shared camera unlock | Z + C-Down |
+| Shout while unarmed | Z + C-Up |
+| Throw an orange | Z + C-Right |
 
-You may need to configure your emulator to use the EEPROM 16K save type for saves to persist between resets. If this option is not available, you will need to ask your emulator author to add it. In the mean time, you can use the savestate feature of your emulator to save your progress.
+Tagging is deliberately blocked during unsafe actions, cutscenes, and certain
+maps. A denied sound indicates that the current situation does not allow a tag.
+Drop or throw a carried boulder before switching characters.
 
-![Project64 EEPROM Configuration](build/pj64-eeprom-config.png)
+### Options and the Tag Anywhere baseline
 
-Please do not bug me about this, I have no control over the direction of the various emulation projects and I cannot fix it by modifying how this patch works.
+In the title menu’s **Options** barrel, move left/right to **KRUSHA**, then
+up/down to turn it ON or OFF. It defaults to ON for existing saves and persists
+through resets. Speed Mode is a separate option in the same menu.
 
-## Building Pre-requisites
-- Python 3
-- [n64chain](https://github.com/tj90241/n64chain/releases/tag/9.1.0)
+![The persistent KRUSHA ON/OFF setting](docs/screenshots/krusha-option.png)
 
-## Build Setup (Windows)
-1. Download ```n64chain-windows.zip``` from [here](https://github.com/tj90241/n64chain/releases/tag/9.1.0)
-2. Extract to ```C:\n64chain```
-3. Add ```C:\n64chain\tools\bin``` to your system %path% environment variable
-4. Install ```Python 3```
-5. Git clone (or download a zip + extract) this repo to somewhere convenient
-6. Create a ```rom``` subdirectory in the root of the repo
-7. Put ```dk64.z64``` (SHA1: CF806FF2603640A748FCA5026DED28802F1F4A50) in the ```rom``` subdirectory
-8. Run ```build.bat```
+The baseline’s **Speed Mode OFF** follows normal progression for the original
+Kongs and their moves; Krusha remains available. **Speed Mode ON** unlocks the
+original Kongs and moves, completes training, starts in DK Isles, skips much
+introductory text and several celebrations, and shortens selected cutscenes and
+turn-ins. The baseline also unlocks Mystery menu options. This project retains
+Tag Anywhere’s safeguards around dangerous character changes.
 
-Provided everything is working, the built ROM will appear in the ```rom``` subdirectory
+## Current limitations
+
+Krusha is an extra way to explore and fight, with progression still handled by
+the original Kongs:
+
+- **He cannot collect pickups yet**, including colored bananas, coins and shared
+  consumables. Switch to an original Kong to collect them and replenish supplies.
+  There is no sixth set of collectibles or dedicated shop upgrades.
+- His fairy camera can enter photo mode and take pictures, consuming film, but
+  does not award fairy capture flags or rewards.
+- His shout defeats nearby vulnerable enemies, but does not perform the five
+  Kongs’ instrument-pad puzzle songs. It uses crystals rather than instrument energy.
+- Shop visits are safe, but Krusha receives the “nothing for sale” response.
+  Boulders are supported; this does not grant every Chunky-only ability.
+- Multiplayer, every boss/minigame, and a complete 101% playthrough have not been
+  exhaustively validated. This is not a guarantee that every encounter works.
+
+**Original N64 hardware remains untested.** v0.4.1 added 16 KiB ROM padding for
+flashcart loader transfers, and v0.4.2 retains that alignment and valid CIC-6105
+checksums. These are compatibility preparations, not console certification.
+
+Native EEPROM saves can be carried between these builds with the appropriate
+emulator profile setup. Save states belong to the exact ROM that created them;
+keep older states with their corresponding ROM and cold-boot a new build first.
+
+## Widescreen
+
+The corrections follow the game’s existing setting. They include ordinary HUD
+icons and counters, pause inventory sprites, and special instrument/barrel
+camera paths. They do not require a separate widescreen ROM.
+
+![Corrected widescreen pause inventory layout](docs/screenshots/widescreen-pause.png)
+
+## Development and validation
+
+The latest fix addresses the inherited **tree-tag origin warp**. A native
+character swap rebuilds the model before a tree/vine grab can read its new
+transforms. v0.4.2 uses the existing regrab cooldown for one update after a swap,
+allowing initialization to finish without disabling ordinary airborne tagging.
+
+The exact v0.4.2 ROM passed **723 focused assertions**, including nine original
+reproduction timings, 112 tree approaches, 44 ordinary airborne tags, eight vine
+cases, and regression checks for gameplay, weapons, shops, barrels and options.
+Those counts include controller-driven scenarios with logged position/loading
+fixtures; they are not a measure of campaign completion. No crashes or new
+regressions were observed in the accepted checks. Earlier v0.4.1 release QA
+identified the tree-tag bug that prompted this fix.
+
+The [checkpoint history](docs/CHANGELOG.md) summarizes the development milestones.
+For implementation details, see:
+
+- [Tree-tag fix and validation](docs/tree-tag-fix.md)
+- [Shout animation, sound and camera development](docs/krusha-roar.md)
+- [Krusha size adjustments](docs/krusha-size.md)
+- [Barrel portraits and startup lineup](docs/krusha-barrel-portraits.md)
+- [Widescreen rendering changes](docs/widescreen.md)
+- [Console packaging and its limits](docs/console-packaging.md)
+- [Building from source](docs/BUILDING.md)
+
+The detailed development documents retain the history of experiments and tuning;
+the behavior described above is the current version. Large emulator profiles,
+raw test captures, and workspace helper scripts live outside this repository.
+The screenshots used here are copied into the repository so they display on GitHub.
+
+## Credits
+
+**Krusha patched in by Arthan.** Concept, direction, playtesting, supplied scream
+recording, and portrait selection/adjustments by Arthan. Implementation and
+regression testing developed with Codex; the custom portrait uses AI-assisted
+artwork selected and adjusted by Arthan.
+
+Built on **[Donkey Kong 64 — Tag Anywhere by Isotarge](https://github.com/Isotarge/dk64-tag-anywhere)**,
+using the local baseline commit `e9ca72f5070c7e4bad69d37382c5a0798b06462f`.
+Thanks to Isotarge and the original project’s contributors; their full credits
+remain available in the upstream project and Git history. The partial DK64
+decompilation and reverse-engineering work provided useful implementation references.
+
+Donkey Kong 64, its characters, and the original game assets are by Nintendo/Rare.
