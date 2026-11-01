@@ -1,19 +1,19 @@
 # Patch release on push
 
-`v0.6/DK64-TagAnywhere+Krusha.bps` is the verified patch copied from the approved
+`v0.6.1/DK64-TagAnywhere+Krusha.bps` is the verified patch copied from the approved
 checkpoint, not a ROM. It is deliberately tracked despite the general BPS ignore
-rule. Its SHA-256 is pinned in `tools/publish-v06.py`.
+rule. Its SHA-256 is pinned in `tools/publish-v061.py`.
 
-Push the existing v0.6 tag, then the current branch:
+Push the existing v0.6.1 tag, then the current branch:
 
 ```sh
-git push origin refs/tags/v0.6
+git push origin refs/tags/v0.6.1
 git push origin HEAD
 ```
 
 This publishes only after those local commits reach GitHub. The dedicated workflow
 runs when these release files or its publisher change. It can also be started
-from Actions → Publish v0.6 BPS → Run workflow on the default branch.
+from Actions → Publish v0.6.1 BPS → Run workflow on the default branch.
 GitHub's automatic workflow token supplies `contents: write`; no personal token
 is committed. Uploading requires Actions to be enabled and repository policy to
 permit that write permission. The publisher is scoped to this specific repository.
@@ -37,15 +37,15 @@ through GitHub settings if anonymous downloads and public source are desired.
 Local checks (no network writes):
 
 ```sh
-python3 tools/publish-v06.py --check-only
-python3 tools/test-publish-v06.py
+python3 tools/publish-v061.py --check-only
+python3 tools/test-publish-v061.py
 ```
 
 Expected version-specific download after successful publication:
-`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.6/DK64-TagAnywhere%2BKrusha.bps`
+`https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.6.1/DK64-TagAnywhere%2BKrusha.bps`
 
 For later versions, prepare and verify a new patch/tag and deliberately update
 the publisher/workflow. This workflow only publishes the specifically requested
-v0.6, not every build or tag in the repository.
+v0.6.1, not every build or tag in the repository.
 
-Historical v0.5 and v0.4.2 assets, tags and publishers/workflows are preserved unchanged.
+Historical v0.6, v0.5 and v0.4.2 assets, tags and publishers/workflows are preserved unchanged.

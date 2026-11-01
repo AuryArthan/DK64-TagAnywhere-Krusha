@@ -142,6 +142,7 @@
     "tested_gameplay_commit": "1f8f8423cecf12fe1e5714d84b0f09ccb267509c",
     "publisher": "tools/publish-v061.py",
     "workflow": ".github/workflows/release-v061.yml",
-    "hosted_publication_verified": false
+    "hosted_publication_verified": false,
+    "checkpoint_commit": "2d0e424ce76f7299c7e23741c807d47574d3e231"
   }
 }

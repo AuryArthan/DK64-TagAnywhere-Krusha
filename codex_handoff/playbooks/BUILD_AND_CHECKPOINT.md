@@ -75,7 +75,7 @@ review packager if it will overwrite historical results.
 
 Use the next agreed version after inspecting tags. Existing history includes the
 historical `v3.1` label; retain it rather than renaming it. The latest approved
-checkpoint is v0.6; v0.5, v0.4.2 and earlier versions remain preserved.
+checkpoint is v0.6.1; v0.6, v0.5, v0.4.2 and earlier versions remain preserved.
 
 1. Commit the tested change. Annotate the new version tag at its correct commit;
    never move an existing version tag or silently reset unrelated work.
@@ -104,6 +104,12 @@ changes within the current request. This playbook does not authorize a network
 push, repository creation or public release by itself.
 
 ## Current release-on-push example
+
+v0.6.1 tags checkpoint `2d0e424ce76f7299c7e23741c807d47574d3e231`; its following preparation
+commit adds `tools/publish-v061.py` and `.github/workflows/release-v061.yml`.
+Push `refs/tags/v0.6.1` before the branch. Earlier publishers/tags stay frozen.
+
+Historical v0.6 example:
 
 v0.6 tags checkpoint commit `3fc3627`; its later preparation commit `ad26976`
 adds `tools/publish-v06.py` and `.github/workflows/release-v06.yml`. The publisher

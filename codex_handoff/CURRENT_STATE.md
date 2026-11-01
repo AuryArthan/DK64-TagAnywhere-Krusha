@@ -34,9 +34,17 @@ count interrupted probes, the first short Next step budget, or v0.6's old
 The v0.6.1 patch is `release-assets/v0.6.1/DK64-TagAnywhere+Krusha.bps`,
 SHA256 `fffc40d9f9e6e21a4911d6628322be00e7ac5a5fd0c23b20b138878c601b5abf`.
 The frozen backup is `../runtime/checkpoints/v0.6.1/`. Tested gameplay source:
-`1f8f8423cecf12fe1e5714d84b0f09ccb267509c`. The annotated v0.6.1 tag identifies
-the checkpoint; its later preparation commit adds the pinned publisher/workflow.
-Push the tag first, then the branch (see release-assets/README.md). Publication
+`1f8f8423cecf12fe1e5714d84b0f09ccb267509c`. The annotated v0.6.1 tag points to
+`2d0e424ce76f7299c7e23741c807d47574d3e231`; its later preparation commit adds the pinned publisher/workflow.
+The publisher is `tools/publish-v061.py`, with workflow
+`.github/workflows/release-v061.yml`. Push the tag first, then the branch:
+
+```sh
+git push origin refs/tags/v0.6.1
+git push origin HEAD
+```
+
+See release-assets/README.md. Publication
 is prepared locally, not verified as hosted. No GitHub push was performed here.
 Earlier tags, patches and backups remain intact. No new gameplay change was
 made while versioning this already-tested ROM.
