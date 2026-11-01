@@ -2,7 +2,7 @@
   "snapshot_date": "2026-11-01",
   "latest_accepted_version": "v0.6",
   "gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3",
-  "documentation_commit_before_handoff": "6098b12ddb6be7b70d0684d3f72119650f301431",
+  "documentation_commit_before_handoff": "ad2697625c1343d3c6c674de8c99107871df8746",
   "branch_at_snapshot": "krusha-six-character-barrel",
   "upstream_baseline": "e9ca72f5070c7e4bad69d37382c5a0798b06462f",
   "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
@@ -96,7 +96,7 @@
     "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
     "md5": "45ced182aba73f860e8ad339814f3837",
     "native_save_prefix": "45CED182",
-    "status": "Approved checkpoint; publication prepared for user push",
+    "status": "Approved frozen checkpoint; release-on-push prepared; hosted status not checked",
     "assertions": 249,
     "reports": 13,
     "summary": "docs/qa/krusha-collectibles-20261101.json",
@@ -108,6 +108,9 @@
     "hardware_tested": false,
     "tested_gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3",
     "checkpoint_commit": "3fc3627e09c9a581c9326e50548df3a2379783a7",
-    "publisher": "tools/publish-v06.py"
+    "publisher": "tools/publish-v06.py",
+    "release_preparation_commit": "ad2697625c1343d3c6c674de8c99107871df8746",
+    "workflow": ".github/workflows/release-v06.yml",
+    "hosted_publication_verified": false
   }
 }

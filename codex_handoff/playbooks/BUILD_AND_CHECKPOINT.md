@@ -74,7 +74,8 @@ review packager if it will overwrite historical results.
 ## Checkpoint only when requested
 
 Use the next agreed version after inspecting tags. Existing history includes the
-historical `v3.1` label; retain it rather than renaming it. v0.4.2 is already saved.
+historical `v3.1` label; retain it rather than renaming it. The latest approved
+checkpoint is v0.6; v0.5, v0.4.2 and earlier versions remain preserved.
 
 1. Commit the tested change. Annotate the new version tag at its correct commit;
    never move an existing version tag or silently reset unrelated work.
@@ -101,6 +102,18 @@ BPS, symbols and object output; release patches are separate artifacts.
 The user intends to publish to their GitHub later. Prepare reviewable local
 changes within the current request. This playbook does not authorize a network
 push, repository creation or public release by itself.
+
+## Current release-on-push example
+
+v0.6 tags checkpoint commit `3fc3627`; its later preparation commit `ad26976`
+adds `tools/publish-v06.py` and `.github/workflows/release-v06.yml`. The publisher
+pins the tag commit and BPS SHA256. Push that existing tag before the branch.
+Do not move the tag to include later docs/tool commits. Check hosted publication
+separately; a local offline test is not evidence that GitHub published anything.
+
+For a later version, prepare its own verified asset/tag and deliberately scoped
+publisher/workflow. Preserve earlier assets/publishers. The release notes and
+[release guide](../../release-assets/README.md) document the existing process.
 
 ## Recover without disturbing live work
 

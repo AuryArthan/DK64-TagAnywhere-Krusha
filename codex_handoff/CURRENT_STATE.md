@@ -9,7 +9,9 @@ SHA256 `4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88`.
 The annotated `v0.6` tag points to `3fc3627e09c9a581c9326e50548df3a2379783a7`.
 `tools/publish-v06.py` and `.github/workflows/release-v06.yml` verify and publish
 only this approved tag/patch. The checkpoint and workflow are prepared locally;
-the user will push. Do not claim hosted publication from local validation.
+hosted publication has not been verified in this session. A user push may
+already have happened; check current evidence before treating publication as an
+outstanding task. Do not claim hosted publication from local validation.
 The frozen backup is `../runtime/checkpoints/v0.6/`. Earlier tags/assets stay intact.
 Tested gameplay source commit: `79cdc585abd75afa8fe1d00d0c17804e9cf1fed3`.
 
@@ -32,7 +34,29 @@ v0.5 native EEPROM under the new prefix; originals/states were retained. No
 cross-ROM savestates were imported. QA profiles remain private/ignored under
 `runtime/qa/collectibles-20261101/`; their progression is not a player save.
 
-# Current state — v0.5 checkpoint, 2026-10-31
+## Release preparation and continuation
+
+Release preparation commit: `ad2697625c1343d3c6c674de8c99107871df8746`.
+It follows the v0.6 checkpoint tag and adds the publisher/workflow. Preserve both:
+the tag identifies the versioned game, while the branch includes publication tools.
+To publish when explicitly requested, push the existing tag, then the branch:
+
+```sh
+git push origin v0.6
+git push origin HEAD
+```
+
+The workflow is **Publish v0.6 BPS**. See
+[release instructions](../release-assets/README.md), including offline checks.
+A tag-only push does not publish: the workflow was added in the later branch commit.
+Further handoff/documentation commits do not change the tested ROM or move v0.6.
+The frozen backup records the release-preparation state, not later docs updates.
+No outstanding gameplay fix is recorded; continue the latest user request.
+
+## Historical v0.5 checkpoint — 2026-10-31
+
+The following sections are dated history, superseded by v0.6 above wherever they
+conflict. Do not apply their old restrictions or resume their publication plans.
 
 The user approved the tested compatibility build as **v0.5** and requested a
 release-on-push BPS asset, like v0.4.2. This supersedes the historical snapshot

@@ -23,14 +23,14 @@ below describes that original workspace, not requirements for a standalone clone
 | Location | Purpose |
 | --- | --- |
 | `dk64-tag-anywhere/` | Actual source repo, assets, docs, ROM output |
-| `public-patch-release/` | Separate public BPS-only repo; never add private source here |
+| `public-patch-release/` | Retired patch-only clone; do not push its obsolete history. The source repo now hosts both code and releases. |
 | `tools/` | Build/emulator/control/test/package helpers; outside source repo |
 | `tools/n64chain/`, `tools/build-tools/` | Pinned compiler, armips and gzip |
 | `tools/emulator/` | Locally unpacked Mupen64Plus, plugins, Xvfb, xdotool |
 | `Donkey Kong 64 (USA).z64` | Private, unmodified source ROM |
-| `runtime/krusha/current` | Symlink to current normal ROM-hash profile |
+| `runtime/krusha/current` | Builder-maintained profile symlink; inspect its target. Launchers compute the profile from the actual ROM hash. |
 | `runtime/roms/<SHA256>/` | Separate saves/config/states/screenshots per ROM |
-| `runtime/checkpoints/v0.4.2/` | Frozen ROM, BPS, source history/diff, tools, save/state copies, manifest and hashes |
+| `runtime/checkpoints/v0.6/` | Current frozen ROM/BPS, Git bundle, source archive/diff, player save copies, QA fixtures/reports and hashes; v0.5/older backups remain intact |
 | `runtime/krusha/build-manifest.json` | Identity of last built ROM; may point to gameplay commit before later docs commits |
 | `runtime/krusha/dk64-krusha-adventure.bps` | Verified patch for the original USA ROM |
 | `runtime/krusha/source.bundle` | Current Git-history backup; refresh after commits when useful |
@@ -48,7 +48,21 @@ in `dk64_recompilled/DK64Syms/` and partial native source in
 ROM/disassembly before treating incomplete C or guessed structure types as facts.
 Temporary `/tmp` dumps from past sessions are disposable, not authoritative assets.
 
-## Important evidence
+## Current v0.6 evidence
+
+Repository-relative paths:
+
+- `docs/qa/krusha-collectibles-20261101.json`: committed summary of 249 assertions
+  across 13 completed, matching-ROM reports; includes source/report hashes.
+- `docs/krusha-collectibles-validation.md`: fixtures, actual coverage and limits.
+- `runtime/qa/collectibles-20261101/final-build/`: private raw profiles and
+  captures. Use the accepted paths from the public summary; earlier failed
+  fixture attempts in the same tree are not accepted validation.
+- `release-assets/v0.6/`: verified public BPS and release notes.
+- The original parent workspace's `runtime/checkpoints/v0.6/` has the frozen
+  backup. Player saves and QA states are separated and labeled in RESTORE.txt.
+
+## Historical evidence (original parent workspace)
 
 - `runtime/krusha/tree-tag-fix-review/`: v0.4.2 accepted result, comparison with
   v0.4.1, raw traces, matrix/on/off reports, vine cases, regressions, failed
@@ -75,9 +89,13 @@ original, including the Tag Anywhere changes; do not stack it on another hack.
 F12 writes `screenshots/donkey_kong_64-NNN.png` in the **running ROM's** profile.
 The eleven captures 000–010 made on v0.4.1 are in
 `runtime/roms/7f0e70d623258052ac066384fbebcefe309cbf1755245a2d231c721a174dbe68/screenshots/`.
-New v0.4.2 captures go to `runtime/krusha/current/screenshots/` while that symlink
-still points to this release. An already-running older emulator continues using
-its old profile even after a new build updates the symlink. Preserve those files.
+For v0.6 the ROM-hash profile is
+`runtime/roms/b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f/`.
+Look in its `screenshots/` folder under the repo or parent workspace, depending
+on which launcher was used. The repo's `runtime/krusha/current` symlink also
+points at that profile; inspect a parent symlink before assuming it is current.
+An already-running emulator continues using its own profile after a new build.
+Preserve old profiles and captures.
 
 ## Standalone clone
 

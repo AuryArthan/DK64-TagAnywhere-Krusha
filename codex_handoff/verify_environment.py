@@ -11,6 +11,10 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 SNAPSHOT = json.loads((HERE / 'snapshot.json').read_text())
 WORKSPACE = REPO.parent if (REPO.parent / 'tools/build-krusha.sh').is_file() else None
+VERSION = SNAPSHOT['latest_accepted_version']
+ACCEPTED = SNAPSHOT.get('accepted_' + VERSION.replace('.', ''), {})
+CHECKPOINT = (WORKSPACE or REPO) / 'runtime/checkpoints' / VERSION
+QA_SUMMARY = REPO / ACCEPTED['summary'] if ACCEPTED.get('summary') else None
 
 
 def git(*args):
@@ -33,6 +37,14 @@ result = {
     'snapshot_date': SNAPSHOT['snapshot_date'],
     'accepted_version': SNAPSHOT['latest_accepted_version'],
     'accepted_checkpoint_rom_sha256': SNAPSHOT['rom_sha256'],
+    'accepted_tag_commit': git('rev-parse', VERSION + '^{}'),
+    'expected_tag_commit': ACCEPTED.get('checkpoint_commit'),
+    'accepted_patch': identity(REPO / 'release-assets' / VERSION / 'DK64-TagAnywhere+Krusha.bps',
+                               ACCEPTED.get('patch_sha256')),
+    'checkpoint_path': str(CHECKPOINT),
+    'checkpoint_present': (CHECKPOINT / 'checkpoint.json').is_file(),
+    'accepted_qa_summary': str(QA_SUMMARY) if QA_SUMMARY else None,
+    'latest_qa_present': QA_SUMMARY.is_file() if QA_SUMMARY else False,
     'unreleased_development': SNAPSHOT.get('unreleased_development'),
     'repository': str(REPO),
     'workspace': str(WORKSPACE) if WORKSPACE else None,
@@ -56,8 +68,6 @@ if WORKSPACE:
                                       SNAPSHOT['original_rom_sha256'])
     result['normal_profile'] = {'path': str(profile), 'target': str(profile.resolve()),
                                 'present': profile.exists()}
-    result['checkpoint_present'] = (WORKSPACE / 'runtime/checkpoints/v0.4.2/checkpoint.json').is_file()
-    result['latest_qa_present'] = (WORKSPACE / 'runtime/krusha/tree-tag-fix-review/summary.json').is_file()
 else:
     result['note'] += ' Parent historical workspace is absent; maintained tools/ work from this clone. Supply dependencies, ROM and test fixture as documented.'
 print(json.dumps(result, indent=2))
