@@ -1,8 +1,9 @@
-# Shared collectible development validation — 2026-11-01
+# v0.6 shared collectible validation — 2026-11-01
 
-This is unreleased development after v0.5. It implements the user's approved
-[collectible policy](krusha-collectibles.md); the v0.5 tag and release BPS are
-unchanged. No GitHub publication or new release version is part of this change.
+The user approved this exact tested build as **v0.6**. It implements the
+[collectible policy](krusha-collectibles.md); the v0.5 tag and release BPS remain
+unchanged. GitHub publication is prepared locally and runs after the user pushes
+the tag and release workflow.
 
 ## Exact artifact
 
@@ -10,7 +11,7 @@ unchanged. No GitHub publication or new release version is part of this change.
 - MD5/native EEPROM prefix: `45ced182aba73f860e8ad339814f3837` / `45CED182`
 - Size: 34,701,312 bytes; 16 KiB alignment retained.
 - CIC-6105 checksums verified, along with `ED`/EEPROM16K metadata.
-- Development BPS: `runtime/krusha/dk64-krusha-adventure.bps`, SHA256
+- Release BPS: `release-assets/v0.6/DK64-TagAnywhere+Krusha.bps`, SHA256
   `4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88`.
   Applying it to the required original USA ROM reproduces every target byte.
 - Frozen v0.5 patch SHA256 remains

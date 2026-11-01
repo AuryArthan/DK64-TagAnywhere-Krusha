@@ -5,8 +5,8 @@
 Play as Krusha alongside the five original Kongs: swap with the D-pad, select
 him in tag barrels, fire his bazooka, and clear nearby enemies with a powerful
 shout. Krusha is available from the start, with a persistent option to turn him
-off. The latest release is **v0.5**. Current development also expands shared
-collectibles and restores fairy capture; see [the pickup policy](docs/krusha-collectibles.md).
+off. The current version is **v0.6**, with shared collectibles and working
+Banana Fairy photography.
 
 ![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
@@ -25,12 +25,18 @@ collectibles and restores fairy capture; see [the pickup policy](docs/krusha-col
 - **Adventure interactions.** Krusha can run, jump, climb trees, swing on vines,
   swim, throw oranges, use numbered bananaports, and lift/carry/drop/throw boulders.
   He can enter and leave Cranky’s, Funky’s, and Candy’s shops safely.
-  He can also refill health, standard ammo and grenade
-  oranges, and enter battle arenas to earn their shared crowns.
+  He can also enter battle arenas and earn their shared crowns.
+- **Shared collectibles and fairy photography.** Krusha can collect melon health,
+  ammo, grenade oranges, unlocked crystals and camera film, plus shared keys,
+  unique coins, pearls, the bean and temporary DK coins. Homing ammo pickups
+  refill his regular bazooka ammo. After the normal camera unlock, he can
+  photograph Banana Fairies and receive the native capture/refill rewards.
+  Original quest and access requirements still apply.
 - **A vocal instrument move.** His shout uses part of his charged-attack burp
   animation and the supplied scream recording, with native instrument enemy
   damage, a darkened background, spotlight, centered zoom, a full camera orbit,
-  and camera shake. It costs one displayed crystal from the shared supply.
+  and camera shake. It costs one displayed crystal from the shared supply and
+  becomes available when the game’s shared crystals unlock.
 - **A persistent KRUSHA switch.** Turning it off restores the five-character
   tagging cycle and original five-character barrels, including their exterior.
 - **Consistent presentation.** Krusha is 10% larger, with adjustments for
@@ -48,7 +54,8 @@ collectibles and restores fairy capture; see [the pickup policy](docs/krusha-col
 
 ## Playing
 
-Patch downloads are published through [GitHub Releases](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases).
+[Download the v0.6 BPS patch](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.6/DK64-TagAnywhere%2BKrusha.bps)
+from [GitHub Releases](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases).
 The [release workflow notes](release-assets/README.md) explain publication on push.
 
 Apply this project’s **BPS patch to a clean, original Donkey Kong 64 USA ROM**
@@ -84,7 +91,7 @@ widescreen hack OFF and use the game's Widescreen option instead.
 | Fire the equipped bazooka | B |
 | First-person aim with bazooka equipped | C-Up |
 | Fairy camera while unarmed, after the shared camera unlock | Z + C-Down |
-| Shout while unarmed | Z + C-Up |
+| Shout while unarmed, after the shared crystal unlock | Z + C-Up |
 | Throw an orange | Z + C-Right |
 
 Tagging is deliberately blocked during unsafe actions, cutscenes, and certain
@@ -112,14 +119,12 @@ Krusha is an extra way to explore and fight, with progression still handled by
 the original Kongs:
 
 - **Colored bananas, coins and other Kong-specific progression remain excluded.**
-  Current development lets him refill health, regular ammo, grenade oranges,
-  camera film and unlocked crystals, and collect shared crowns/keys and quest items.
-  Homing pickups become regular bazooka ammo; he has no homing-projectile upgrade.
-  Golden Bananas, blueprints, medals, colored coins/bananas and rainbow coins stay
-  excluded. There is no sixth collectible set or dedicated shop stock.
+  Golden Bananas, blueprints, medals, colored coins/bananas (including balloons)
+  and rainbow coins stay excluded. There is no sixth collectible set or
+  dedicated shop stock. Homing pickups supply regular ammo; he has no
+  homing-projectile upgrade.
 - His camera uses native fairy targeting, film consumption, capture and refill.
-  The camera must be unlocked normally. These pickup/camera additions are in
-  development after v0.5 and are not in the frozen v0.5 release patch.
+  The camera must be unlocked normally.
 - His shout and crystal pickups unlock with the game's normal shared crystal
   prerequisite. A fresh game with Speed Mode OFF starts without crystals or
   the shout. Candy's headphones do not refill his crystals.
@@ -131,7 +136,7 @@ the original Kongs:
   exhaustively validated. This is not a guarantee that every encounter works.
 
 **Original N64 hardware remains untested.** v0.4.1 added 16 KiB ROM padding for
-flashcart loader transfers, and v0.5 retains that alignment and valid CIC-6105
+flashcart loader transfers, and v0.6 retains that alignment and valid CIC-6105
 checksums. These are compatibility preparations, not console certification.
 
 Native EEPROM saves can be carried between these builds with the appropriate
@@ -166,15 +171,19 @@ Mupen64Plus-Next fixes and existing gameplay regressions. See its
 [compatibility report and screenshots](docs/emulator-compatibility.md); the
 723-assertion count above applies to the earlier v0.4.2 ROM.
 
-Current shared-collectible development separately passed **249 assertions** on
-its own ROM, including real fairy captures in both tested emulator families.
-See the [development report](docs/krusha-collectibles-validation.md).
+The **v0.6 ROM passed 249 assertions across 13 completed reports**, covering
+shared pickups, crystal/shout unlocks, real fairy capture/refill in both screen
+modes and emulator families, quest rewards, colored-balloon restrictions, a fresh
+Speed Mode OFF file, and KRUSHA ON/OFF persistence. No gameplay crashes were
+observed in those accepted runs. These counts apply to the exact released ROM;
+see the [v0.6 validation report](docs/krusha-collectibles-validation.md) for fixtures
+and limits.
 
 The [checkpoint history](docs/CHANGELOG.md) summarizes the development milestones.
 For implementation details, see:
 
 - [Tree-tag fix and validation](docs/tree-tag-fix.md)
-- [Shared collectible policy](docs/krusha-collectibles.md) and [development validation](docs/krusha-collectibles-validation.md)
+- [Shared collectible policy](docs/krusha-collectibles.md) and [v0.6 validation](docs/krusha-collectibles-validation.md)
 - [Shout animation, sound and camera development](docs/krusha-roar.md)
 - [Krusha size adjustments](docs/krusha-size.md)
 - [Barrel portraits and startup lineup](docs/krusha-barrel-portraits.md)

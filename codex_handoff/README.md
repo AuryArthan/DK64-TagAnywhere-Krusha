@@ -20,12 +20,10 @@ request first. Inspect the actual checkout before acting on this snapshot.
    linked source/document. For gameplay tests, read [playbooks/TESTING.md](playbooks/TESTING.md)
    **before launching any test script**.
 
-The latest approved checkpoint is **v0.5**, with 221 assertions on its exact ROM.
-Current unreleased collectible work follows it; read CURRENT_STATE and its linked
-validation report before choosing a ROM or resuming tests.
+The latest approved checkpoint is **v0.6**, with 249 assertions on its exact ROM.
 Its BPS, annotated tag and release-on-push workflow are prepared locally; hosted
-publication requires the user to push the tag and branch. v0.4.2 and older
-checkpoints remain preserved. Read CURRENT_STATE for current hashes and scope;
+publication requires the user to push the tag and branch. v0.5 and earlier
+checkpoints remain preserved. Read CURRENT_STATE for hashes, scope and limits;
 continue the latest authorized request rather than an old experiment.
 
 ## Find the right kind of knowledge

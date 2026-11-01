@@ -1,11 +1,15 @@
-# Unreleased collectible development — 2026-11-01
+# Current state — v0.6 checkpoint, 2026-11-01
 
-The latest user request approves [the collectible policy](../docs/krusha-collectibles.md)
-and asks for implementation. Current built development ROM SHA256 is
+The user approved the tested [collectible policy](../docs/krusha-collectibles.md)
+implementation as **v0.6**, and requested a BPS release on push. ROM SHA256 is
 `b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f`,
 MD5 `45ced182aba73f860e8ad339814f3837` (native EEPROM prefix **45CED182**).
-The latest approved release remains **v0.5** below; its tag and BPS are frozen.
-No new version/release or GitHub push was requested for this work.
+The v0.6 patch is tracked at `release-assets/v0.6/DK64-TagAnywhere+Krusha.bps`,
+SHA256 `4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88`.
+The annotated tag/checkpoint and release-on-push workflow are prepared locally;
+the user will push. Do not claim hosted publication from local validation.
+The frozen backup is `../runtime/checkpoints/v0.6/`. Earlier tags/assets stay intact.
+Tested gameplay source commit: `79cdc585abd75afa8fe1d00d0c17804e9cf1fed3`.
 
 Implemented: shared crystals with native unlock/shout gate, film, real fairy
 captures/refill, homing pickups converted to regular bazooka stock, shared
@@ -14,7 +18,7 @@ balloon hit protection (including shots left in flight when tagging). Headphones
 stay unusable; original-Kong progression and rainbow coins stay blocked. No new
 boss/minigame access, shop stock, Tiny abilities or instrument-pad songs.
 
-This development ROM passed **249 assertions across 13 complete reports**:
+This exact v0.6 ROM passed **249 assertions across 13 complete reports**:
 standalone core/supplies/locks/balloons/quests/keys/coins/new-game/options plus
 Mupen64Plus-Next native boot and Standard/Widescreen supplies/fairy captures.
 A separate rebuild matched every byte. No complete campaign or hardware claim.

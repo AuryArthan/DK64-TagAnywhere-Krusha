@@ -1,11 +1,11 @@
 {
   "snapshot_date": "2026-11-01",
-  "latest_accepted_version": "v0.5",
-  "gameplay_commit": "61649186cc860a1f931f5da1947332aceb69b6c4",
+  "latest_accepted_version": "v0.6",
+  "gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3",
   "documentation_commit_before_handoff": "6098b12ddb6be7b70d0684d3f72119650f301431",
   "branch_at_snapshot": "krusha-six-character-barrel",
   "upstream_baseline": "e9ca72f5070c7e4bad69d37382c5a0798b06462f",
-  "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
+  "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
   "original_rom_sha256": "b6347d9f1f75d38a88d829b4f80b1acf0d93344170a5fbe9546c484dae416ce3",
   "validation_summary_copy": {
     "rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
@@ -81,19 +81,7 @@
   "evidence_workspace_relative": "runtime/krusha/tree-tag-fix-review/",
   "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate. Git IDs in copied historical evidence may predate the identity rewrite; consult the alias map.",
   "identity_rewrite_map": "identity-rewrite.json",
-  "unreleased_development": {
-    "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
-    "md5": "45ced182aba73f860e8ad339814f3837",
-    "native_save_prefix": "45CED182",
-    "status": "Shared collectible policy implemented and emulator tested; no new release tag or push",
-    "assertions": 249,
-    "reports": 13,
-    "summary": "docs/qa/krusha-collectibles-20261101.json",
-    "validation": "docs/krusha-collectibles-validation.md",
-    "deterministic_rebuild_identical": true,
-    "accepted_release_preserved": "v0.5"
-  },
-  "previous_accepted_version": "v0.4.2",
+  "previous_accepted_version": "v0.5",
   "accepted_v05": {
     "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
     "assertions_passed": 221,
@@ -103,5 +91,21 @@
     "checkpoint_workspace_relative": "runtime/checkpoints/v0.5/"
   },
   "v042_rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
-  "v042_gameplay_commit": "18380a22d59c97b57957995ddc8f4d329c0bc9ab"
+  "v042_gameplay_commit": "18380a22d59c97b57957995ddc8f4d329c0bc9ab",
+  "accepted_v06": {
+    "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
+    "md5": "45ced182aba73f860e8ad339814f3837",
+    "native_save_prefix": "45CED182",
+    "status": "Approved checkpoint; publication prepared for user push",
+    "assertions": 249,
+    "reports": 13,
+    "summary": "docs/qa/krusha-collectibles-20261101.json",
+    "validation": "docs/krusha-collectibles-validation.md",
+    "deterministic_rebuild_identical": true,
+    "version": "v0.6",
+    "patch_sha256": "4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88",
+    "checkpoint_workspace_relative": "runtime/checkpoints/v0.6/",
+    "hardware_tested": false,
+    "tested_gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3"
+  }
 }

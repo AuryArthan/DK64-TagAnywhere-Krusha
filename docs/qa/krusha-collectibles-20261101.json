@@ -1,6 +1,6 @@
 {
   "date": "2026-11-01",
-  "status": "unreleased development after v0.5",
+  "status": "Approved v0.6 checkpoint; release publication prepared for user push",
   "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
   "emulators": [
     "Standalone Mupen64Plus / Glide64mk2",

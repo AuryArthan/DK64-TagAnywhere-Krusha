@@ -3,7 +3,7 @@
 These are the saved gameplay milestones. Version labels follow the existing Git
 tags, including the historical `v3.1` spelling. Older checkpoints are preserved.
 
-## Unreleased — shared collectibles and fairy capture
+## v0.6 — shared collectibles and fairy capture
 
 Allow unlocked Crystal Coconuts and camera film; restore native fairy capture,
 saving and post-photo refill. Gate Krusha's shout and crystal eligibility behind

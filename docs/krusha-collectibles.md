@@ -1,7 +1,7 @@
 # Krusha collectible policy — approved 2026-11-01
 
-User-approved policy, implemented in development after v0.5. The v0.5 release
-asset and tag remain unchanged; validation results belong to the new ROM hash.
+User-approved policy, released in v0.6. The v0.5 release asset and tag remain
+unchanged; validation results belong to the v0.6 ROM hash.
 Baseline: v0.5, ROM SHA256
 `98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a`.
 
