@@ -1,13 +1,12 @@
-# Current state — gray identity effect after v0.6, 2026-11-01
+# Current state — v0.6.1 checkpoint, 2026-11-01
 
-## Current development (unversioned)
+## Accepted v0.6.1 checkpoint
 
-The latest user request is to make Krusha's charged B shockwave match the
-approved startup silhouette, investigate other character colors, and update
-README/handoff. The gray is **RGB 173,173,173 / #ADADAD**, sampled from tracked
+The user approved the gray charged-B shockwave as **v0.6.1** and requested
+its patch for release on push. The gray is **RGB 173,173,173 / #ADADAD**, sampled from tracked
 `bin/Nintendo_Krusha.png` (the user's filename is relative to the source repo).
 Read [the color audit](../docs/krusha-character-colors.md) for the implementation,
-other color uses and QA. Current development ROM SHA256:
+other color uses and QA. v0.6.1 ROM SHA256:
 `437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532`.
 MD5 is `a593924704abf4786d7272b3410e9ade`; native EEPROM prefix **A5939247**.
 Both normal launcher profiles received a non-overwriting copy of their own
@@ -22,7 +21,7 @@ Krusha identity-color fallback was found in the audited adventure paths.
 Item/ownership colors, slam upgrade colors and shared particles keep their
 semantic/native colors. This does not recolor Krusha's blue skin or portrait.
 
-This exact development ROM passed **121 gameplay assertions across four
+This exact v0.6.1 ROM passed **121 gameplay assertions across four
 reports**, plus **28 asset assertions**. Standalone core/all-six-ring/options
 and Mupen64Plus-Next/GLideN64 focused rings completed with every check passing;
 Standard/Widescreen and native Krusha OFF/ON barrels/persistence were covered.
@@ -32,9 +31,18 @@ reports/hashes. No full campaign or physical-hardware certification. Do not
 count interrupted probes, the first short Next step budget, or v0.6's old
 249 assertions toward this new ROM.
 
-This is **not a new checkpoint or release**. Preserve v0.6 and its BPS below;
-the downloadable v0.6 patch predates this color fix. No tag, release update or
-push was requested. Continue the latest user request, not old release plans.
+The v0.6.1 patch is `release-assets/v0.6.1/DK64-TagAnywhere+Krusha.bps`,
+SHA256 `fffc40d9f9e6e21a4911d6628322be00e7ac5a5fd0c23b20b138878c601b5abf`.
+The frozen backup is `../runtime/checkpoints/v0.6.1/`. Tested gameplay source:
+`1f8f8423cecf12fe1e5714d84b0f09ccb267509c`. The annotated v0.6.1 tag identifies
+the checkpoint; its later preparation commit adds the pinned publisher/workflow.
+Push the tag first, then the branch (see release-assets/README.md). Publication
+is prepared locally, not verified as hosted. No GitHub push was performed here.
+Earlier tags, patches and backups remain intact. No new gameplay change was
+made while versioning this already-tested ROM.
+
+The following v0.6 and older sections are historical. Their publication commands
+are not instructions to republish an older release as latest.
 
 ## Accepted v0.6 checkpoint
 

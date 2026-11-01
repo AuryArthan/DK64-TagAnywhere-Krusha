@@ -20,14 +20,13 @@ request first. Inspect the actual checkout before acting on this snapshot.
    linked source/document. For gameplay tests, read [playbooks/TESTING.md](playbooks/TESTING.md)
    **before launching any test script**.
 
-The latest approved checkpoint is **v0.6**, with 249 assertions on its exact ROM.
-The current unversioned source additionally fixes Krusha's charged B ring to
-the approved gray; its implementation/audit/QA are documented separately in
+The latest approved checkpoint is **v0.6.1**, with 121 gameplay assertions and
+28 asset assertions on its exact ROM. It adds the gray charged-B ring; see
 [the color report](../docs/krusha-character-colors.md) and CURRENT_STATE.
-The v0.6 BPS, annotated tag and release-on-push workflow are prepared locally; hosted
-publication requires the user to push the tag and branch. v0.5 and earlier
-checkpoints remain preserved. Read CURRENT_STATE for hashes, scope and limits;
-continue the latest authorized request rather than an old experiment.
+Its BPS, annotated tag and release-on-push workflow are prepared locally; hosted
+publication requires the user to push the tag and branch. Earlier checkpoints
+remain preserved. Read CURRENT_STATE for hashes, scope and limits; continue the
+latest authorized request rather than an old experiment.
 
 ## Find the right kind of knowledge
 

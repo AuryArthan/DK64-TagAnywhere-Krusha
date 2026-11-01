@@ -5,13 +5,13 @@
 Play as Krusha alongside the five original Kongs: swap with the D-pad, select
 him in tag barrels, fire his bazooka, and clear nearby enemies with a powerful
 shout. Krusha is available from the start, with a persistent option to turn him
-off. The current version is **v0.6**, with shared collectibles and working
+off. The current version is **v0.6.1**, with shared collectibles and working
 Banana Fairy photography.
 
-The development source after v0.6 also gives Krusha's charged B shockwave his
+v0.6.1 also gives Krusha's charged B shockwave his
 gray identity color (`#ADADAD`), matching the startup silhouette. The other
 Kongs retain their own colors. See the [color audit](docs/krusha-character-colors.md)
-for findings on other effects; the v0.6 download below predates this change.
+for findings on other effects.
 
 ![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
@@ -59,7 +59,7 @@ for findings on other effects; the v0.6 download below predates this change.
 
 ## Playing
 
-[Download the v0.6 BPS patch](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.6/DK64-TagAnywhere%2BKrusha.bps)
+[Download the v0.6.1 BPS patch](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases/download/v0.6.1/DK64-TagAnywhere%2BKrusha.bps)
 from [GitHub Releases](https://github.com/AuryArthan/DK64-TagAnywhere-Krusha/releases).
 The [release workflow notes](release-assets/README.md) explain publication on push.
 
@@ -141,7 +141,7 @@ the original Kongs:
   exhaustively validated. This is not a guarantee that every encounter works.
 
 **Original N64 hardware remains untested.** v0.4.1 added 16 KiB ROM padding for
-flashcart loader transfers, and v0.6 retains that alignment and valid CIC-6105
+flashcart loader transfers, and v0.6.1 retains that alignment and valid CIC-6105
 checksums. These are compatibility preparations, not console certification.
 
 Native EEPROM saves can be carried between these builds with the appropriate
@@ -183,6 +183,12 @@ Speed Mode OFF file, and KRUSHA ON/OFF persistence. No gameplay crashes were
 observed in those accepted runs. These counts apply to the exact released ROM;
 see the [v0.6 validation report](docs/krusha-collectibles-validation.md) for fixtures
 and limits.
+
+The **v0.6.1 ROM passed 121 gameplay assertions plus 28 asset assertions**,
+covering all six charged-attack rings, both aspect modes and emulator families,
+core gameplay and native Krusha ON/OFF barrels/save persistence. See the
+[color audit and validation](docs/krusha-character-colors.md). Earlier-version
+counts above apply to their own ROMs.
 
 The [checkpoint history](docs/CHANGELOG.md) summarizes the development milestones.
 For implementation details, see:

@@ -1,6 +1,6 @@
 {
   "date": "2026-11-01",
-  "status": "Unreleased development after v0.6; no new tag or release",
+  "status": "Approved v0.6.1 checkpoint; release publication prepared for user push",
   "rom_sha256": "437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532",
   "md5": "a593924704abf4786d7272b3410e9ade",
   "native_save_prefix": "A5939247",
@@ -669,5 +669,7 @@
   "v06_tag_preserved": true,
   "v06_patch_sha256": "4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88",
   "fixtures": "Private Speed Mode ON EEPROM; same-ROM passing core state for standalone colors; logged positions and aspect-option bytes. Real held/released B input; no identity/action/animation/code/result writes. Native menus for Krusha ON/OFF.",
-  "limits": "Targeted color and shared asset-loader regression, not a campaign, every enemy/minigame/multiplayer path, or hardware certification."
+  "limits": "Targeted color and shared asset-loader regression, not a campaign, every enemy/minigame/multiplayer path, or hardware certification.",
+  "version": "v0.6.1",
+  "patch_sha256": "fffc40d9f9e6e21a4911d6628322be00e7ac5a5fd0c23b20b138878c601b5abf"
 }

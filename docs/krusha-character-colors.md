@@ -1,6 +1,6 @@
 # Krusha's identity color
 
-Development after v0.6, 2026-11-01. The approved startup silhouette in
+Approved v0.6.1 checkpoint, 2026-11-01. The approved startup silhouette in
 `bin/Nintendo_Krusha.png` supplies **RGB 173,173,173 (`#ADADAD`)**. This means
 Krusha's identifying effect color; his skin, portrait and clothing retain their
 approved artwork.
@@ -100,5 +100,6 @@ It alternates Krusha/DK/Krusha, covers the other four Kongs, and checks Standard
 and Widescreen. See the [QA summary](qa/krusha-character-colors-20261101.json) for the completed runs and
 their exact ROM hash. Historical v0.6 evidence does not validate this build.
 
-The v0.6 tag and downloadable patch are preserved. This is an unversioned
-development change until the user requests another checkpoint/release.
+The v0.6.1 tag and patch preserve this exact tested ROM. The earlier v0.6
+tag and patch remain unchanged. Release-on-push instructions are in
+[the release guide](../release-assets/README.md).

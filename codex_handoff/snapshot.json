@@ -1,11 +1,11 @@
 {
   "snapshot_date": "2026-11-01",
-  "latest_accepted_version": "v0.6",
-  "gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3",
-  "documentation_commit_before_handoff": "ad2697625c1343d3c6c674de8c99107871df8746",
+  "latest_accepted_version": "v0.6.1",
+  "gameplay_commit": "1f8f8423cecf12fe1e5714d84b0f09ccb267509c",
+  "documentation_commit_before_handoff": "1f8f8423cecf12fe1e5714d84b0f09ccb267509c",
   "branch_at_snapshot": "krusha-six-character-barrel",
   "upstream_baseline": "e9ca72f5070c7e4bad69d37382c5a0798b06462f",
-  "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
+  "rom_sha256": "437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532",
   "original_rom_sha256": "b6347d9f1f75d38a88d829b4f80b1acf0d93344170a5fbe9546c484dae416ce3",
   "validation_summary_copy": {
     "rom_sha256": "dee2bbfcd04ba4ad1c0671e3f1ddd6d212ed1c94af0476caf12d9e862144d29d",
@@ -81,7 +81,7 @@
   "evidence_workspace_relative": "runtime/krusha/tree-tag-fix-review/",
   "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate. Git IDs in copied historical evidence may predate the identity rewrite; consult the alias map.",
   "identity_rewrite_map": "identity-rewrite.json",
-  "previous_accepted_version": "v0.5",
+  "previous_accepted_version": "v0.6",
   "accepted_v05": {
     "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
     "assertions_passed": 221,
@@ -113,7 +113,7 @@
     "workflow": ".github/workflows/release-v06.yml",
     "hosted_publication_verified": false
   },
-  "unreleased_development": {
+  "accepted_v061": {
     "date": "2026-11-01",
     "change": "Gray charged-B shockwave matching the approved startup silhouette; targeted character-color audit",
     "rom_sha256": "437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532",
@@ -126,13 +126,22 @@
     ],
     "audit": "docs/krusha-character-colors.md",
     "hardware_tested": false,
-    "new_version_tag_created": false,
+    "new_version_tag_created": true,
     "release_updated": false,
     "qa_summary": "docs/qa/krusha-character-colors-20261101.json",
     "gameplay_assertions": 121,
     "asset_assertions": 28,
     "deterministic_rebuild_identical": true,
     "player_eeprom_copied_without_overwrite": true,
-    "old_rom_states_imported": false
+    "old_rom_states_imported": false,
+    "version": "v0.6.1",
+    "status": "Approved checkpoint; release-on-push prepared; hosted status not checked",
+    "summary": "docs/qa/krusha-character-colors-20261101.json",
+    "patch_sha256": "fffc40d9f9e6e21a4911d6628322be00e7ac5a5fd0c23b20b138878c601b5abf",
+    "checkpoint_workspace_relative": "runtime/checkpoints/v0.6.1/",
+    "tested_gameplay_commit": "1f8f8423cecf12fe1e5714d84b0f09ccb267509c",
+    "publisher": "tools/publish-v061.py",
+    "workflow": ".github/workflows/release-v061.yml",
+    "hosted_publication_verified": false
   }
 }

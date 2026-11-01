@@ -3,13 +3,12 @@
 These are the saved gameplay milestones. Version labels follow the existing Git
 tags, including the historical `v3.1` spelling. Older checkpoints are preserved.
 
-## Unreleased — Krusha identity color
+## v0.6.1 — Krusha identity color
 
 Give the charged B shockwave its own gray model/texture frames, matching the
 approved startup silhouette (#ADADAD). Preserve native attack behavior, all
 five original ring colors and the approved barrel/portrait assets.
-See the [color audit](krusha-character-colors.md). v0.6 remains the latest
-versioned patch.
+See the [color audit](krusha-character-colors.md). Previous version tags and patches are preserved.
 
 ## v0.6 — shared collectibles and fairy capture
 
