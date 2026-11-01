@@ -4,6 +4,13 @@ Use `tools/README.md` and `docs/emulator-compatibility.md` for installation,
 commands, final ROM hash, current supported settings and exact test evidence.
 This playbook records setup pitfalls found during the Batocera report.
 
+Color-effect tests (2026-11-01): frontend frame advance takes two VI steps per
+native DK64 update in this core. Bound transient-effect checks by native game
+time or allow enough frontend steps; the standalone step count can expire
+before an otherwise correct ring disappears. `krusha-colors-test.py` accounts
+for this. A screenshot/partial test showing the correct ring is not a completed
+cleanup regression.
+
 - The local frontend is RetroArch1.18.0 with a SHA-pinned Linuxx86-64 official
   Mupen64Plus-Next core. A tiny linked proxy supplies only the libretro input
   callback; it does not emulate or patch the game. Its dependency path is local,

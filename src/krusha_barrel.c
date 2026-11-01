@@ -40,7 +40,7 @@ extern void* vanillaBarrelFile(s32 table, s32 index, u8 synchronous, u8 unique);
 /* Table 27 is a dedicated uncompressed asset table. Native file allocation,
  * DMA, ownership and cleanup still handle every file. The original table-5
  * barrel and all five original faces remain byte-for-byte available when OFF.
- * Reserved texture IDs are referenced only by the six-face barrel model. */
+ * Reserved texture IDs belong to the six-face barrel and gray shockwave. */
 void* krushaBarrelFile(s32 table, s32 index, u8 synchronous, u8 unique) {
     if (table == 5 && index == 0xC0 && krushaEnabled()) {
         table = 27;
@@ -48,6 +48,12 @@ void* krushaBarrelFile(s32 table, s32 index, u8 synchronous, u8 unique) {
     } else if (table == 25 && (index == 7001 || index == 7002)) {
         table = 27;
         index -= 7000;
+    } else if (table == 5 && index == 0xEC) {
+        table = 27;
+        index = 3;
+    } else if (table == 25 && index >= 7003 && index <= 7008) {
+        table = 27;
+        index -= 6999;
     }
     return vanillaBarrelFile(table, index, synchronous, unique);
 }

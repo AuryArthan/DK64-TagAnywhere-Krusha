@@ -8,6 +8,11 @@ shout. Krusha is available from the start, with a persistent option to turn him
 off. The current version is **v0.6**, with shared collectibles and working
 Banana Fairy photography.
 
+The development source after v0.6 also gives Krusha's charged B shockwave his
+gray identity color (`#ADADAD`), matching the startup silhouette. The other
+Kongs retain their own colors. See the [color audit](docs/krusha-character-colors.md)
+for findings on other effects; the v0.6 download below predates this change.
+
 ![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
 ## What this hack adds

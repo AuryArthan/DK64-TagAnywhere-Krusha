@@ -30,8 +30,10 @@ matrix or new character flag is required. Locked Kongs still show question marks
 The original five-face model and original geometry textures are not replaced.
 
 The model and two image halves occupy a dedicated uncompressed pointer table 27
-at ROM `0x02080000`. `krushaBarrelFile` redirects only enabled barrel model loads
-and its two reserved texture IDs. All allocation, DMA, reference tracking and
+at ROM `0x02080000` (entries 0–2). After v0.6, entries 3–9 additionally hold
+the [gray charged-B ring](../../../docs/krusha-character-colors.md).
+`krushaBarrelFile` redirects enabled barrel loads and their reserved texture IDs,
+plus the new ring model/texture IDs. All allocation, DMA, reference tracking and
 cleanup use the native loader. With Krusha OFF, native model 0xC1 loads normally.
 The custom region is checked not to overlap relocated pointer tables or the
 existing scream audio at `0x02100000`.

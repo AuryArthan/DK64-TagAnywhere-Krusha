@@ -11,6 +11,7 @@ extern s32 nativeCrystalsUnlocked(void);
 extern u8 vanillaCrystalAbility(s16 character);
 extern s32 nativeScriptInteractionAllowed(void);
 extern void vanillaBananaBalloon(void* sprite);
+extern void krushaColorsInstall(void);
 extern void vanillaBarrelEligibility(void);
 extern void krushaBarrelInstall(void);
 extern void krushaBarrelOption(void);
@@ -300,6 +301,7 @@ void krushaAdventure(void) {
         hook(0x806F544C, krushaAmmoCollectible);
         hook(0x806F6E58, krushaCrystalAbility);
         hook(0x806A7600, krushaBananaBalloon);
+        krushaColorsInstall();
         hook(0x8070DED4, krushaDialogueLine);
         hook(0x8063EA14, krushaScriptCondition);
         hook(0x80680774, krushaBarrelEligibility);

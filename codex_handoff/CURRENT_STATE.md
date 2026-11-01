@@ -1,4 +1,42 @@
-# Current state — v0.6 checkpoint, 2026-11-01
+# Current state — gray identity effect after v0.6, 2026-11-01
+
+## Current development (unversioned)
+
+The latest user request is to make Krusha's charged B shockwave match the
+approved startup silhouette, investigate other character colors, and update
+README/handoff. The gray is **RGB 173,173,173 / #ADADAD**, sampled from tracked
+`bin/Nintendo_Krusha.png` (the user's filename is relative to the source repo).
+Read [the color audit](../docs/krusha-character-colors.md) for the implementation,
+other color uses and QA. Current development ROM SHA256:
+`437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532`.
+MD5 is `a593924704abf4786d7272b3410e9ade`; native EEPROM prefix **A5939247**.
+Both normal launcher profiles received a non-overwriting copy of their own
+v0.6 player's EEPROM under this new ROM hash/prefix. Original saves and states
+remain intact; no old-ROM states were copied. QA uses separate ignored profiles
+under `runtime/qa/character-colors-20261101/`.
+
+The source adds a separate gray ring model/cache identity and six RGBA32
+frames, retaining native alpha/fade, geometry, damage, cost and timing. Other
+Kongs' rings and original enemy effects remain native. No additional incorrect
+Krusha identity-color fallback was found in the audited adventure paths.
+Item/ownership colors, slam upgrade colors and shared particles keep their
+semantic/native colors. This does not recolor Krusha's blue skin or portrait.
+
+This exact development ROM passed **121 gameplay assertions across four
+reports**, plus **28 asset assertions**. Standalone core/all-six-ring/options
+and Mupen64Plus-Next/GLideN64 focused rings completed with every check passing;
+Standard/Widescreen and native Krusha OFF/ON barrels/persistence were covered.
+A separate rebuild matched every byte. The committed
+[QA summary](../docs/qa/krusha-character-colors-20261101.json) records final
+reports/hashes. No full campaign or physical-hardware certification. Do not
+count interrupted probes, the first short Next step budget, or v0.6's old
+249 assertions toward this new ROM.
+
+This is **not a new checkpoint or release**. Preserve v0.6 and its BPS below;
+the downloadable v0.6 patch predates this color fix. No tag, release update or
+push was requested. Continue the latest user request, not old release plans.
+
+## Accepted v0.6 checkpoint
 
 The user approved the tested [collectible policy](../docs/krusha-collectibles.md)
 implementation as **v0.6**, and requested a BPS release on push. ROM SHA256 is

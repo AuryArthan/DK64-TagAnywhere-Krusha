@@ -198,3 +198,19 @@ Memory scene diagnostics distinguish `actors` (the camera's **render list**)
 from `loaded_actors` (the native **update list**). Use the latter for headphones,
 offscreen clams or projectiles. A distant position fixture also needs the
 camera to settle/recenter; otherwise a nearby object can remain inactive.
+
+## Character-color checks
+
+`/usr/bin/python3 tools/check-character-colors.py` verifies the built shockwave
+and preservation of the original ring/barrel assets without an emulator.
+For gameplay, run `/usr/bin/python3 -u tools/krusha-colors-test.py` with a fresh
+`DK64_RUNTIME`, the normal tool-cache variables and `DK64_TEST_SAVE` (Speed Mode
+ON fixture). Optional `DK64_COLORS_SEED_PROFILE` uses slot 1 from a completed,
+passing core report for the exact same ROM; choose a separate destination.
+`DK64_COLORS_BACKEND=libretro` selects the pinned Next/GLideN64 setup (use its
+`DK64_LIBRETRO_ROOT` and private display). Run emulators sequentially.
+`DK64_COLORS_FOCUSED=1` limits a renderer comparison to Krusha/DK/Krusha across
+the two aspect modes; the default also exercises the other four original Kongs.
+For either case, require
+`logs/character-colors-tests.json` to be complete, with matching ROM hash and
+every check passing. The audit is in `docs/krusha-character-colors.md`.

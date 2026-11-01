@@ -112,5 +112,27 @@
     "release_preparation_commit": "ad2697625c1343d3c6c674de8c99107871df8746",
     "workflow": ".github/workflows/release-v06.yml",
     "hosted_publication_verified": false
+  },
+  "unreleased_development": {
+    "date": "2026-11-01",
+    "change": "Gray charged-B shockwave matching the approved startup silhouette; targeted character-color audit",
+    "rom_sha256": "437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532",
+    "md5": "a593924704abf4786d7272b3410e9ade",
+    "native_save_prefix": "A5939247",
+    "identity_color_rgb": [
+      173,
+      173,
+      173
+    ],
+    "audit": "docs/krusha-character-colors.md",
+    "hardware_tested": false,
+    "new_version_tag_created": false,
+    "release_updated": false,
+    "qa_summary": "docs/qa/krusha-character-colors-20261101.json",
+    "gameplay_assertions": 121,
+    "asset_assertions": 28,
+    "deterministic_rebuild_identical": true,
+    "player_eeprom_copied_without_overwrite": true,
+    "old_rom_states_imported": false
   }
 }

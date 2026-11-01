@@ -1,7 +1,7 @@
 """Six-face tag barrel, using the approved T portrait and native materials.
 
-Keep the original model and texture table untouched. Three uncompressed files in
-previously unused pointer table 27 are loaded through a narrow resident hook.
+Keep the original model and texture table untouched. Custom uncompressed files
+in previously unused pointer table 27 use the native resource loader.
 """
 from pathlib import Path
 import hashlib
@@ -192,18 +192,20 @@ def prepareBarrelAssets(rom_path):
 
 def appendBarrelAssets(rom_path):
     payloads = [(ASSETS/n).read_bytes() for n in ('tag-barrel-six.bin','face-left.rgba5551','face-right.rgba5551')]
+    from character_colors import shockwave_payloads
+    payloads += shockwave_payloads(Path(rom_path).read_bytes(), read_file)
     with open(rom_path,'r+b') as stream:
         stream.seek(0,2)
         end = stream.tell()
         if end > CUSTOM_ROM: raise RuntimeError('Pointer tables overlap custom barrel assets')
         stream.write(bytes(CUSTOM_ROM-end))
-        pointer = CUSTOM_ROM+16
+        pointer = CUSTOM_ROM + (len(payloads)+1)*4
         offsets = []
         for data in payloads:
             offsets.append(pointer-TABLE_BASE);pointer += len(data)
         offsets.append(pointer-TABLE_BASE)
-        stream.write(struct.pack('>4I',*offsets))
+        stream.write(struct.pack('>%dI'%len(offsets),*offsets))
         for data in payloads: stream.write(data)
         stream.seek(TABLE_BASE+CUSTOM_TABLE*4);stream.write(struct.pack('>I',CUSTOM_ROM-TABLE_BASE))
-        stream.seek(TABLE_BASE+(32+CUSTOM_TABLE)*4);stream.write(struct.pack('>I',3))
-    print('Embedded six-face barrel and approved portrait in custom table 27')
+        stream.seek(TABLE_BASE+(32+CUSTOM_TABLE)*4);stream.write(struct.pack('>I',len(payloads)))
+    print('Embedded six-face barrel, portrait and gray Krusha shockwave in custom table 27')

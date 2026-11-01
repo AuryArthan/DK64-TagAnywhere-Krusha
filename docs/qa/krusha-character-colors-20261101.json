@@ -1,0 +1,673 @@
+{
+  "date": "2026-11-01",
+  "status": "Unreleased development after v0.6; no new tag or release",
+  "rom_sha256": "437d3de4f9679763df9293518cda6c31c4d4321bb32c61566eb02faeb64f6532",
+  "md5": "a593924704abf4786d7272b3410e9ade",
+  "native_save_prefix": "A5939247",
+  "identity_color_rgb": [
+    173,
+    173,
+    173
+  ],
+  "emulators": [
+    "Standalone Mupen64Plus / Glide64mk2",
+    "Libretro Mupen64Plus-Next / GLideN64"
+  ],
+  "reports": [
+    {
+      "kind": "gameplay",
+      "case": "Standalone core",
+      "source": "runtime/qa/character-colors-20261101/final-core/logs/krusha-tests.json",
+      "report_sha256": "a588f5cdc47cf9cc067d20d3404dd96c3ec906459a2571ac6fb386279cf16fed",
+      "assertions": 34,
+      "complete": true,
+      "checks": [
+        {
+          "name": "main menu reached",
+          "passed": true
+        },
+        {
+          "name": "cold boot into adventure",
+          "passed": true
+        },
+        {
+          "name": "DK backwards to Krusha",
+          "passed": true
+        },
+        {
+          "name": "six character rotation d",
+          "passed": true
+        },
+        {
+          "name": "six character rotation a",
+          "passed": true
+        },
+        {
+          "name": "running and jumping advance gameplay",
+          "passed": true
+        },
+        {
+          "name": "vocal instrument enters safely",
+          "passed": true
+        },
+        {
+          "name": "vocal instrument returns to gameplay",
+          "passed": true
+        },
+        {
+          "name": "camera enters fairy view",
+          "passed": true
+        },
+        {
+          "name": "camera takes photograph",
+          "passed": true
+        },
+        {
+          "name": "camera exits to gameplay",
+          "passed": true
+        },
+        {
+          "name": "pause menu returns safely",
+          "passed": true
+        },
+        {
+          "name": "bananaport without identity or inventory change",
+          "passed": true
+        },
+        {
+          "name": "Krusha lifts native boulder",
+          "passed": true
+        },
+        {
+          "name": "tagging blocked during heavy carry",
+          "passed": true
+        },
+        {
+          "name": "Krusha drops boulder",
+          "passed": true
+        },
+        {
+          "name": "boulder can be picked up again",
+          "passed": true
+        },
+        {
+          "name": "Krusha throws boulder",
+          "passed": true
+        },
+        {
+          "name": "Krusha swimming",
+          "passed": true
+        },
+        {
+          "name": "Krusha dives and swims",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects no coins",
+          "passed": true
+        },
+        {
+          "name": "green coins remain for Chunky",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects no colored bananas",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects shared orange pickup separately from bazooka ammo",
+          "passed": true
+        },
+        {
+          "name": "another shared orange remains collectible by Chunky",
+          "passed": true
+        },
+        {
+          "name": "Krusha climbs tree",
+          "passed": true
+        },
+        {
+          "name": "Cranky entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Cranky dialogue and exit",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 30",
+          "passed": true
+        },
+        {
+          "name": "Candy entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Candy dialogue and exit",
+          "passed": true
+        },
+        {
+          "name": "Funky entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Funky dialogue and exit",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "kind": "gameplay",
+      "case": "Standalone six-character rings and aspect modes",
+      "source": "runtime/qa/character-colors-20261101/final-colors-batched/logs/character-colors-tests.json",
+      "report_sha256": "1e977e36ad0eb885220a528f5a90fa316904380ae804afd158e10339d40c144d",
+      "assertions": 41,
+      "complete": true,
+      "checks": [
+        {
+          "name": "adventure ready",
+          "passed": true
+        },
+        {
+          "name": "select character 5",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "select character 0",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "select character 5",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "select character 1",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 1/0/3",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 1/0/3",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 1/0/3",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 1/0/3",
+          "passed": true
+        },
+        {
+          "name": "select character 2",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 2/0/4",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 2/0/4",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 2/0/4",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 2/0/4",
+          "passed": true
+        },
+        {
+          "name": "select character 3",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 3/0/5",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 3/0/5",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 3/0/5",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 3/0/5",
+          "passed": true
+        },
+        {
+          "name": "select character 4",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 4/0/6",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 4/0/6",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 4/0/6",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 4/0/6",
+          "passed": true
+        },
+        {
+          "name": "select character 5",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 5/0/7",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 5/0/7",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 5/0/7",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 5/0/7",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "kind": "gameplay",
+      "case": "Next/GLideN64 Krusha-DK-Krusha and aspect modes",
+      "source": "runtime/qa/character-colors-20261101/final-next-r2/logs/character-colors-tests.json",
+      "report_sha256": "36184e3fad6d00abc2828d37fc2bedc0e87a5769561479c252294b0f0eff2d10",
+      "assertions": 17,
+      "complete": true,
+      "checks": [
+        {
+          "name": "native main menu",
+          "passed": true
+        },
+        {
+          "name": "adventure ready",
+          "passed": true
+        },
+        {
+          "name": "select character 5",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 5/0/0",
+          "passed": true
+        },
+        {
+          "name": "select character 0",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 0/0/1",
+          "passed": true
+        },
+        {
+          "name": "select character 5",
+          "passed": true
+        },
+        {
+          "name": "native ring uses distinct correct model 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "native expansion and lifetime 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "ring rendered and cleaned up 5/1/2",
+          "passed": true
+        },
+        {
+          "name": "native cost and control restored 5/1/2",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "kind": "gameplay",
+      "case": "Native options persistence and five/six-character barrels",
+      "source": "runtime/qa/character-colors-20261101/final-options/logs/krusha-options-tests.json",
+      "report_sha256": "e18dce815e55244bf152f6426d47990051538a807c98e22829000bd90548b99d",
+      "assertions": 29,
+      "complete": true,
+      "checks": [
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "UI toggles Krusha off",
+          "passed": true
+        },
+        {
+          "name": "Krusha toggle preserves screen size, Speed Mode and camera setting",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "OFF survives full emulator restart and native EEPROM reload",
+          "passed": true
+        },
+        {
+          "name": "enter adventure through native menu",
+          "passed": true
+        },
+        {
+          "name": "five character rotation with option off d",
+          "passed": true
+        },
+        {
+          "name": "five character rotation with option off a",
+          "passed": true
+        },
+        {
+          "name": "barrel shows 5 characters with option False",
+          "passed": true
+        },
+        {
+          "name": "barrel cursor wraps with option False",
+          "passed": true
+        },
+        {
+          "name": "barrel last slot selects Chunky",
+          "passed": true
+        },
+        {
+          "name": "barrel cleanup with option False",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "UI toggles Krusha on",
+          "passed": true
+        },
+        {
+          "name": "Krusha toggle preserves screen size, Speed Mode and camera setting",
+          "passed": true
+        },
+        {
+          "name": "enter adventure through native menu",
+          "passed": true
+        },
+        {
+          "name": "six character rotation with option on d",
+          "passed": true
+        },
+        {
+          "name": "six character rotation with option on a",
+          "passed": true
+        },
+        {
+          "name": "barrel shows 6 characters with option True",
+          "passed": true
+        },
+        {
+          "name": "barrel cursor wraps with option True",
+          "passed": true
+        },
+        {
+          "name": "barrel last slot selects Krusha",
+          "passed": true
+        },
+        {
+          "name": "barrel cleanup with option True",
+          "passed": true
+        },
+        {
+          "name": "ready checkpoint has unarmed Krusha in adventure",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "ON survives full emulator restart and native EEPROM reload",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "kind": "assets",
+      "case": "Built asset bytes",
+      "source": "runtime/krusha/character-colors-assets.json",
+      "report_sha256": "bcdf87b9f88a84766ff07eb2e7410f2e0e553ac6c7506ca95f1eaee11f815928",
+      "assertions": 28,
+      "complete": true,
+      "checks": [
+        {
+          "name": "approved silhouette gray",
+          "passed": true
+        },
+        {
+          "name": "native ring geometry/materials unchanged",
+          "passed": true
+        },
+        {
+          "name": "six separate texture references",
+          "passed": true
+        },
+        {
+          "name": "frame 0: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 0: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "frame 1: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 1: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "frame 2: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 2: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "frame 3: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 3: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "frame 4: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 4: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "frame 5: native alpha/fade unchanged",
+          "passed": true
+        },
+        {
+          "name": "frame 5: exact neutral RGB",
+          "passed": true
+        },
+        {
+          "name": "original model ac untouched",
+          "passed": true
+        },
+        {
+          "name": "original model ac textures untouched",
+          "passed": true
+        },
+        {
+          "name": "original model ad untouched",
+          "passed": true
+        },
+        {
+          "name": "original model ad textures untouched",
+          "passed": true
+        },
+        {
+          "name": "original model ce untouched",
+          "passed": true
+        },
+        {
+          "name": "original model ce textures untouched",
+          "passed": true
+        },
+        {
+          "name": "original model cf untouched",
+          "passed": true
+        },
+        {
+          "name": "original model cf textures untouched",
+          "passed": true
+        },
+        {
+          "name": "original model d0 untouched",
+          "passed": true
+        },
+        {
+          "name": "original model d0 textures untouched",
+          "passed": true
+        },
+        {
+          "name": "six-face barrel payload unchanged",
+          "passed": true
+        },
+        {
+          "name": "approved barrel portrait payloads unchanged",
+          "passed": true
+        },
+        {
+          "name": "custom asset table has ten files",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "gameplay_assertions": 121,
+  "asset_assertions": 28,
+  "deterministic_rebuild_identical": true,
+  "bps_roundtrip_verified": true,
+  "original_silhouette_sha256": "6ac06eaf077f5b1cb8ff86ae13233f960fce73ff53165249b36bcbac274decab",
+  "v06_tag_preserved": true,
+  "v06_patch_sha256": "4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88",
+  "fixtures": "Private Speed Mode ON EEPROM; same-ROM passing core state for standalone colors; logged positions and aspect-option bytes. Real held/released B input; no identity/action/animation/code/result writes. Native menus for Krusha ON/OFF.",
+  "limits": "Targeted color and shared asset-loader regression, not a campaign, every enemy/minigame/multiplayer path, or hardware certification."
+}

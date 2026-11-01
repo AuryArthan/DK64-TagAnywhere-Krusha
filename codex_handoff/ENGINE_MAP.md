@@ -21,6 +21,7 @@ from actor type (Krusha 7). Never globally spoof his identity as Chunky.
 | `src/widescreen.c` | HUD/menu/pause/perspective corrections and restoration |
 | `build/build.py` | Compile/patch/repack, overlay capacity, padding/checksum |
 | `build/barrel_assets.py`, `assets/krusha/barrel/` | Approved six-face barrel geometry/textures |
+| `src/krusha_colors.c`, `build/character_colors.py` | Gray charged-B ring; native spawn call and independent model/cache identity |
 | `build/scream_asset.py`, `assets/krusha/` | Committed encoded audio and metadata |
 | `build/prepare_scream.py` | Optional audio regeneration, not required to build |
 | `bin/Nintendo_Krusha.png` | Exact approved 232×48 six-head startup PNG |
@@ -33,6 +34,22 @@ copies are build inputs. Earlier generated candidates and online cutouts were
 rejected; do not accidentally replace the approved assets with those.
 
 ## Key behavior details
+
+### Identity color after v0.6
+
+Gray is #ADADAD from `bin/Nintendo_Krusha.png`. See
+[the audit](../docs/krusha-character-colors.md). Model numbers passed to
+spawnActor are **one-based** (yellow 0xAD = table5 file0xAC). A JAL replacement
+at80684744 picks new model0xED only for adventure player actor7 with Krusha ON.
+The existing file hook routes table5 file0xEC to table27 index3, before native
+lookup. It gives the model cache a separate identity; do not redirect the
+shared yellow model by a temporary flag, or cached DK/enemy rings could mix.
+Table27 indexes0–2 keep the existing barrel/portrait payloads;3 is the gray
+ring,4–9 its six textures (IDs7003–7008). Preserve native alpha/fade and all five
+original ring assets. `tools/check-character-colors.py` and
+`tools/krusha-colors-test.py` cover this path. v0.6 assets/tags remain frozen.
+
+### Existing adventure behavior
 
 Global flag 0x24 stores the **disabled** state, so old native saves default ON.
 The bazooka uses the sixth native slot with shared ammunition. Native instrument
