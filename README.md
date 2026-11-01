@@ -5,7 +5,8 @@
 Play as Krusha alongside the five original Kongs: swap with the D-pad, select
 him in tag barrels, fire his bazooka, and clear nearby enemies with a powerful
 shout. Krusha is available from the start, with a persistent option to turn him
-off. The current version is **v0.5**.
+off. The latest release is **v0.5**. Current development also expands shared
+collectibles and restores fairy capture; see [the pickup policy](docs/krusha-collectibles.md).
 
 ![Krusha in DK Isles beneath the six-face tag barrel](docs/screenshots/adventure.png)
 
@@ -111,11 +112,17 @@ Krusha is an extra way to explore and fight, with progression still handled by
 the original Kongs:
 
 - **Colored bananas, coins and other Kong-specific progression remain excluded.**
-  Krusha can collect melon health, standard weapon ammo, grenade
-  oranges and battle crowns. Camera film and crystals still require an original
-  Kong to refill them. There is no sixth collectible set or dedicated shop stock.
-- His fairy camera can enter photo mode and take pictures, consuming film, but
-  does not award fairy capture flags or rewards.
+  Current development lets him refill health, regular ammo, grenade oranges,
+  camera film and unlocked crystals, and collect shared crowns/keys and quest items.
+  Homing pickups become regular bazooka ammo; he has no homing-projectile upgrade.
+  Golden Bananas, blueprints, medals, colored coins/bananas and rainbow coins stay
+  excluded. There is no sixth collectible set or dedicated shop stock.
+- His camera uses native fairy targeting, film consumption, capture and refill.
+  The camera must be unlocked normally. These pickup/camera additions are in
+  development after v0.5 and are not in the frozen v0.5 release patch.
+- His shout and crystal pickups unlock with the game's normal shared crystal
+  prerequisite. A fresh game with Speed Mode OFF starts without crystals or
+  the shout. Candy's headphones do not refill his crystals.
 - His shout defeats nearby vulnerable enemies, but does not perform the five
   Kongs’ instrument-pad puzzle songs. It uses crystals rather than instrument energy.
 - Shop visits are safe, but Krusha receives the “nothing for sale” response.
@@ -159,10 +166,15 @@ Mupen64Plus-Next fixes and existing gameplay regressions. See its
 [compatibility report and screenshots](docs/emulator-compatibility.md); the
 723-assertion count above applies to the earlier v0.4.2 ROM.
 
+Current shared-collectible development separately passed **249 assertions** on
+its own ROM, including real fairy captures in both tested emulator families.
+See the [development report](docs/krusha-collectibles-validation.md).
+
 The [checkpoint history](docs/CHANGELOG.md) summarizes the development milestones.
 For implementation details, see:
 
 - [Tree-tag fix and validation](docs/tree-tag-fix.md)
+- [Shared collectible policy](docs/krusha-collectibles.md) and [development validation](docs/krusha-collectibles-validation.md)
 - [Shout animation, sound and camera development](docs/krusha-roar.md)
 - [Krusha size adjustments](docs/krusha-size.md)
 - [Barrel portraits and startup lineup](docs/krusha-barrel-portraits.md)

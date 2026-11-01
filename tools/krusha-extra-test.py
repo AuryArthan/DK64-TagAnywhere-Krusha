@@ -33,6 +33,7 @@ def fairy_photo():
         d.combo('k', wait=1)
         s = d.status()
     d.check('fairy camera near Japes fairy', s['player']['state'] in (4,5), s)
+    d.wait_frames(40)
     actors = d.scene('fairy-before-photo')['actors']
     fairies = [a for a in actors if a['type']==248]
     d.check('native fairy present', bool(fairies), fairies)
@@ -68,15 +69,26 @@ def fairy_photo():
     d.check('native camera targets fairy', targeted, {'result':d.mem(paad+0x1EC,'u8')})
     d.cmd(shot='final-fairy-in-frame')
     film = d.status()['inventory'][4]
-    # Press B on the first resumed frame while native targeting is confirmed.
-    d.cmd(down=['Control_L'],tap='p',wait=.3)
-    d.cmd(up=['Control_L'],wait=1,shot='final-fairy-photo-no-reward')
+    # Native shutter takes several frames before freezing the target result.
+    # Keep this position fixture in the lens over that interval; a single
+    # teleport can drift out again before the shutter and only tests a miss.
+    d.cmd(down=['Control_L'],wait=0)
+    for shutter_frame in range(48):
+        d.cmd(write=writes,wait=0)
+        d.cmd(tap='slash',wait=.03)
+        if d.mem(addr,'u8') & (1 << (0x24D & 7)): break
+    d.cmd(up=['Control_L'],tap='p',wait=1,shot='final-fairy-captured')
     after = d.mem(addr,'u8')
     state = d.mem(fairy+0x154,'u8')
-    d.check('fairy photo awards no collectible', after==flag_before and state!=0x40 and d.status()['inventory'][4]==film-1,
+    d.check('fairy photo earns native shared capture flag', bool(after & (1 << (0x24D & 7))) and state==0x40,
             {'before':flag_before,'after':after,'fairy_state':state,'status':d.status()})
-    d.cmd(wait=3)
-    d.press('i',wait=1)
+    # A successful first photo starts the native refill/tutorial sequence;
+    # it may need ordinary A input before returning control.
+    for attempt in range(30):
+        if d.status()['player']['state'] in (12,13,0x4E,0x4F): break
+        d.cmd(wait=.5)
+        if d.status()['player']['state'] in (4,5): d.press('i',wait=.5)
+        else: d.press('Shift_L',.15,.5)
     d.check('camera returns safely after fairy photo', d.status()['player']['state'] in (12,13,0x4E,0x4F),d.status())
     d.checkpoint(7,'krusha-build-fairy-photo')
 
@@ -114,34 +126,35 @@ def locked_kongs():
         d.cmd(write=writes)
         d.cmd(tap='p',wait=.2)
 
-try:
-    d.start()
-    d.press('3',.1,.1)
-    d.press('F7',.1,2)
-    s=d.status()
-    d.check('native checkpoint reloads after emulator restart',s['map']==7 and s['character']==5 and s['player']['actor']==7,s)
-    d.place([1145,288,1940],wait=2)
-    d.cmd(record='krusha-gameplay-demo')
-    oranges=d.status()['inventory'][2]
-    d.combo('l',wait=1,shot='final-orange-throw')
-    d.check('Krusha throws orange',d.status()['inventory'][2]==oranges-1,d.status())
-    d.press('Up',.5,.1)
-    d.cmd(keys=['Up','Shift_L'],seconds=.3,wait=.4,shot='final-extra-jump')
-    d.cmd(stop_record=True)
-    d.cmd(wait=1)
-    fairy_photo()
-    locked_kongs()
-    d.go(34)
-    d.place([2780,500,2260],wait=2)
-    d.checkpoint(5,'krusha-build-ready-to-play')
-    d.results['complete']=True
-    (d.RUN/'logs'/d.REPORT_NAME).write_text(json.dumps(d.results,indent=2)+'\n')
-    print('EXTRA_CHECKS_COMPLETE; interactive controller ready',flush=True)
-except Exception as exc:
-    d.results['error']=str(exc)
-    (d.RUN/'logs'/d.REPORT_NAME).write_text(json.dumps(d.results,indent=2)+'\n')
-    print(json.dumps({'test_error':str(exc)}),flush=True)
-    try:d.cmd(shot='extra-test-failure')
-    except Exception:pass
-    print('INTERACTIVE_CONTROLLER_READY',flush=True)
-d.interactive()
+if __name__ == '__main__':
+    try:
+        d.start()
+        d.press('3',.1,.1)
+        d.press('F7',.1,2)
+        s=d.status()
+        d.check('native checkpoint reloads after emulator restart',s['map']==7 and s['character']==5 and s['player']['actor']==7,s)
+        d.place([1145,288,1940],wait=2)
+        d.cmd(record='krusha-gameplay-demo')
+        oranges=d.status()['inventory'][2]
+        d.combo('l',wait=1,shot='final-orange-throw')
+        d.check('Krusha throws orange',d.status()['inventory'][2]==oranges-1,d.status())
+        d.press('Up',.5,.1)
+        d.cmd(keys=['Up','Shift_L'],seconds=.3,wait=.4,shot='final-extra-jump')
+        d.cmd(stop_record=True)
+        d.cmd(wait=1)
+        fairy_photo()
+        locked_kongs()
+        d.go(34)
+        d.place([2780,500,2260],wait=2)
+        d.checkpoint(5,'krusha-build-ready-to-play')
+        d.results['complete']=True
+        (d.RUN/'logs'/d.REPORT_NAME).write_text(json.dumps(d.results,indent=2)+'\n')
+        print('EXTRA_CHECKS_COMPLETE; interactive controller ready',flush=True)
+    except Exception as exc:
+        d.results['error']=str(exc)
+        (d.RUN/'logs'/d.REPORT_NAME).write_text(json.dumps(d.results,indent=2)+'\n')
+        print(json.dumps({'test_error':str(exc)}),flush=True)
+        try:d.cmd(shot='extra-test-failure')
+        except Exception:pass
+        print('INTERACTIVE_CONTROLLER_READY',flush=True)
+    d.interactive()

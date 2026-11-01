@@ -58,6 +58,22 @@ def cmd(**command):
 def status():
     return cmd(status=True)[0]
 
+def wait_frames(count, timeout=30):
+    """Wait for native game time in a stable map, including slow renderers."""
+    first = status()['frame']
+    deadline = time.monotonic() + timeout
+    while ((status()['frame'] - first) & 0xFFFFFFFF) < count:
+        if time.monotonic() >= deadline:
+            raise RuntimeError('Native frame wait timed out')
+        cmd(wait=.2)
+
+def wait_player_ready(timeout=30):
+    deadline = time.monotonic() + timeout
+    while status()['player']['state'] not in (12, 13, 0x4E, 0x4F):
+        if time.monotonic() >= deadline:
+            raise RuntimeError('Player did not return to ordinary movement')
+        cmd(wait=.25)
+
 def mem(address, kind='u32'):
     return cmd(read=[{'address': address, 'type': kind}])[0]['memory'][0]
 

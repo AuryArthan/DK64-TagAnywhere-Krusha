@@ -119,3 +119,29 @@ need instruction-cache invalidation. Keep original prologues and ABI correct.
 See docs/emulator-compatibility.md and playbooks/LIBRETRO.md for evidence and
 controller/profile details. Earlier blanket no-pickup statements in this dated
 handoff are superseded by the user's new shared-supply/crown request.
+
+## Shared collectibles after v0.5 (2026-11-01)
+
+The user approved the policy in `docs/krusha-collectibles.md`. Read live source
+and its linked validation report; v0.5 remains the frozen release.
+
+- `src/krusha.c`: expanded whitelist; `806F544C` ammo classifier converts homing
+  props to regular stock only at Krusha's collection. Native caps/HUD remain.
+- Per-character crystal predicate `806F6E58` delegates character 5 to native
+  global unlock `806F6EDC`; the latter loops only original characters 0..4 and
+  camera/shockwave. `krushaRoarStart` checks the same gate, then 150-unit cost.
+- Remove the old fairy actor hook at `806C5C20`: no deliberate missed photo.
+  Native fairy flag, film, refill and tutorial now execute normally.
+- Bean (map52/type198) and pearl (map44/type1B4) scripted contact operation10,
+  arguments1,1 has a scoped 20-unit touch test. Preserve script visibility60,
+  collision70, native interaction predicate806419F8, and clam286 open state2.
+  Native scripts still set all rewards/flags. No sixth Golden Banana reward.
+- Balloon handler806A7600 suppresses hit event4 at807FBD70 only for five colored
+  balloons while Krusha is active. Handles matching old-Kong shots after tagging;
+  leaves K. Rool's special balloon and original-Kong behavior native.
+- Full loaded/update actor list: pointers at807FB930, stride8, countu16 at
+  807FBB34, max64. Render list807FBFF0/count807FC3F0 is **not** all live actors!
+  `Memory.scene()` now exposes both as `loaded_actors` and `actors`.
+- Permanent flag banks reorder on autosaves. Use active file807467C8, slot IDs
+  807EDEA8..AB and native computed bank size; see test `flag_addr`. Never assume
+  a hardcoded flag bank remains current after a native pickup/autosave.

@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-31",
+  "snapshot_date": "2026-11-01",
   "latest_accepted_version": "v0.5",
   "gameplay_commit": "61649186cc860a1f931f5da1947332aceb69b6c4",
   "documentation_commit_before_handoff": "6098b12ddb6be7b70d0684d3f72119650f301431",
@@ -82,16 +82,16 @@
   "caution": "Dated copied summaries, not fresh verification. Full logs remain in workspace. Newer changes may be legitimate. Git IDs in copied historical evidence may predate the identity rewrite; consult the alias map.",
   "identity_rewrite_map": "identity-rewrite.json",
   "unreleased_development": {
-    "date": "2026-10-31",
-    "status": "Approved as v0.5; hosted publication pending user push",
-    "rom_sha256": "98e0b5cc3a0b5e9067ce0595e57217518e248822056a31d01ccceaac18da535a",
-    "md5": "3481fb2acb5e7fda38bcc30c7f474008",
-    "size": 34701312,
-    "libretro_checks": 81,
-    "released": false,
-    "standalone_regression_assertions": 140,
-    "total_assertions": 221,
-    "validation_complete": true
+    "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
+    "md5": "45ced182aba73f860e8ad339814f3837",
+    "native_save_prefix": "45CED182",
+    "status": "Shared collectible policy implemented and emulator tested; no new release tag or push",
+    "assertions": 249,
+    "reports": 13,
+    "summary": "docs/qa/krusha-collectibles-20261101.json",
+    "validation": "docs/krusha-collectibles-validation.md",
+    "deterministic_rebuild_identical": true,
+    "accepted_release_preserved": "v0.5"
   },
   "previous_accepted_version": "v0.4.2",
   "accepted_v05": {

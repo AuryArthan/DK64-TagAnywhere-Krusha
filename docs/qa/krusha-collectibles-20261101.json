@@ -1,0 +1,1151 @@
+{
+  "date": "2026-11-01",
+  "status": "unreleased development after v0.5",
+  "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
+  "emulators": [
+    "Standalone Mupen64Plus / Glide64mk2",
+    "Libretro Mupen64Plus-Next / GLideN64"
+  ],
+  "fixtures": "Exact-ROM states after cold boot; erased EEPROM for fresh game; logged positions/stocks/aspect/prerequisites; no identity, action, animation, code or collection-result writes. Arcade/Jetpac win-return prerequisites are supplied; minigames themselves were not completed.",
+  "reports": [
+    {
+      "case": "Core gameplay",
+      "assertions": 34,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/core-profile/logs/krusha-tests.json",
+      "report_sha256": "bce1e8de44cad08335a4e9816db35c1e5e6fc87671dc4cee3483b005ed1628f7",
+      "checks": [
+        {
+          "name": "main menu reached",
+          "passed": true
+        },
+        {
+          "name": "cold boot into adventure",
+          "passed": true
+        },
+        {
+          "name": "DK backwards to Krusha",
+          "passed": true
+        },
+        {
+          "name": "six character rotation d",
+          "passed": true
+        },
+        {
+          "name": "six character rotation a",
+          "passed": true
+        },
+        {
+          "name": "running and jumping advance gameplay",
+          "passed": true
+        },
+        {
+          "name": "vocal instrument enters safely",
+          "passed": true
+        },
+        {
+          "name": "vocal instrument returns to gameplay",
+          "passed": true
+        },
+        {
+          "name": "camera enters fairy view",
+          "passed": true
+        },
+        {
+          "name": "camera takes photograph",
+          "passed": true
+        },
+        {
+          "name": "camera exits to gameplay",
+          "passed": true
+        },
+        {
+          "name": "pause menu returns safely",
+          "passed": true
+        },
+        {
+          "name": "bananaport without identity or inventory change",
+          "passed": true
+        },
+        {
+          "name": "Krusha lifts native boulder",
+          "passed": true
+        },
+        {
+          "name": "tagging blocked during heavy carry",
+          "passed": true
+        },
+        {
+          "name": "Krusha drops boulder",
+          "passed": true
+        },
+        {
+          "name": "boulder can be picked up again",
+          "passed": true
+        },
+        {
+          "name": "Krusha throws boulder",
+          "passed": true
+        },
+        {
+          "name": "Krusha swimming",
+          "passed": true
+        },
+        {
+          "name": "Krusha dives and swims",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects no coins",
+          "passed": true
+        },
+        {
+          "name": "green coins remain for Chunky",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects no colored bananas",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects shared orange pickup separately from bazooka ammo",
+          "passed": true
+        },
+        {
+          "name": "another shared orange remains collectible by Chunky",
+          "passed": true
+        },
+        {
+          "name": "Krusha climbs tree",
+          "passed": true
+        },
+        {
+          "name": "Cranky entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Cranky dialogue and exit",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 30",
+          "passed": true
+        },
+        {
+          "name": "Candy entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Candy dialogue and exit",
+          "passed": true
+        },
+        {
+          "name": "Funky entry as Krusha",
+          "passed": true
+        },
+        {
+          "name": "Funky dialogue and exit",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Standard/Widescreen supplies",
+      "assertions": 28,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/supplies-r1/logs/collectibles-supplies.json",
+      "report_sha256": "49822c378543dbdd2479fd31244abbbd8be481361436e9aa9f10659e4e9143ce",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "crystal collected wide 0",
+          "passed": true
+        },
+        {
+          "name": "collected crystals fund shout wide 0",
+          "passed": true
+        },
+        {
+          "name": "film collected wide 0",
+          "passed": true
+        },
+        {
+          "name": "crystals respect native capacity",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "homing crate supplies five REGULAR bazooka rounds wide 0",
+          "passed": true
+        },
+        {
+          "name": "bazooka remains non-homing",
+          "passed": true
+        },
+        {
+          "name": "bazooka still fires regular ammo only",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "original DK selected for comparison",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "DK keeps native homing-ammo crate behavior",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "crystal collected wide 1",
+          "passed": true
+        },
+        {
+          "name": "collected crystals fund shout wide 1",
+          "passed": true
+        },
+        {
+          "name": "film collected wide 1",
+          "passed": true
+        },
+        {
+          "name": "crystals respect native capacity",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "homing crate supplies five REGULAR bazooka rounds wide 1",
+          "passed": true
+        },
+        {
+          "name": "bazooka remains non-homing",
+          "passed": true
+        },
+        {
+          "name": "bazooka still fires regular ammo only",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "original DK selected for comparison",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "DK keeps native homing-ammo crate behavior",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Unlocks and headphones",
+      "assertions": 14,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/locks-r2/logs/collectibles-locks.json",
+      "report_sha256": "c30ed8906caf05d5a96240bbc1b46eef17d14ca2802deb9978f525f248018ee1",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "no shout before native crystal unlock",
+          "passed": true
+        },
+        {
+          "name": "locked shout rejects even pre-existing crystal stock",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "locked crystal cannot be collected",
+          "passed": true
+        },
+        {
+          "name": "original crystal move unlocks pickup for Krusha",
+          "passed": true
+        },
+        {
+          "name": "unlock enables shout, consuming one crystal",
+          "passed": true
+        },
+        {
+          "name": "film remains unavailable before camera unlock",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "native headphones present",
+          "passed": true
+        },
+        {
+          "name": "headphones do not replenish shout crystals",
+          "passed": true
+        },
+        {
+          "name": "headphones do not create sixth instrument energy",
+          "passed": true
+        },
+        {
+          "name": "headphones still refill original DK instrument energy",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Standard/Widescreen fairy captures",
+      "assertions": 16,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/fairies-r1/logs/collectibles-fairies.json",
+      "report_sha256": "6a7b4f80d1a216e7174e26c95faa0c049764a6e4d7512e1ef2a9af48f1c131da",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "fairy camera near Japes fairy",
+          "passed": true
+        },
+        {
+          "name": "native fairy present",
+          "passed": true
+        },
+        {
+          "name": "fairy not already captured",
+          "passed": true
+        },
+        {
+          "name": "native camera targets fairy",
+          "passed": true
+        },
+        {
+          "name": "fairy photo earns native shared capture flag",
+          "passed": true
+        },
+        {
+          "name": "camera returns safely after fairy photo",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "fairy camera near Japes fairy",
+          "passed": true
+        },
+        {
+          "name": "native fairy present",
+          "passed": true
+        },
+        {
+          "name": "fairy not already captured",
+          "passed": true
+        },
+        {
+          "name": "native camera targets fairy",
+          "passed": true
+        },
+        {
+          "name": "fairy photo earns native shared capture flag",
+          "passed": true
+        },
+        {
+          "name": "camera returns safely after fairy photo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Colored balloons and late shots",
+      "assertions": 23,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/balloons-r2/logs/collectibles-balloons.json",
+      "report_sha256": "b8a83cb2abcb94716ebecabccb2adcfc5810f9c70bab832bea776ec567e49d35",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "balloon setup locations found",
+          "passed": true
+        },
+        {
+          "name": "native colored balloon remains after Krusha contact 91",
+          "passed": true
+        },
+        {
+          "name": "native colored balloon remains after Krusha contact 114",
+          "passed": true
+        },
+        {
+          "name": "native colored balloon remains after Krusha contact 111",
+          "passed": true
+        },
+        {
+          "name": "native colored balloon remains after Krusha contact 113",
+          "passed": true
+        },
+        {
+          "name": "native colored balloon remains after Krusha contact 112",
+          "passed": true
+        },
+        {
+          "name": "all five balloon colors exercised by contact",
+          "passed": true
+        },
+        {
+          "name": "balloon contact awards no bananas",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "native gun projectile exists",
+          "passed": true
+        },
+        {
+          "name": "Krusha bazooka cannot pop colored balloon",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "original DK selected for balloon control",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "native gun projectile exists",
+          "passed": true
+        },
+        {
+          "name": "original Kong still pops own balloon and receives ten bananas",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "native tag completes with original projectile in flight",
+          "passed": true
+        },
+        {
+          "name": "late original projectile cannot pop a balloon for Krusha",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Fresh Speed Mode OFF file",
+      "assertions": 13,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/newgame/logs/collectibles-newgame-tests.json",
+      "report_sha256": "12b79dc8ec141dd5b221062bd8160bbddd972de26f26d19b91ed91ccac1c5587",
+      "checks": [
+        {
+          "name": "erased EEPROM initializes main menu",
+          "passed": true
+        },
+        {
+          "name": "fresh game Speed Mode is off",
+          "passed": true
+        },
+        {
+          "name": "fresh test uses KRUSHA ON and Speed Mode OFF",
+          "passed": true
+        },
+        {
+          "name": "opening story returns control in Treehouse",
+          "passed": true
+        },
+        {
+          "name": "new game reaches Training Grounds",
+          "passed": true
+        },
+        {
+          "name": "intro returns player control",
+          "passed": true
+        },
+        {
+          "name": "new file cycles only DK and always-unlocked Krusha",
+          "passed": true
+        },
+        {
+          "name": "fresh Krusha actor valid",
+          "passed": true
+        },
+        {
+          "name": "fresh Krusha moves and jumps",
+          "passed": true
+        },
+        {
+          "name": "fresh Speed-OFF file has no crystals",
+          "passed": true
+        },
+        {
+          "name": "fresh Krusha cannot shout before crystals unlock",
+          "passed": true
+        },
+        {
+          "name": "fresh move inputs leave gameplay advancing",
+          "passed": true
+        },
+        {
+          "name": "fresh file returns to DK",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Key and medal exclusion",
+      "assertions": 8,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/keys-r5/logs/collectibles-keys.json",
+      "report_sha256": "f7e3b9cd14f54db641662aec6e0d65e54322fa37a88de42b701ba9d0a0a1ae56",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 17",
+          "passed": true
+        },
+        {
+          "name": "Helm key initially uncollected",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects shared Helm boss key",
+          "passed": true
+        },
+        {
+          "name": "key celebration finishes safely with Speed Mode OFF",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 17",
+          "passed": true
+        },
+        {
+          "name": "physical Helm medal does not award a sixth-character medal",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Nintendo/Rareware rewards",
+      "assertions": 14,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/coins-r5/logs/collectibles-coins.json",
+      "report_sha256": "0e718a4d34ac690547b97545c92363b4e18d00927407ceeb99303c8d31a8059d",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "Nintendo coin initially uncollected",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 26",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 29",
+          "passed": true
+        },
+        {
+          "name": "native reward return map Nintendo",
+          "passed": true
+        },
+        {
+          "name": "native Nintendo reward script awards shared coin to Krusha",
+          "passed": true
+        },
+        {
+          "name": "Nintendo celebration keeps Krusha actor valid",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "Rareware coin initially uncollected",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 26",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 5",
+          "passed": true
+        },
+        {
+          "name": "native reward return map Rareware",
+          "passed": true
+        },
+        {
+          "name": "native Rareware reward script awards shared coin to Krusha",
+          "passed": true
+        },
+        {
+          "name": "Rareware celebration keeps Krusha actor valid",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Pearls and bean",
+      "assertions": 21,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/quests-r6/logs/collectibles-quests.json",
+      "report_sha256": "68e3c5cba8c71408a39fe996882b9f2233abfef54d91dbb89d0fd8af0bca5404",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 44",
+          "passed": true
+        },
+        {
+          "name": "closed clam does not award its pearl",
+          "passed": true
+        },
+        {
+          "name": "pearl initially uncollected 0xba",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects pearl 0xba",
+          "passed": true
+        },
+        {
+          "name": "pearl initially uncollected 0xbb",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects pearl 0xbb",
+          "passed": true
+        },
+        {
+          "name": "pearl initially uncollected 0xbc",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects pearl 0xbc",
+          "passed": true
+        },
+        {
+          "name": "pearl initially uncollected 0xbd",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects pearl 0xbd",
+          "passed": true
+        },
+        {
+          "name": "pearl initially uncollected 0xbe",
+          "passed": true
+        },
+        {
+          "name": "Krusha collects pearl 0xbe",
+          "passed": true
+        },
+        {
+          "name": "pearls award no Kong Golden Bananas",
+          "passed": true
+        },
+        {
+          "name": "collected pearls remain collected without duplicate flags",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 52",
+          "passed": true
+        },
+        {
+          "name": "bean cannot be taken before its enemy-clear gate",
+          "passed": true
+        },
+        {
+          "name": "bean becomes collectible only after native enemy clear",
+          "passed": true
+        },
+        {
+          "name": "bean native script records collection",
+          "passed": true
+        },
+        {
+          "name": "bean does not grant its delivery Golden Banana",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Mupen64Plus-Next native boot",
+      "assertions": 5,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/libretro-seed/logs/libretro-boot-tests.json",
+      "report_sha256": "7934e2e464bb411461c8dc074cf9c38965e0818919c6d04caceb74b6d159e18c",
+      "checks": [
+        {
+          "name": "cold boot reaches native main menu",
+          "passed": true
+        },
+        {
+          "name": "native options page reached",
+          "passed": true
+        },
+        {
+          "name": "native Speed Mode on",
+          "passed": true
+        },
+        {
+          "name": "native Widescreen on",
+          "passed": true
+        },
+        {
+          "name": "adventure ready",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Mupen64Plus-Next supplies",
+      "assertions": 28,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/libretro-supplies-focused/logs/collectibles-supplies.json",
+      "report_sha256": "58bdfb9c3295d3e1f0b5d8bb75562f57008fe96d999f0d8c5b4f23481494929a",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "crystal collected wide 0",
+          "passed": true
+        },
+        {
+          "name": "collected crystals fund shout wide 0",
+          "passed": true
+        },
+        {
+          "name": "film collected wide 0",
+          "passed": true
+        },
+        {
+          "name": "crystals respect native capacity",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "homing crate supplies five REGULAR bazooka rounds wide 0",
+          "passed": true
+        },
+        {
+          "name": "bazooka remains non-homing",
+          "passed": true
+        },
+        {
+          "name": "bazooka still fires regular ammo only",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "original DK selected for comparison",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "DK keeps native homing-ammo crate behavior",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "crystal collected wide 1",
+          "passed": true
+        },
+        {
+          "name": "collected crystals fund shout wide 1",
+          "passed": true
+        },
+        {
+          "name": "film collected wide 1",
+          "passed": true
+        },
+        {
+          "name": "crystals respect native capacity",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "homing crate supplies five REGULAR bazooka rounds wide 1",
+          "passed": true
+        },
+        {
+          "name": "bazooka remains non-homing",
+          "passed": true
+        },
+        {
+          "name": "bazooka still fires regular ammo only",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "original DK selected for comparison",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 48",
+          "passed": true
+        },
+        {
+          "name": "DK keeps native homing-ammo crate behavior",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Mupen64Plus-Next fairy captures",
+      "assertions": 16,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/libretro-fairies-focused/logs/collectibles-fairies.json",
+      "report_sha256": "804b75759ef24ed953ea97af330d26d2b0182b47a99e97f2d5777e63bb4d99da",
+      "checks": [
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "fairy camera near Japes fairy",
+          "passed": true
+        },
+        {
+          "name": "native fairy present",
+          "passed": true
+        },
+        {
+          "name": "fairy not already captured",
+          "passed": true
+        },
+        {
+          "name": "native camera targets fairy",
+          "passed": true
+        },
+        {
+          "name": "fairy photo earns native shared capture flag",
+          "passed": true
+        },
+        {
+          "name": "camera returns safely after fairy photo",
+          "passed": true
+        },
+        {
+          "name": "exact-ROM Krusha checkpoint",
+          "passed": true
+        },
+        {
+          "name": "fixture loaded map 7",
+          "passed": true
+        },
+        {
+          "name": "fairy camera near Japes fairy",
+          "passed": true
+        },
+        {
+          "name": "native fairy present",
+          "passed": true
+        },
+        {
+          "name": "fairy not already captured",
+          "passed": true
+        },
+        {
+          "name": "native camera targets fairy",
+          "passed": true
+        },
+        {
+          "name": "fairy photo earns native shared capture flag",
+          "passed": true
+        },
+        {
+          "name": "camera returns safely after fairy photo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case": "Options ON/OFF and native save persistence",
+      "assertions": 29,
+      "complete": true,
+      "source": "runtime/qa/collectibles-20261101/final-build/options-r4/logs/krusha-options-tests.json",
+      "report_sha256": "cb1412110cdaf09d6b0217a3f8ac85ea5b589c3f181cd5ac2ccf244361e7d1eb",
+      "checks": [
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "UI toggles Krusha off",
+          "passed": true
+        },
+        {
+          "name": "Krusha toggle preserves screen size, Speed Mode and camera setting",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "OFF survives full emulator restart and native EEPROM reload",
+          "passed": true
+        },
+        {
+          "name": "enter adventure through native menu",
+          "passed": true
+        },
+        {
+          "name": "five character rotation with option off d",
+          "passed": true
+        },
+        {
+          "name": "five character rotation with option off a",
+          "passed": true
+        },
+        {
+          "name": "barrel shows 5 characters with option False",
+          "passed": true
+        },
+        {
+          "name": "barrel cursor wraps with option False",
+          "passed": true
+        },
+        {
+          "name": "barrel last slot selects Chunky",
+          "passed": true
+        },
+        {
+          "name": "barrel cleanup with option False",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "UI toggles Krusha on",
+          "passed": true
+        },
+        {
+          "name": "Krusha toggle preserves screen size, Speed Mode and camera setting",
+          "passed": true
+        },
+        {
+          "name": "enter adventure through native menu",
+          "passed": true
+        },
+        {
+          "name": "six character rotation with option on d",
+          "passed": true
+        },
+        {
+          "name": "six character rotation with option on a",
+          "passed": true
+        },
+        {
+          "name": "barrel shows 6 characters with option True",
+          "passed": true
+        },
+        {
+          "name": "barrel cursor wraps with option True",
+          "passed": true
+        },
+        {
+          "name": "barrel last slot selects Krusha",
+          "passed": true
+        },
+        {
+          "name": "barrel cleanup with option True",
+          "passed": true
+        },
+        {
+          "name": "ready checkpoint has unarmed Krusha in adventure",
+          "passed": true
+        },
+        {
+          "name": "cold boot main menu",
+          "passed": true
+        },
+        {
+          "name": "native options menu contains selectable fifth Krusha item",
+          "passed": true
+        },
+        {
+          "name": "ON survives full emulator restart and native EEPROM reload",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "assertions": 249,
+  "complete": true,
+  "source_files_sha256": {
+    "src/krusha.c": "75c13d098dc84a1bcdda51b191484b044809077502b8001422eccdd3b97cac6b",
+    "src/krusha_roar.c": "386ded217ceda0571bbe827639c07485771977bd476bba0629460b113cdd9398",
+    "asm/krusha.asm": "3d6e5c297ebd2bb2c6191155000c26651fc5921071ab5ed58a2943d35e8bfd2a",
+    "asm/symbols.asm": "15187f01178efb4e4ef84a47de46ea76a6c7554b04fa04095da1a083c2d3fd7a",
+    "include/global.h": "ff3b1185dddfff36c87052a724b637be3c9bd7c91f557826c1808dcc9475e67c"
+  },
+  "artifact_checks": {
+    "rom_sha256": "b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f",
+    "md5": "45ced182aba73f860e8ad339814f3837",
+    "size": 34701312,
+    "bps_sha256": "4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88",
+    "bps_exact_roundtrip": true,
+    "CIC6105": 6105,
+    "checksums": [
+      1323711869,
+      766095627
+    ],
+    "alignment_16KiB": true,
+    "EEPROM16K_metadata": true,
+    "v05_patch_unchanged": true
+  },
+  "limits": "No complete campaign, all bosses/minigames, multiplayer, Batocera OS or original-console certification.",
+  "deterministic_rebuild_identical": true
+}

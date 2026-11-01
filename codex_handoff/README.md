@@ -1,6 +1,6 @@
 # Start here: DK64 Krusha project handoff
 
-Written 2026-10-31 for a fresh AI session. This is a navigation guide and a dated
+Written 2026-10-31, updated 2026-11-01 for a fresh AI session. This is a navigation guide and a dated
 knowledge snapshot, not a new request to change the game. Read the user's latest
 request first. Inspect the actual checkout before acting on this snapshot.
 
@@ -21,6 +21,8 @@ request first. Inspect the actual checkout before acting on this snapshot.
    **before launching any test script**.
 
 The latest approved checkpoint is **v0.5**, with 221 assertions on its exact ROM.
+Current unreleased collectible work follows it; read CURRENT_STATE and its linked
+validation report before choosing a ROM or resuming tests.
 Its BPS, annotated tag and release-on-push workflow are prepared locally; hosted
 publication requires the user to push the tag and branch. v0.4.2 and older
 checkpoints remain preserved. Read CURRENT_STATE for current hashes and scope;

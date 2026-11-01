@@ -165,3 +165,37 @@ approving a synthetic preview as in-game output.
 Separate ROM bugs, test fixture errors, and emulator/host failures. Reports must
 state ROM hash, fixtures, actual successes, failures, and limits. No physical
 console was available; no emulator run changes that fact.
+
+## Collectible fixtures: lessons from 2026-11-01
+
+Use the new collectible/new-game helpers described in tools/README.md. The
+collectible seed must have a completed **same-ROM** core report; libretro uses
+its same-ROM graphics report/slot0 instead. All destination profiles are new.
+
+The render actor list omits headphones and offscreen live objects; use scene
+`loaded_actors` for these. After a distant teleport, recenter with native R and
+wait for map entry autowalking/cutscenes to finish. Player idle alone can appear
+before autowalking ends. Do not diagnose inactivity from an unloaded chunk.
+A collected key disappearing from the model2 list is expected, not a failure.
+
+A real fairy's targeting result is read several shutter frames after B. The
+photo fixture holds the live fairy's position in the lens over that interval;
+it never writes targeting, action, animation or capture flags. Success can run
+a long first-photo refill/tutorial; use bounded native A/C-Up input and wait for
+control. Check active flag-bank relocation after autosaves. Crystal/film groups
+can contain multiple overlapping props; verify increments/caps, not just +1.
+
+Native menu navigation must establish the correct page before using the stick:
+menu actor326's additional data +0x12 is page0 (opening),1 (root carousel),
+2/3 (Adventure file pages),9 (Other Options). A opens page0; B backs out of file
+pages. At root, +0x17 item4 is Other Options. Wait for the native transition
+floats +0/+4 to reach zero, then A. Assuming the root after an arbitrary boot
+Start press caused false menu failures in both emulators. The maintained options
+and libretro graphics helpers now use this native page/selection polling.
+
+Early native-state restores sometimes froze at the first restored frame in
+this harness. Let boot/renderer initialization finish before F7, and give the
+state load time to settle before paired P pause/resume fixture commands. This
+was a harness timing issue; no game timing patch was justified by that evidence.
+Set a distinct REPORT_NAME when importing the driver for probes: its `check()`
+writes the report, so the default name would overwrite the seed core report.

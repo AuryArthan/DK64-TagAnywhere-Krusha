@@ -11,3 +11,4 @@ extern void tagAnywhere(void);
 extern void krushaAdventure(void);
 extern void widescreenTick(void);
 extern s32 krushaEnabled(void);
+extern s32 krushaCrystalsUnlocked(void);

@@ -132,10 +132,22 @@ vanillaFindPurchase:
     J 0x80025FBC
     NOP
 
-vanillaFairyActor:
-    ADDIU sp, sp, -0x58
-    SW ra, 0x2C(sp)
-    J 0x806C5C28
+vanillaAmmoCollectible:
+    SW a2, 0x8(sp)
+    ANDI t6, a2, 0xFF
+    J 0x806F5454
+    NOP
+
+vanillaBananaBalloon:
+    LUI a1, 0x8080
+    LW a1, 0xBB40(a1)
+    J 0x806A7608
+    NOP
+
+vanillaCrystalAbility:
+    SLL t6, a0, 16
+    SRA t7, t6, 16
+    J 0x806F6E60
     NOP
 
 vanillaBarrelEligibility:

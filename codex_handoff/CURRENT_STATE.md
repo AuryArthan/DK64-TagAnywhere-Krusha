@@ -1,3 +1,31 @@
+# Unreleased collectible development — 2026-11-01
+
+The latest user request approves [the collectible policy](../docs/krusha-collectibles.md)
+and asks for implementation. Current built development ROM SHA256 is
+`b933a3ec36f8e8b8cbcf8a06c4014b49625696077b7878dcb33fca1ac946f57f`,
+MD5 `45ced182aba73f860e8ad339814f3837` (native EEPROM prefix **45CED182**).
+The latest approved release remains **v0.5** below; its tag and BPS are frozen.
+No new version/release or GitHub push was requested for this work.
+
+Implemented: shared crystals with native unlock/shout gate, film, real fairy
+captures/refill, homing pickups converted to regular bazooka stock, shared
+key/quest/challenge pickup eligibility, scoped bean/pearl contact, colored
+balloon hit protection (including shots left in flight when tagging). Headphones
+stay unusable; original-Kong progression and rainbow coins stay blocked. No new
+boss/minigame access, shop stock, Tiny abilities or instrument-pad songs.
+
+This development ROM passed **249 assertions across 13 complete reports**:
+standalone core/supplies/locks/balloons/quests/keys/coins/new-game/options plus
+Mupen64Plus-Next native boot and Standard/Widescreen supplies/fairy captures.
+A separate rebuild matched every byte. No complete campaign or hardware claim.
+
+Read [validation](../docs/krusha-collectibles-validation.md) for the final checks
+and their limits. Do not add v0.5 or intermediate-ROM test counts to this build.
+Both normal launcher profiles received a non-overwriting copy of the player's
+v0.5 native EEPROM under the new prefix; originals/states were retained. No
+cross-ROM savestates were imported. QA profiles remain private/ignored under
+`runtime/qa/collectibles-20261101/`; their progression is not a player save.
+
 # Current state — v0.5 checkpoint, 2026-10-31
 
 The user approved the tested compatibility build as **v0.5** and requested a

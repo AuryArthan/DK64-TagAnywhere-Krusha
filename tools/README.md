@@ -160,3 +160,41 @@ Reports and screenshots need review; a zero process exit alone is not a pass.
 `DK64_TEST_SAVE` fixture to test native options saving over a complete frontend
 restart. It writes no option RAM and loads no savestates. Its `.srm`-existence
 check prevents accidentally reusing a player profile.
+
+## Shared collectible checks (development after v0.5)
+
+`krusha-extra-test.py` now verifies a real native fairy capture and the subsequent
+refill/tutorial. It is importable without starting its execution block.
+
+`krusha-collectibles-test.py` uses **completed, exact-ROM** core states, copied to
+a new profile. It refuses cross-ROM seeds or an existing destination state set:
+
+```sh
+DK64_TEST_SAVE=/private/path/to/test-fixture.eep \
+DK64_COLLECTIBLE_SEED_PROFILE="$PWD/runtime/qa/my-core/profile" \
+DK64_RUNTIME="$PWD/runtime/qa/my-new-pickup-profile" \
+DK64_COLLECTIBLE_PHASE=supplies \
+/usr/bin/python3 -u tools/krusha-collectibles-test.py </dev/null
+```
+
+Phases are `supplies`, `locks`, `quests`, `keys`, `balloons`,
+`coins`, `fairies`, `bean` (only the bean case), or `all`. Read `logs/collectibles-<phase>.json`: require
+`complete`, matching ROM hash and all checks passing. Positions, temporary
+prerequisites and resource stocks are logged fixtures; rewards still require
+native contact, gunfire, scripts or shutter input. Coin win-return flags are
+prerequisite fixtures, not claims of completing arcade/Jetpac. For libretro,
+set `DK64_COLLECTIBLE_BACKEND=libretro`, the pinned `DK64_LIBRETRO_ROOT`, and a
+completed same-ROM graphics-test profile as the seed. A focused seed can instead
+be created with `DK64_LIBRETRO_PHASE=seed /usr/bin/python3 -u tools/libretro-compat-test.py`
+with the same environment as above; it records five native boot/UI/
+adventure checks in `libretro-boot-tests.json` and makes slot0 without claiming
+that graphics/interactions were tested. Run emulators sequentially.
+
+`krusha-newgame-test.py` requires a new `DK64_NEWGAME_PROFILE`. It creates an
+erased EEPROM, follows the opening story, and checks Speed Mode OFF, zero
+crystals and locked shout. It never uses a player's EEPROM or an old savestate.
+
+Memory scene diagnostics distinguish `actors` (the camera's **render list**)
+from `loaded_actors` (the native **update list**). Use the latter for headphones,
+offscreen clams or projectiles. A distant position fixture also needs the
+camera to settle/recenter; otherwise a nearby object can remain inactive.

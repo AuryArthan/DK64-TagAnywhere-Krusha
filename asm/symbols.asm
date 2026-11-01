@@ -269,6 +269,8 @@
 .definelabel krushaInstrumentBlocked, 0x806E5488
 .definelabel krushaInstrumentActorBlocked, 0x806E527C
 .definelabel krushaChangeCollectable, 0x806F91B4
+.definelabel nativeCrystalsUnlocked, 0x806F6EDC
+.definelabel nativeScriptInteractionAllowed, 0x806419F8
 .definelabel krushaShowHUD, 0x806F8BC4
 .definelabel krushaNativeStartSound, 0x80737638
 .definelabel krushaNativeStopSound, 0x80737924

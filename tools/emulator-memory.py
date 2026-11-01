@@ -87,6 +87,16 @@ class Memory:
 
     def scene(self):
         result = self.status()
+        # The render list below can omit offscreen actors and sprite actors
+        # such as headphones. Keep the native update list separate so tests
+        # do not mistake a rendering omission for a missing game object.
+        result['loaded_actors'] = []
+        for i in range(min(self.read(0x807FBB34, 'u16'), 64)):
+            p = self.u32(0x807FB930 + i * 8)
+            if 0x80000000 <= p < 0x807FF000:
+                result['loaded_actors'].append({'pointer': hex(p), 'type': self.u32(p + 0x58),
+                    'state': self.read(p + 0x154, 'u8'),
+                    'xyz': [round(self.read(p + off, 'f32'), 2) for off in (0x7C, 0x80, 0x84)]})
         result['actors'] = []
         for i in range(min(self.read(0x807FC3F0, 'u16'), 256)):
             p = self.u32(0x807FBFF0 + i * 4)

@@ -3,6 +3,18 @@
 These are the saved gameplay milestones. Version labels follow the existing Git
 tags, including the historical `v3.1` spelling. Older checkpoints are preserved.
 
+## Unreleased — shared collectibles and fairy capture
+
+Allow unlocked Crystal Coconuts and camera film; restore native fairy capture,
+saving and post-photo refill. Gate Krusha's shout and crystal eligibility behind
+the shared native crystal unlock, preserving an empty crystal supply on a fresh
+Speed Mode OFF file. Credit homing pickups as regular bazooka ammunition at
+collection time, including drops left by another Kong. Preserve original-Kong
+homing ammunition, native resource caps, colored-balloon restrictions, blocked
+Kong-specific collectibles and unusable headphones. Extend shared pickup policy
+to keys, global quest tokens and temporary challenge DK coins without opening
+new boss/minigame access. [Policy](krusha-collectibles.md).
+
 ## v0.5 — Mupen64Plus-Next compatibility and shared pickups
 
 Correct widescreen camera/scope RDP commands and full-width underwater tint.

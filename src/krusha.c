@@ -6,7 +6,11 @@ extern u8 vanillaSetAction(s16 action, void* actor, u8 player);
 extern u8 vanillaScriptCondition(u16* instruction, void* script, s16 object_id);
 extern s32 vanillaModelPickupAllowed(s16 object_id, u8 player, u16 type);
 extern void vanillaFindPurchase(void* menu, void* progress, s32 arg2);
-extern void vanillaFairyActor(void);
+extern s32 vanillaAmmoCollectible(s32 item, s32 type, u8 homing);
+extern s32 nativeCrystalsUnlocked(void);
+extern u8 vanillaCrystalAbility(s16 character);
+extern s32 nativeScriptInteractionAllowed(void);
+extern void vanillaBananaBalloon(void* sprite);
 extern void vanillaBarrelEligibility(void);
 extern void krushaBarrelInstall(void);
 extern void krushaBarrelOption(void);
@@ -72,16 +76,46 @@ void krushaBarrelEligibility(void) {
     vanillaBarrelEligibility();
 }
 
-void krushaFairyActor(void) {
-    if (enabled && Character == 5 && DetectAdventure() && Player) {
-        u8* data = *(u8**)((u8*)Player + 0x174);
-        /* The camera still takes photographs. Treat a fairy photo as a miss
-         * before its actor awards a permanent flag or disappears. */
-        if ((*(u32*)(data + 0x1F0) & 0x8000) && data[0x1EC] == 1) {
-            data[0x1EC] = 2;
+s32 krushaCrystalsUnlocked(void) {
+    /* Shared native capacity prerequisite: any original Kong's crystal move,
+     * or the camera/shockwave unlock. Krusha alone never grants that unlock. */
+    return nativeCrystalsUnlocked();
+}
+
+u8 krushaCrystalAbility(s16 character) {
+    /* Also drives native crystal opacity and pickup capability bits. The
+     * global predicate checks only characters 0..4, so it cannot recurse into
+     * this sixth-character branch. Original Kongs retain their own gates. */
+    if (enabled && character == 5 && DetectAdventure()) return krushaCrystalsUnlocked();
+    return vanillaCrystalAbility(character);
+}
+
+s32 krushaAmmoCollectible(s32 item, s32 type, u8 homing) {
+    /* Classify at collection, not when a crate spills: this also handles
+     * homing props left by an original Kong before tagging to Krusha. Native
+     * stock updates, limits and HUD then all use the regular ammo counter. */
+    if (enabled && Character == 5 && DetectAdventure()) {
+        switch (type) {
+            case 0x91: case 0x15D: case 0x15E: case 0x15F: case 0x160:
+                homing = 0;
+                break;
         }
     }
-    vanillaFairyActor();
+    return vanillaAmmoCollectible(item, type, homing);
+}
+
+void krushaBananaBalloon(void* sprite) {
+    /* Krusha's bazooka is absent from native balloon collision lists. Also
+     * reject a matching Kong's shot left in flight before tagging to Krusha:
+     * native balloon rewards use the current character's banana counters. */
+    u8* actor = *(u8**)0x807FBB40;
+    volatile u8* hit = (volatile u8*)0x807FBD70;
+    u32 type = actor ? *(u32*)(actor + 0x58) : 0;
+    s32 block = enabled && Character == 5 && DetectAdventure() && *hit == 4 &&
+        (type == 91 || type == 111 || type == 112 || type == 113 || type == 114);
+    if (block) *hit = 0;
+    vanillaBananaBalloon(sprite);
+    if (block) *hit = 4;
 }
 
 void krushaFindPurchase(void* menu, void* progress, s32 arg2) {
@@ -119,15 +153,27 @@ s32 krushaModelPickupAllowed(s16 object_id, u8 player, u16 type) {
      * tied to an original Kong's progression remains excluded. */
     if (enabled && player == 0 && Character == 5 && DetectAdventure()) {
         switch (type) {
+            case 0x11:  /* homing crate -> regular bazooka ammo */
+                return vanillaModelPickupAllowed(object_id, player, 0x8F);
+            case 0x8E:  /* shared crystals, after their normal global unlock */
+                if (!krushaCrystalsUnlocked()) return 0;
+                break;
+            case 0x48:  /* Nintendo Coin: global progression, not currency */
             case 0x56:  /* orange grenades: separate from bazooka ammunition */
             case 0x57:  /* watermelon health */
             case 0x8F:  /* ammo crate, which spills five native ammo props */
             case 0x91:  /* peanut */
+            case 0x98:  /* camera film: preserve native camera-unlock check */
+            case 0xEC:  /* temporary minecart/race DK coin */
+            case 0x13C: /* boss key */
             case 0x15D: /* feather */
             case 0x15E: /* grape */
             case 0x15F: /* pineapple: also Krusha's native ammo pickup */
             case 0x160: /* coconut: all five refill shared weapon ammo */
             case 0x18D: /* battle crown */
+            case 0x198: /* bean: shared quest flag, original GB owner stays */
+            case 0x1B4: /* pearl: shared quest flag, original GB owner stays */
+            case 0x28F: /* Rareware Coin */
                 break;
             default:
                 return 0;
@@ -167,15 +213,54 @@ void krushaDialogueLine(void* owner, u8* text, u16 length) {
     vanillaDialogueLine(owner, changed ? line : text, changed ? out : length);
 }
 
+static s32 krushaQuestTouch(ModelTwoData* object, void* script) {
+    u8* data = script;
+    /* These two unowned items use scripted mesh contact, unlike the ordinary
+     * pickup list. Krusha's multiplayer skeleton has different contact points.
+     * Keep native visibility/collision gates and interaction-state exclusions;
+     * provide only a small body-touch volume, never the reward/flag itself. */
+    if (!Player || !data[0x70] || data[0x60] || !nativeScriptInteractionAllowed()) return 0;
+    f32* position = (f32*)object;
+    f32 dx = position[0] - Player->xPos;
+    f32 dy = position[1] - Player->yPos;
+    f32 dz = position[2] - Player->zPos;
+    if (dx*dx + dy*dy + dz*dz > 400.0f) return 0;
+    if (object->object_type == 0x1B4) {
+        /* The shell's physics normally supplies this restriction. Retain its
+         * actual open phase rather than collecting through a closed clam. */
+        /* Use the loaded/update list, not the camera's render list: a clam
+         * must keep its timing even when it is outside the current view. */
+        u32* actors = (u32*)0x807FB930;
+        s32 count = *(u16*)0x807FBB34;
+        if (count > 64) count = 64;
+        for (s32 i = 0; i < count; i++) {
+            actorData* clam = (actorData*)actors[i * 2];
+            if (!clam || clam->actorType != 286) continue;
+            dx = position[0] - clam->xPos;
+            dy = position[1] - clam->yPos;
+            dz = position[2] - clam->zPos;
+            if (dx*dx + dy*dy + dz*dz < 10000.0f) return clam->control_state == 2;
+        }
+        return 0;
+    }
+    return 1;
+}
+
 u8 krushaScriptCondition(u16* instruction, void* script, s16 object_id) {
     s32 operation = instruction[0] & 0x7FFF;
     if (enabled && Character == 5 && DetectAdventure() &&
-        (operation == 0x38 || (operation == 0x12 && instruction[1] == 6))) {
+        (operation == 0x38 || (operation == 0x12 && instruction[1] == 6) ||
+         (operation == 0x10 && instruction[1] == 1 && instruction[2] == 1))) {
         ModelTwoData* objects = ObjectModel2Pointer;
         for (s32 i = 0; i < ObjectModel2Count; i++) {
             /* Script handles use runtime_id (0x88), not setup ID (0x8A). */
             if (objects[i].runtime_id != object_id) continue;
             u16 type = objects[i].object_type;
+            if (operation == 0x10 &&
+                ((CurrentMap == 44 && type == 0x1B4) || (CurrentMap == 52 && type == 0x198))) {
+                s32 touch = krushaQuestTouch(&objects[i], script);
+                return (instruction[0] & 0x8000) ? !touch : touch;
+            }
             if (operation == 0x38 && type >= 0x210 && type <= 0x214)
                 return (instruction[0] & 0x8000) ? 0 : 1;
             if (operation == 0x12 && type == 0x1C6) {
@@ -212,9 +297,11 @@ void krushaAdventure(void) {
         hook(0x80614A64, krushaBuildActorBones);
         hook(0x806EB0C0, krushaSetAction);
         hook(0x806F6644, krushaModelPickupAllowed);
+        hook(0x806F544C, krushaAmmoCollectible);
+        hook(0x806F6E58, krushaCrystalAbility);
+        hook(0x806A7600, krushaBananaBalloon);
         hook(0x8070DED4, krushaDialogueLine);
         hook(0x8063EA14, krushaScriptCondition);
-        hook(0x806C5C20, krushaFairyActor);
         hook(0x80680774, krushaBarrelEligibility);
         krushaBarrelInstall();
         krushaRoarInstall();

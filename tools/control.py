@@ -80,6 +80,13 @@ def main():
                         break
                     if game.poll() is not None:
                         raise RuntimeError(f"Emulator exited with code {game.returncode}; see logs/emulator.log")
+                    if any(cmd.get(k) for k in ('keys', 'tap', 'down', 'up')):
+                        # Video mode changes can recreate/refocus the SDL
+                        # window. Target the current private-display window
+                        # before synthetic keyboard input, never the desktop.
+                        visible = xdo('search', '--onlyvisible', '--class', '.').splitlines()
+                        window = visible[-1]
+                        xdo('windowfocus', '--sync', window)
                     if any(k in cmd for k in ('status', 'read', 'write', 'position', 'scene', 'fixture_map')):
                         if memory is None:
                             spec = importlib.util.spec_from_file_location('emulator_memory', ROOT / 'tools/emulator-memory.py')

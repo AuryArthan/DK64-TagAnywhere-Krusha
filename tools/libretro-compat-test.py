@@ -6,7 +6,7 @@ os.environ.update(DK64_RUNTIME=str(run),DK64_TOOL_ROOT=os.environ.get('DK64_TOOL
 (run/'saves').mkdir(parents=True,exist_ok=True)
 rom=Path(os.environ.get('DK64_TEST_ROM',repo/'rom/dk64-krusha-dev.z64'))
 digest=hashlib.sha256(rom.read_bytes()).hexdigest()
-for name in ['libretro-compat-tests.json','libretro-interaction-tests.json']:
+for name in ['libretro-compat-tests.json','libretro-interaction-tests.json','libretro-boot-tests.json']:
  previous=run/'logs'/name
  if previous.exists() and json.loads(previous.read_text())['rom_sha256']!=digest:
   raise SystemExit('This profile has evidence/states for another ROM; choose a fresh DK64_RUNTIME')
@@ -16,7 +16,8 @@ if not srm.exists():
  if len(seed)!=2048:raise SystemExit('Expected a 2048-byte native EEPROM fixture')
  srm.write_bytes(seed+b'\xff'*(0x48800-len(seed)))
 spec=importlib.util.spec_from_file_location('d',repo/'tools/krusha-test.py');d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
-d.REPORT_NAME='libretro-interaction-tests.json' if os.environ.get('DK64_LIBRETRO_PHASE')=='interactions' else 'libretro-compat-tests.json';d.results.update(core_sha256=hashlib.sha256((Path(os.environ['DK64_LIBRETRO_ROOT'])/'core/mupen64plus_next_libretro.so').read_bytes()).hexdigest(),core='Mupen64Plus-Next / GLideN64',checks=[])
+phase=os.environ.get('DK64_LIBRETRO_PHASE','graphics')
+d.REPORT_NAME={'seed':'libretro-boot-tests.json','interactions':'libretro-interaction-tests.json'}.get(phase,'libretro-compat-tests.json');d.results.update(phase=phase,core_sha256=hashlib.sha256((Path(os.environ['DK64_LIBRETRO_ROOT'])/'core/mupen64plus_next_libretro.so').read_bytes()).hexdigest(),core='Mupen64Plus-Next / GLideN64',checks=[])
 def start():
  d.proc=subprocess.Popen(['/usr/bin/python3',str(repo/'tools/control-libretro.py')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1,env={**os.environ,'DK64_ROM':str(d.ROM)});print(d.proc.stdout.readline(),flush=True)
 d.start=start
@@ -25,11 +26,18 @@ def boot():
  for i in range(90):
   if d.status()['map']==80:break
   d.press('Return',1,1)
- d.check('cold boot reaches native main menu',d.status()['map']==80,d.status());d.cmd(wait=8)
+ d.check('cold boot reaches native main menu',d.status()['map']==80,d.status());d.cmd(wait=12)
  a=next(a for a in d.scene('main-menu')['actors'] if a['type']==326);data=d.mem(int(a['pointer'],16)+0x174)
- d.press('Left',.2,3)
+ # Start held across menu entry can already select Adventure. Return to
+ # native root page 1 before navigating the five-item carousel.
+ for _ in range(8):
+  if d.mem(data+0x12,'u8')==1:break
+  d.press('Shift_L' if d.mem(data+0x12,'u8')==0 else 'Control_L',.4,2)
+ for _ in range(12):
+  if d.mem(data+0x17,'u8')==4 and d.mem(data,'f32')==0 and d.mem(data+4,'f32')==0:break
+  d.press('Left',.35,1.5)
  for i in range(6):
-  d.press('Shift_L',.3,2)
+  d.press('Shift_L',.5,2)
   if d.mem(data+0x12,'u8')==9:break
  d.check('native options page reached',d.mem(data+0x12,'u8')==9)
  while d.mem(data+0x17,'u8')!=1:d.press('Right',.2,1)
@@ -59,17 +67,23 @@ def cameras():
    if d.status()['character']!=char:d.press('d',.3,1)
    d.combo('k',wait=1,shot=f'camera-{char}-wide-{wide}')
    d.check(f'camera enters character {char} wide {wide}',d.status()['player']['state']==4,d.status())
-   film=d.status()['inventory'][4];d.press('Control_L',.25,3,shot=f'photo-{char}-wide-{wide}')
+   d.wait_frames(40)
+   film=d.status()['inventory'][4]
+   for attempt in range(4):
+    d.press('Control_L',.4,2,shot=f'photo-{char}-wide-{wide}')
+    if d.status()['inventory'][4]<film:break
    d.check(f'photo consumes film character {char} wide {wide}',d.status()['inventory'][4]==film-1,d.status())
+   d.wait_frames(120)
    for attempt in range(5):
     d.press('i',.4,1)
     if d.status()['player']['state']==12:break
    d.check('camera exits safely after native shutter cooldown',d.status()['player']['state']==12,d.status())
    if char==0:
-    d.combo('j',wait=.8);d.press('i',.3,1,shot=f'sniper-wide-{wide}')
+    d.combo('j',wait=.8);d.wait_frames(60);d.press('i',.5,2,shot=f'sniper-wide-{wide}')
     d.check('upgraded scope enters',d.status()['player']['state']==2,d.status())
-    ammo=d.status()['inventory'][0];d.press('Control_L',.25,.5)
-    d.check('scope fires',d.status()['inventory'][0]<ammo,d.status());d.press('i',.3,1);d.combo('j',wait=.8)
+    d.wait_frames(30)
+    ammo=d.status()['inventory'][0];d.press('Control_L',.4,1)
+    d.check('scope fires',d.status()['inventory'][0]<ammo,d.status());d.wait_frames(20);d.press('i',.5,2);d.combo('j',wait=.8);d.wait_player_ready()
   # DK -> Krusha for next pass.
   if wide==1:d.press('a',.3,1)
  d.cmd(write=[{'address':0x807444c0,'type':'u8','value':1}],wait=.2)
@@ -197,7 +211,7 @@ try:
  else:boot()
  if os.environ.get('DK64_LIBRETRO_PHASE')=='interactions':
   boulder();pickups();snide();crown()
- else:cameras();water()
+ elif phase!='seed':cameras();water()
  d.results['core_options_requested']=(run/'core-options.cfg').read_text()
  d.results['complete']=True
 except Exception as e:

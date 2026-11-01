@@ -64,7 +64,7 @@ u8 krushaRoarStart(void) {
     if (!isKrusha() || active_player || frame() < ready_at || CutsceneActive ||
         CurrentMap == 1 || CurrentMap == 5 || CurrentMap == 15 || CurrentMap == 25 ||
         Player->held_actor || Player->control_state == 0x67) return 0;
-    if (CollectableBase.Crystals < krushaRoarCost) {
+    if (!krushaCrystalsUnlocked() || CollectableBase.Crystals < krushaRoarCost) {
         playSound(0x98, 0x7FFF, 63.0f, 1.0f, 0, 0);
         return 0;
     }

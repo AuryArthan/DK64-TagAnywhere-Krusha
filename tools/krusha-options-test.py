@@ -19,11 +19,10 @@ assert lui>>16==0x3C02 and jr==0x03E00008 and lw>>16==0x8C42
 ENABLED=((lui&0xFFFF)<<16)+struct.unpack('>h',struct.pack('>H',lw&0xFFFF))[0]
 
 def main_menu():
-    d.cmd(down=['f']) # Fast-forward boot logos; release before menu inputs.
-    for i in range(50):
+    # Ordinary speed keeps Start edges out of accelerated demo transitions.
+    for i in range(120):
         if d.status()['map']==80: break
         d.press('Return',.3,.8)
-    d.cmd(up=['f'])
     d.check('cold boot main menu',d.status()['map']==80,d.status())
     d.cmd(wait=8)
 
@@ -31,11 +30,17 @@ def options():
     # From default Adventure, one left reaches the Other Options barrel.
     menu=next(a for a in d.scene('v2-options-controller')['actors'] if a['type']==326)
     data=d.mem(int(menu['pointer'],16)+0x174)
-    d.press('Left',.2,3)
-    # The native carousel can still be finishing its animation when A arrives.
+    # A boot Start press can carry into Adventure/file selection. Use native
+    # B to return to root page 1, then select Other Options (root item 4).
+    for _ in range(8):
+        if d.mem(data+0x12,'u8')==1:break
+        d.press('Shift_L' if d.mem(data+0x12,'u8')==0 else 'Control_L',.4,2)
+    for _ in range(12):
+        if d.mem(data+0x17,'u8')==4 and d.mem(data,'f32')==0 and d.mem(data+4,'f32')==0:break
+        d.press('Left',.35,1.5)
     for i in range(6):
-        d.press('Shift_L',.3,2)
-        if d.mem(data+0x12,'u8')==9: break
+        d.press('Shift_L',.5,2)
+        if d.mem(data+0x12,'u8')==9:break
     d.cmd(wait=1)
     if os.environ.get('DK64_OPTIONS_WIDE')=='1' and not d.mem(0x807444C0,'u8'):
         d.press('Up',.2,1)
@@ -60,6 +65,10 @@ def adventure():
         d.press('Shift_L',.3,1.5)
         if d.status()['map']==34: break
     d.cmd(wait=3)
+    for _ in range(120):
+        s=d.status()
+        if s['map']==34 and s['frame']>180 and s['player']['state']==12 and not d.mem(0x807463B8,'u8') and not d.mem(0x807444EC,'u8'):break
+        d.cmd(wait=.25)
     d.check('enter adventure through native menu',d.status()['map']==34 and d.status()['character']==0,d.status())
 
 def rotation(enabled):
