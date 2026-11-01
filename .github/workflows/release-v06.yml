@@ -1,0 +1,26 @@
+name: Publish v0.6 BPS
+on:
+  push:
+    paths:
+      - 'release-assets/v0.6/**'
+      - 'tools/publish-v06.py'
+      - '.github/workflows/release-v06.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish-v06
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'AuryArthan/DK64-TagAnywhere-Krusha'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate and publish the approved patch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/publish-v06.py

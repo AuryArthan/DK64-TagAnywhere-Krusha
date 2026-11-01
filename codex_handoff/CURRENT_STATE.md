@@ -6,7 +6,9 @@ implementation as **v0.6**, and requested a BPS release on push. ROM SHA256 is
 MD5 `45ced182aba73f860e8ad339814f3837` (native EEPROM prefix **45CED182**).
 The v0.6 patch is tracked at `release-assets/v0.6/DK64-TagAnywhere+Krusha.bps`,
 SHA256 `4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88`.
-The annotated tag/checkpoint and release-on-push workflow are prepared locally;
+The annotated `v0.6` tag points to `3fc3627e09c9a581c9326e50548df3a2379783a7`.
+`tools/publish-v06.py` and `.github/workflows/release-v06.yml` verify and publish
+only this approved tag/patch. The checkpoint and workflow are prepared locally;
 the user will push. Do not claim hosted publication from local validation.
 The frozen backup is `../runtime/checkpoints/v0.6/`. Earlier tags/assets stay intact.
 Tested gameplay source commit: `79cdc585abd75afa8fe1d00d0c17804e9cf1fed3`.

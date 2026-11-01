@@ -106,6 +106,8 @@
     "patch_sha256": "4178fc17e01fa577cc1977396db08d34b5b7507fdcc4e4207acdb0f214e8cd88",
     "checkpoint_workspace_relative": "runtime/checkpoints/v0.6/",
     "hardware_tested": false,
-    "tested_gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3"
+    "tested_gameplay_commit": "79cdc585abd75afa8fe1d00d0c17804e9cf1fed3",
+    "checkpoint_commit": "3fc3627e09c9a581c9326e50548df3a2379783a7",
+    "publisher": "tools/publish-v06.py"
   }
 }
